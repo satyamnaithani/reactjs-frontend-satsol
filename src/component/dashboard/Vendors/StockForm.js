@@ -30,6 +30,7 @@ export default function AddressForm() {
     const [itemNames, setItemNames] = useState([]);
     const [vendorNames, setVendorNames] = useState([]);
     const [uom, setUom] = useState("");
+    const [hsn, setHsn] = useState("");
     const [totalCost, setTotalCost] = useState("")
     const [isLoadingItem, setIsLoadingItem] = useState(true)
     const [isLoadingVendor, setIsLoadingVendor] = useState(true)
@@ -84,6 +85,7 @@ export default function AddressForm() {
             .then(function (response) {
                 setGst(response.data.item[0].gst)
                 setUom(response.data.item[0].uom)
+                setHsn(response.data.item[0].hsn)
             })
             .catch(function (error) {
                 console.log(error);
@@ -121,7 +123,8 @@ export default function AddressForm() {
                 purchaseRate: purchaseRate,
                 receiveDate: receiveDate,
                 billDate: billDate,
-                uom: uom
+                uom: uom,
+                hsn: hsn
             }
         })
             .then(function (response) {

@@ -151,6 +151,7 @@ export default function InvoiceList() {
       setChecked(union(checked, items));
     }
   };
+  
 
   const handleCheckedRight = () => {
     setRight(right.concat(leftChecked));
@@ -200,7 +201,6 @@ export default function InvoiceList() {
             </ListItem>
           );
         })}
-        <ListItem />
       </List>
     </Card>
   );
