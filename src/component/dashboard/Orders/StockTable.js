@@ -34,6 +34,9 @@ import { saveAs } from 'file-saver';
 import Tooltip from '@material-ui/core/Tooltip';
 import GetAppIcon from '@material-ui/icons/GetApp';
 import Snackbar from '@material-ui/core/Snackbar';
+import TextField from '@material-ui/core/TextField';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Checkbox from '@material-ui/core/Checkbox';
 
 export default class Orders extends React.Component {
     componentDidMount() {
@@ -65,111 +68,286 @@ export default class Orders extends React.Component {
             customerName: '',
             isLoadingCustomer: true,
             isTransactingOrder: false,
-            isPdfLoading: false
+            isPdfLoading: false,
+            date: '',
+            invoiceNo: '',
+            challanNo: '',
+            challanDate: '',
+            modeOfPayment: '',
+            orderNo: '',
+            dispatchThrough: '',
+            destination: '',
+            termsOfDelivery: '',
+            interState: true
         }
         this.handleFormSubmit = this.handleFormSubmit.bind(this)
     }
 
 
-    handleCheckChange = (event) => {
-        const data = JSON.parse(event.target.value)
-        if (event.target.checked) {
+    // handleCheckChange = (event) => {
+    //     const data = JSON.parse(event.target.value)
+    //     if (event.target.checked) {
 
-            let arr = this.state.checkedItem
-            arr.push(data)
-            this.setState({ checkedItem: arr })
-        } else {
-            let arr = this.state.checkedItem
-            for (var i = 0; i < arr.length; i++) {
-                var obj = arr[i];
-                if (obj._id === data._id) {
-                    arr.splice(i, 1)
-                    this.setState({ checkedItem: arr })
-                }
-            }
-        }
-        console.log(this.state.checkedItem)
+    //         let arr = this.state.checkedItem
+    //         arr.push(data)
+    //         this.setState({ checkedItem: arr })
+    //     } else {
+    //         let arr = this.state.checkedItem
+    //         for (var i = 0; i < arr.length; i++) {
+    //             var obj = arr[i];
+    //             if (obj._id === data._id) {
+    //                 arr.splice(i, 1)
+    //                 this.setState({ checkedItem: arr })
+    //             }
+    //         }
+    //     }
+    //     console.log(this.state.checkedItem)
+
+    // }
+    handleCheckChange = (value) => {
+        const data = value
+        let arr = this.state.checkedItem
+        arr.push(data)
+        this.setState({ checkedItem: arr })
+        // if (event.target.checked) {
+
+        //     let arr = this.state.checkedItem
+        //     arr.push(data)
+        //     this.setState({ checkedItem: arr })
+        // } else {
+        //     let arr = this.state.checkedItem
+        //     for (var i = 0; i < arr.length; i++) {
+        //         var obj = arr[i];
+        //         if (obj._id === data._id) {
+        //             arr.splice(i, 1)
+        //             this.setState({ checkedItem: arr })
+        //         }
+        //     }
+        // }
+        console.log(value)
+
     }
     render() {
         console.log(this.state.customerName)
-
+        console.log(this.state.checkedItem)
+        console.log(this.state.interState)
         return (
             <React.Fragment>
                 <Typography align='center' component="h2" variant="h6" color="primary" gutterBottom>
                     Available Stock
                     <div style={{ float: "right", marginRight: '20px', marginTop: '8px' }}>
                         {
-                            this.state.checkedItem.length === 0 ?
-                                <IconButton disabled aria-label="download">
-                                    <Tooltip title="Generate and Download Invoice" aria-label="Download Invoice">
-                                        <GetAppIcon fontSize='large' />
-                                    </Tooltip>
-                                </IconButton>
-                                :
-                                <IconButton color='primary' aria-label="download">
-                                    <Tooltip title="Generate and Download Invoice" aria-label="Download Invoice">
-                                        <GetAppIcon fontSize='large' onClick={this.createAndDownloadPdf} />
-                                    </Tooltip>
-                                    {/* Dialog Start */}
-                                    <Dialog
-                                        open={this.state.dialogOpen}
-                                        onClose={this.handleClose}
-                                        aria-labelledby="alert-dialog-title"
-                                        aria-describedby="alert-dialog-description"
-                                    ><div>
+                            // this.state.checkedItem.length === 0 ?
+                            //     <IconButton disabled aria-label="download">
+                            //         <Tooltip title="Generate and Download Invoice" aria-label="Download Invoice">
+                            //             <GetAppIcon fontSize='large' />
+                            //         </Tooltip>
+                            //     </IconButton>
+                            //     :
+                            <IconButton color='primary' aria-label="download">
+                                <Tooltip title="Generate and Download Invoice" aria-label="Download Invoice">
+                                    <GetAppIcon fontSize='large' onClick={this.createAndDownloadPdf} />
+                                </Tooltip>
+                            </IconButton>}
+                        {/* Dialog Start */}
+                        <Dialog
+                            open={this.state.dialogOpen}
+                            onClose={this.handleClose}
+                            aria-labelledby="alert-dialog-title"
+                            aria-describedby="alert-dialog-description"
+                        ><div>
 
-                                            <DialogTitle id="alert-dialog-title">Invoice Item</DialogTitle>
-                                            <DialogContent>
-                                                <DialogContentText id="alert-dialog-description">
-                                                    <Typography variant="body1" color="textPrimary" component="p">Items</Typography>
+                                <DialogTitle id="alert-dialog-title">Invoice Item</DialogTitle>
+                                <DialogContent>
+                                    <DialogContentText id="alert-dialog-description">
+                                        Items
                                                 </DialogContentText>
-                                                <Grid container>
+                                    <Grid container>
 
-                                                    <Grid xs='auto' item>
-                                                        <FormControl>
-                                                            <InputLabel id="customer">Customer</InputLabel>
-                                                            <Select
-                                                                labelId="customer"
-                                                                name="customer"
-                                                                label="Customer"
-                                                                id="customer"
-                                                                value={this.state.customerName}
-                                                                placeholder='Customer'
-                                                                style={{ minWidth: 120 }}
-                                                                onChange={e => this.setState({ customerName: e.target.value })}
-                                                            >
-                                                                {
-                                                                    this.state.isLoadingCustomer ? <MenuItem>Loading...</MenuItem> :
-                                                                        this.state.customer.map((CustomerName, index) => <MenuItem key={index} value={CustomerName.data}>{CustomerName.data.name}</MenuItem>)
-                                                                }
-
-                                                            </Select>
-                                                        </FormControl>
-                                                    </Grid>
-                                                    <Grid xs='auto' item>
-                                                        {
-                                                            this.state.checkedItem.map((item, index) => (<Typography key={index} variant="body1" color="textSecondary" component="p">{item.item}   {item.checkout}</Typography>))
-                                                        }
-
-                                                    </Grid>
-                                                </Grid>
-                                            </DialogContent>
-                                            <DialogActions>
-                                                <Button onClick={this.handleClose} color="primary">
-                                                    Cancel
-                                                </Button>
-                                                <Button onClick={this.handleFormSubmit} color="primary" autoFocus>
-                                                    {this.state.isTransactingOrder ? <CircularProgress color="inherit" />
-                                                        :
-                                                        <p>Confirm</p>
+                                        <Grid xs='6' item>
+                                            <FormControl>
+                                                <InputLabel id="customer">Customer</InputLabel>
+                                                <Select
+                                                    labelId="customer"
+                                                    name="customer"
+                                                    label="Customer"
+                                                    id="customer"
+                                                    value={this.state.customerName}
+                                                    placeholder='Customer'
+                                                    style={{ minWidth: 120 }}
+                                                    onChange={e => this.setState({ customerName: e.target.value })}
+                                                >
+                                                    {
+                                                        this.state.isLoadingCustomer ? <MenuItem>Loading...</MenuItem> :
+                                                            this.state.customer.map((CustomerName, index) => <MenuItem key={index} value={CustomerName.data}>{CustomerName.data.name}</MenuItem>)
                                                     }
+
+                                                </Select>
+                                            </FormControl>
+                                        </Grid>
+                                        <Grid item xs='6'>
+                                            <TextField
+                                                id="date"
+                                                label="Date"
+                                                type="date"
+                                                InputLabelProps={{
+                                                    shrink: true,
+                                                }}
+                                                value={this.state.date}
+                                                onChange={e => this.setState({ date: e.target.value })}
+                                            />
+
+                                        </Grid>
+                                        <Grid item xs={6}>
+                                            <TextField
+                                                id="invoice_no"
+                                                name="invoice_no"
+                                                label="Invoice no."
+                                                style={{ minWidth: 120 }}
+                                                fullWidth
+                                                autoComplete="invoice_no"
+                                                value={this.state.invoiceNo}
+                                                onChange={e => this.setState({ invoiceNo: e.target.value })}
+                                            />
+                                        </Grid>
+                                        <Grid item xs={6}>
+                                            <TextField
+                                                id="challan_no"
+                                                name="challan_no"
+                                                label="Challan no."
+                                                fullWidth
+                                                autoComplete="challan_no"
+                                                value={this.state.challanNo}
+                                                onChange={e => this.setState({ challanNo: e.target.value })}
+                                            />
+                                        </Grid>
+                                        <Grid item xs='6'>
+                                            <TextField
+                                                id="challan_date"
+                                                label="Challan Date"
+                                                type="date"
+                                                InputLabelProps={{
+                                                    shrink: true,
+                                                }}
+                                                value={this.state.challanDate}
+                                                onChange={e => this.setState({ challanDate: e.target.value })}
+                                            />
+
+                                        </Grid>
+                                        <Grid item xs={6}>
+                                            <TextField
+                                                id="order_no"
+                                                name="order_no"
+                                                label="Order no."
+                                                fullWidth
+                                                autoComplete="order_no"
+                                                value={this.state.orderNo}
+                                                onChange={e => this.setState({ orderNo: e.target.value })}
+                                            />
+                                        </Grid>
+                                        <Grid item xs={6}>
+                                            <TextField
+                                                id="destination"
+                                                name="destination"
+                                                label="Destination"
+                                                fullWidth
+                                                autoComplete="destination"
+                                                value={this.state.destination}
+                                                onChange={e => this.setState({ destination: e.target.value })}
+                                            />
+                                        </Grid>
+                                        <Grid xs='6' item>
+                                            <FormControl>
+                                                <InputLabel id="termsOfPayent">Mode of Pmnt.</InputLabel>
+                                                <Select
+                                                    labelId="mode_of_payment"
+                                                    name="mode_of_payment"
+                                                    label='Mode of Pmnt.'
+                                                    id="mode_of_payment"
+                                                    value={this.state.modeOfPayment}
+                                                    placeholder='Mode of Pmnt.'
+                                                    style={{ minWidth: 240 }}
+                                                    onChange={e => this.setState({ modeOfPayment: e.target.value })}
+                                                ><MenuItem value='Against Delivery'>Against Delivery</MenuItem>
+                                                    <MenuItem value='Advance Payment'>Advance Payment</MenuItem>
+                                                    <MenuItem value='UPI'>UPI</MenuItem>
+                                                    <MenuItem value='Cash'>Cash</MenuItem>
+
+                                                </Select>
+                                            </FormControl>
+                                        </Grid>
+                                        <Grid xs='6' item>
+                                            <FormControl>
+                                                <InputLabel id="dispatchThrough">Dispatch Through</InputLabel>
+                                                <Select
+                                                    labelId="dispatch_through"
+                                                    name="dispatch_through"
+                                                    label='Dispatch Through'
+                                                    id="dispatch_through"
+                                                    value={this.state.dispatchThrough}
+                                                    placeholder='Dispatch Through'
+                                                    style={{ minWidth: 240 }}
+                                                    onChange={e => this.setState({ dispatchThrough: e.target.value })}
+                                                ><MenuItem value='Surface Transport'>Surface Transport</MenuItem>
+                                                    <MenuItem value='By Air'>By Air</MenuItem>
+                                                    <MenuItem value='By Water'>By Water</MenuItem>
+                                                </Select>
+                                            </FormControl>
+                                        </Grid>
+                                        <Grid xs='6' item>
+                                            <FormControl>
+                                                <InputLabel id="Terms of Delivery">Terms of Delivery</InputLabel>
+                                                <Select
+                                                    labelId="terms_of_delivery"
+                                                    name="terms_of_delivery"
+                                                    label='Terms of dlvry.'
+                                                    id="terms_of_delivery"
+                                                    value={this.state.termsOfDelivery}
+                                                    placeholder='Terms of dlvry.'
+                                                    style={{ minWidth: 240 }}
+                                                    onChange={e => this.setState({ termsOfDelivery: e.target.value })}
+                                                ><MenuItem value='Door'>Door</MenuItem>
+                                                    <MenuItem value='Railway Station'>Railway Station</MenuItem>
+                                                    <MenuItem value='Courrier Center'>Courrier Center</MenuItem>
+                                                </Select>
+                                            </FormControl>
+                                        </Grid>
+                                        <Grid xs='6' item>
+                                            <FormControlLabel
+                                                control={
+                                                    <Checkbox
+                                                        checked={this.state.interState}
+                                                        onChange={e => this.setState({ interState: e.target.checked })}
+                                                        name="interState"
+                                                        color="primary"
+                                                    />
+                                                }
+                                                label="Inter State"
+                                            />
+                                        </Grid>
+                                        <Grid xs='12' item>
+                                            {
+                                                this.state.checkedItem.map((item, index) => (<DialogContentText key={index} id="alert-dialog-description">{item.item}   {item.checkout}</DialogContentText>))
+                                            }
+                                        </Grid>
+                                    </Grid>
+                                </DialogContent>
+                                <DialogActions>
+                                    <Button onClick={this.handleClose} color="primary">
+                                        Cancel
                                                 </Button>
-                                            </DialogActions>
-                                        </div>
-                                    </Dialog>
-                                    {/* Dialog Closed */}
-                                </IconButton>
-                        }
+                                    <Button onClick={this.handleFormSubmit} color="primary" autoFocus>
+                                        {this.state.isTransactingOrder ? <CircularProgress color="inherit" />
+                                            :
+                                            <p>Confirm</p>
+                                        }
+                                    </Button>
+                                </DialogActions>
+                            </div>
+                        </Dialog>
+                        {/* Dialog Closed */}
+
+
                     </div>
 
                 </Typography>
@@ -179,13 +357,12 @@ export default class Orders extends React.Component {
                             <TableCell>Select</TableCell>
                             <TableCell>Name</TableCell>
                             <TableCell>Vendor</TableCell>
-                            <TableCell>Rate</TableCell>
+                            <TableCell>Purchase Rate</TableCell>
                             <TableCell>GST%</TableCell>
                             <TableCell>Product Amount</TableCell>
                             <TableCell>Lot Exp.</TableCell>
                             <TableCell>UOM</TableCell>
                             <TableCell>Quantity</TableCell>
-                            <TableCell>Checkout</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -194,7 +371,7 @@ export default class Orders extends React.Component {
                                 // <TableSkeleton />
                                 <TableRow><TableCell>Loading...</TableCell></TableRow>
                                 :
-                                this.state.data.map((row, index) => (<StockRow handleCheckChange={this.handleCheckChange} key={index} data={row} />))
+                                this.state.data.map((row, index) => (<StockRow practice={this.practice} handleCheckChange={this.handleCheckChange} key={index} data={row} />))
                         }
                     </TableBody>
                 </Table>
@@ -237,6 +414,16 @@ export default class Orders extends React.Component {
             data: {
                 customer: this.state.customerName,
                 orderData: this.state.checkedItem,
+                date: this.state.date,
+                invoiceNo: this.state.invoiceNo,
+                challanNo: this.state.challanNo,
+                challanDate: this.state.challanDate,
+                modeOfPayment: this.state.modeOfPayment,
+                orderNumber: this.state.orderNo,
+                dispatchThrough: this.state.dispatchThrough,
+                destination: this.state.destination,
+                termsOfDelivery: this.state.termsOfDelivery,
+                interState: this.state.interState
             }
         })
             .then(response => {
@@ -262,7 +449,7 @@ export default class Orders extends React.Component {
                     }
                     arr[10] = customer.name
                     arr[11] = customer.address
-                    arr[12]= customer.city
+                    arr[12] = customer.city
                     arr[13] = customer.zip
                     arr[14] = customer.state
                     arr[15] = customer.gst

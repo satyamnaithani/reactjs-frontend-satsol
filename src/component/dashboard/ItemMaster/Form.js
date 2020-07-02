@@ -20,6 +20,7 @@ export default function AddressForm() {
   const [hsn, setHsn] = useState("");
   const [gst, setGst] = useState("");
   const [uom, setUom] = useState("");
+  const [itemCode, setItemCode] = useState("");
 
 
   const handleSubmit = (evt) => {
@@ -28,6 +29,7 @@ export default function AddressForm() {
     setHsn("");
     setGst("")
     setUom("");
+    setItemCode("");
     evt.preventDefault();
     axios({
       method: 'post',
@@ -39,6 +41,7 @@ export default function AddressForm() {
         hsn: hsn,
         gst: gst,
         uom: uom,
+        itemCode: itemCode
       }
     })
     .then(function (response) {
@@ -60,7 +63,7 @@ export default function AddressForm() {
       </Typography>
       <form className={classes.form} noValidate onSubmit={handleSubmit}>
       <Grid container spacing={3}>
-        <Grid item xs={12}>
+        <Grid item xs={6}>
         <FormControl className={classes.formControl}>
         <InputLabel id="category">Category</InputLabel>
         <Select
@@ -78,6 +81,18 @@ export default function AddressForm() {
           <MenuItem value={"Office Consumables"}>Office Consumables</MenuItem>
         </Select>
       </FormControl>
+        </Grid>
+        <Grid item xs={6}>
+          <TextField
+            required
+            id="itemCode"
+            name="itemCode"
+            label="Item Code"
+            fullWidth
+            autoComplete="ItemCode"
+            value={itemCode}
+            onChange={e=> setItemCode(e.target.value)}
+          />
         </Grid>
         <Grid item xs={12}>
           <TextField
@@ -128,6 +143,7 @@ export default function AddressForm() {
           <MenuItem value={"Kg"}>Kg</MenuItem>
           <MenuItem value={"L"}>Litre</MenuItem>
           <MenuItem value={"Piece"}>Pieces</MenuItem>
+          <MenuItem value={"No."}>No.</MenuItem>
         </Select>
       </FormControl>
         </Grid>

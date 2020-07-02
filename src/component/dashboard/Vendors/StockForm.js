@@ -31,6 +31,7 @@ export default function AddressForm() {
     const [vendorNames, setVendorNames] = useState([]);
     const [uom, setUom] = useState("");
     const [hsn, setHsn] = useState("");
+    const [itemCode, setItemCode] = useState("");
     const [totalCost, setTotalCost] = useState("")
     const [isLoadingItem, setIsLoadingItem] = useState(true)
     const [isLoadingVendor, setIsLoadingVendor] = useState(true)
@@ -86,6 +87,7 @@ export default function AddressForm() {
                 setGst(response.data.item[0].gst)
                 setUom(response.data.item[0].uom)
                 setHsn(response.data.item[0].hsn)
+                setItemCode(response.data.item[0].itemCode)
             })
             .catch(function (error) {
                 console.log(error);
@@ -124,7 +126,8 @@ export default function AddressForm() {
                 receiveDate: receiveDate,
                 billDate: billDate,
                 uom: uom,
-                hsn: hsn
+                hsn: hsn,
+                itemCode: itemCode
             }
         })
             .then(function (response) {
@@ -203,6 +206,50 @@ export default function AddressForm() {
                             onChange={e => setExp(e.target.value)}
                         />
                     </Grid>
+                    <Grid item xs={4}>
+                        <TextField
+                            required
+                            id="rate"
+                            name="rate"
+                            label="Rate"
+                            fullWidth
+                            autoComplete="rate"
+                            value={rate}
+                            onChange={e => {
+                                setRate(e.target.value)
+                                setPurchaseRate(parseInt(e.target.value) + ((parseInt(e.target.value) * parseInt(gst)) / 100))
+                                if (!isNaN(parseInt(quantity) * parseInt(purchaseRate)))
+                                    setTotalCost(parseInt(quantity) * parseInt(purchaseRate))
+                            }}
+                        />
+                    </Grid>
+                    <Grid item xs={4}>
+                        <TextField
+                            id="GST%"
+                            name="GST%"
+                            label="GST%"
+                            fullWidth
+                            autoComplete="GST"
+                            value={gst}
+                            onChange={e => {
+                                setGst(e.target.value)
+                                setPurchaseRate(parseInt(rate) * (1 + parseInt(e.target.value) / 100))
+                            }}
+                        />
+                    </Grid>
+                    <Grid item xs={4}>
+                        <TextField
+                            id="purchaseRate"
+                            name="Purchase Rate"
+                            label="Purchase Rate"
+                            fullWidth
+                            autoComplete="purchaseRate"
+                            value={purchaseRate}
+                            onChange={e => {
+                                setPurchaseRate(e.target.value)
+                            }}
+                        />
+                    </Grid>
                     <Grid item xs={6}>
                         <FormControl className={classes.formControl}>
                             <InputLabel id="vendor">Vendor</InputLabel>
@@ -247,52 +294,6 @@ export default function AddressForm() {
                             disabled
                             autoComplete="uom"
                             value={uom}
-                        />
-                    </Grid>
-
-
-                    <Grid item xs={4}>
-                        <TextField
-                            required
-                            id="rate"
-                            name="rate"
-                            label="Rate"
-                            fullWidth
-                            autoComplete="rate"
-                            value={rate}
-                            onChange={e => {
-                                setRate(e.target.value)
-                                setPurchaseRate(parseInt(e.target.value) + ((parseInt(e.target.value) * parseInt(gst)) / 100))
-                                if (!isNaN(parseInt(quantity) * parseInt(purchaseRate)))
-                                    setTotalCost(parseInt(quantity) * parseInt(purchaseRate))
-                            }}
-                        />
-                    </Grid>
-                    <Grid item xs={4}>
-                        <TextField
-                            id="GST%"
-                            name="GST%"
-                            label="GST%"
-                            fullWidth
-                            autoComplete="GST"
-                            value={gst}
-                            onChange={e => {
-                                setGst(e.target.value)
-                                setPurchaseRate(parseInt(rate) * (1 + parseInt(e.target.value) / 100))
-                            }}
-                        />
-                    </Grid>
-                    <Grid item xs={4}>
-                        <TextField
-                            id="purchaseRate"
-                            name="Purchase Rate"
-                            label="Purchase Rate"
-                            fullWidth
-                            autoComplete="purchaseRate"
-                            value={purchaseRate}
-                            onChange={e => {
-                                setPurchaseRate(e.target.value)
-                            }}
                         />
                     </Grid>
 

@@ -32,11 +32,13 @@ import React from 'react';
     // }
     render() {
       return (
-        <Box color="text.primary" mt={10} ml={3} mr={3}>
+        <Box color="text.primary" mt={10} ml={3} mr={3} style={{minHeight: '100vh'}}>
           <Paper style={{
             display: 'flex',
             overflow: 'auto',
             flexDirection: 'column',
+            minHeight: '90vh', 
+            minWidth: '80vw'
           }}>
             <Stock/></Paper>
           {/*         
