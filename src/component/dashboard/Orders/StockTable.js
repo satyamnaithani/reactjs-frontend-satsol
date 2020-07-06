@@ -470,9 +470,13 @@ export default class Orders extends React.Component {
                         }
                         var dateFormat = date.split('T')[0].split('-')
                         var dateString = dateFormat[2] + '-' + dateFormat[1] + '-' + dateFormat[0]
+                        if(challanDate!==null){
+                        var ChallanDateFormat = ChallanDate.split('T')[0].split('-')
+                        var ChallanDateString = ChallanDateFormat[2] + '-' + ChallanDateFormat[1] + '-' + ChallanDateFormat[0]
+                        }
                         arr[10] = customer
                         arr[11] = invoiceNo
-                        arr[12]= challanDate 
+                        arr[12]= ChallanDateString 
                         arr[13] = modeOfPayment
                         arr[14]= orderNumber 
                         arr[15]=dispatchThrough
