@@ -76,7 +76,6 @@ export default class Orders extends React.Component {
             isTransactingOrder: false,
             isPdfLoading: false,
             date: '',
-            invoiceNo: '',
             challanNo: '',
             challanDate: '',
             modeOfPayment: 'Against Delivery',
@@ -195,18 +194,6 @@ export default class Orders extends React.Component {
                                                 onChange={e => this.setState({ date: e.target.value })}
                                             />
 
-                                        </Grid>
-                                        <Grid item xs={6}>
-                                            <TextField
-                                                id="invoice_no"
-                                                name="invoice_no"
-                                                label="Invoice no."
-                                                fullWidth
-                                                autoComplete="invoice_no"
-                                                style={{ maxWidth: 240 }}
-                                                value={this.state.invoiceNo}
-                                                onChange={e => this.setState({ invoiceNo: e.target.value })}
-                                            />
                                         </Grid>
                                         <Grid item xs={6}>
                                             <TextField
@@ -336,15 +323,15 @@ export default class Orders extends React.Component {
                                         <Grid xs='12' item>
                                             <TableContainer component={Paper}>
                                                 <Table aria-label="customized table">
-                                                    <TableHead style={{backgroundColor: 'black'}}>
+                                                    <TableHead style={{ backgroundColor: 'black' }}>
                                                         <TableRow>
-                                                            <TableCell style={{color: 'white'}} align='left'>Item Code</TableCell>
-                                                            <TableCell style={{color: 'white'}}>Product Name</TableCell>
-                                                            <TableCell style={{color: 'white'}} align="right">CheckOut Quantity</TableCell>
-                                                            <TableCell style={{color: 'white'}} align="right">Exp</TableCell>
-                                                            <TableCell style={{color: 'white'}} align="right">Amount</TableCell>
-                                                            <TableCell style={{color: 'white'}} align="right">Gst%</TableCell>
-                                                            <TableCell style={{color: 'white'}} align="right">Total Amount</TableCell>
+                                                            <TableCell style={{ color: 'white' }} align='left'>Item Code</TableCell>
+                                                            <TableCell style={{ color: 'white' }}>Product Name</TableCell>
+                                                            <TableCell style={{ color: 'white' }} align="right">CheckOut Quantity</TableCell>
+                                                            <TableCell style={{ color: 'white' }} align="right">Exp</TableCell>
+                                                            <TableCell style={{ color: 'white' }} align="right">Amount</TableCell>
+                                                            <TableCell style={{ color: 'white' }} align="right">Gst%</TableCell>
+                                                            <TableCell style={{ color: 'white' }} align="right">Total Amount</TableCell>
 
                                                         </TableRow>
                                                     </TableHead>
@@ -434,8 +421,8 @@ export default class Orders extends React.Component {
     }
 
     async handleFormSubmit() {
-        const {dispatchThrough, modeOfPayment,destination, termsOfDelivery, invoiceNo, customerName,date,checkedItem, orderNo, challanDate, challanNo, interState} = this.state
-        if (customerName === '' || destination===''|| date === '' || checkedItem === [] || dispatchThrough===''|| modeOfPayment===''||termsOfDelivery==='' ||invoiceNo==='') {
+        const { dispatchThrough, modeOfPayment, destination, termsOfDelivery, customerName, date, checkedItem, orderNo, challanDate, challanNo, interState } = this.state
+        if (customerName === '' || destination === '' || date === '' || checkedItem === [] || dispatchThrough === '' || modeOfPayment === '' || termsOfDelivery === '') {
             alert('Please Enter the details first!')
         }
         else {
@@ -448,7 +435,6 @@ export default class Orders extends React.Component {
                     customer: customerName,
                     orderData: checkedItem,
                     date: date,
-                    invoiceNo: invoiceNo,
                     challanNo: challanNo,
                     challanDate: challanDate,
                     modeOfPayment: modeOfPayment,
@@ -466,13 +452,15 @@ export default class Orders extends React.Component {
                             isPdfLoading: true,
                             checkedItem: []
                         })
+                        console.log(response.data)
                         const scrollY = document.body.style.top;
                         document.body.style.position = '';
                         document.body.style.top = '';
                         window.scrollTo(0, parseInt(scrollY || '0') * -1);
 
-                        const arr = response.data.createdProduct.orderData
-                        const customer = response.data.createdProduct.customer
+                        const { orderData,challanNo, date, customer, invoiceNo, challanDate, modeOfPayment, orderNumber, dispatchThrough, destination, termsOfDelivery, interState, grandTotalInWords } = response.data.createdProduct
+                        const arr = orderData
+                        
                         let arrSize = arr.length
 
                         if (arr.length < 10) {
@@ -480,12 +468,20 @@ export default class Orders extends React.Component {
                                 arr.push('')
                             }
                         }
-                        arr[10] = customer.name
-                        arr[11] = customer.address
-                        arr[12] = customer.city
-                        arr[13] = customer.zip
-                        arr[14] = customer.state
-                        arr[15] = customer.gst
+                        var dateFormat = date.split('T')[0].split('-')
+                        var dateString = dateFormat[2] + '-' + dateFormat[1] + '-' + dateFormat[0]
+                        arr[10] = customer
+                        arr[11] = invoiceNo
+                        arr[12]= challanDate 
+                        arr[13] = modeOfPayment
+                        arr[14]= orderNumber 
+                        arr[15]=dispatchThrough
+                        arr[16]= destination
+                        arr[17]=termsOfDelivery
+                        arr[18] = interState
+                        arr[19]= grandTotalInWords
+                        arr[20]= dateString
+                        arr[21] = challanNo
 
 
                         axios.post(url + '/pdf/create-pdf', arr)
@@ -493,10 +489,9 @@ export default class Orders extends React.Component {
                             .then((res) => {
                                 const pdfBlob = new Blob([res.data], { type: 'application/pdf' });
                                 saveAs(pdfBlob, 'satyam.pdf');
-                                this.setState({ isPdfLoading: false })
-                                this.setState({ dialogOpen: false })
+                                this.setState({ isPdfLoading: false, dialogOpen: false },()=> window.location.reload(true))
                             })
-                            .then(window.location.reload(true))
+                            //.then()
                             .catch(err => console.log(err))
 
                     }

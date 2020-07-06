@@ -30,7 +30,7 @@ export default function CustomizedTables(props) {
   if(exp !== null){
    exp = exp.split('T')[0].split('-')[2]+'-'+exp.split('T')[0].split('-')[1]+'-'+exp.split('T')[0].split('-')[0]
   }
-  var grandTotal = totalAmount.toFixed(2) * checkout
+  var grandTotal = parseFloat(totalAmount* checkout).toFixed(2) 
   return (
     <StyledTableRow key={_id}>
       <StyledTableCell align="left">{itemCode}</StyledTableCell>
