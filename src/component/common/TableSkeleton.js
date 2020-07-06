@@ -25,8 +25,8 @@ export default function Orders() {
     return (
         <React.Fragment>
 
-                    {rows.map((row) => (
-                        <TableRow key={row.billNo}>
+                    {rows.map((row,index) => (
+                        <TableRow key={index}>
                             <TableCell><Skeleton animation="wave" /></TableCell>
                             <TableCell><Skeleton animation="wave" /></TableCell>
                             <TableCell><Skeleton animation="wave" /></TableCell>

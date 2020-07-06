@@ -29,7 +29,6 @@ export default class Orders extends React.Component {
     }
   }
   render() {
-  console.log(this.state.data)
   return (
     <React.Fragment>
       <Title>Available Stock</Title>
@@ -53,13 +52,12 @@ export default class Orders extends React.Component {
             :
           this.state.data.map((row, index) => (
             <TableRow key={index}>
-              {console.log(row)}
               <TableCell>{row.data.item}</TableCell>
               <TableCell>{row.data.vendor}</TableCell>
               <TableCell>{row.data.rate}</TableCell>
               <TableCell>{row.data.gst}</TableCell>
               <TableCell>{row.data.purchaseRate}</TableCell>
-              <TableCell>{row.data.exp}</TableCell>
+              <TableCell>{row.data.exp === null ?'': row.data.exp.split('T')[0].split('-')[2]+'-'+row.data.exp.split('T')[0].split('-')[1]+'-'+row.data.exp.split('T')[0].split('-')[0]}</TableCell>
               <TableCell>{row.data.uom}</TableCell>
               <TableCell align="right">{row.data.quantity}</TableCell>
             </TableRow>

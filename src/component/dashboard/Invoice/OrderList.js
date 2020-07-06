@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
-import InvoiceList from './InvoiceList'
+//import InvoiceList from './InvoiceList'
+import Sales from './Sales'
 
 class OrderList extends Component {
 
@@ -9,7 +10,8 @@ class OrderList extends Component {
     return (
       <Box color="text.primary" mt={10} ml={3} mr={3}>
         <Grid container spacing={3}>
-          <InvoiceList/>
+          {/* <InvoiceList/> */}
+          <Sales/>
         </Grid>
       </Box>
     );

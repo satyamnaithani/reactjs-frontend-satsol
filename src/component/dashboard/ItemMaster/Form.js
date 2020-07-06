@@ -46,7 +46,7 @@ export default function AddressForm() {
     })
     .then(function (response) {
       console.log(response);
-      alert('Registered Item')
+      //alert('Registered Item')
     })
     .catch(function (error) {
       console.log(error);
@@ -75,7 +75,7 @@ export default function AddressForm() {
           onChange={e=> setCategory(e.target.value)} 
         >
           <MenuItem value={"Medical Equipment"}>Medical Equipment</MenuItem>
-          <MenuItem value={"Spears"}>Spears</MenuItem>
+          <MenuItem value={"Spears"}>Spares</MenuItem>
           <MenuItem value={"Consumables"}>Consumables</MenuItem>
           <MenuItem value={"Office Durables"}>Office Durables</MenuItem>
           <MenuItem value={"Office Consumables"}>Office Consumables</MenuItem>
