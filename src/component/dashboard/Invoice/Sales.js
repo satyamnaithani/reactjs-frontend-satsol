@@ -7,9 +7,11 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 //import Title from './Title';
 import TableSkeleton from '../../common/TableSkeleton';
-import {url} from '../../../globalVariables';
+import { url } from '../../../globalVariables';
 import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
+import TablePagination from '@material-ui/core/TablePagination';
+import DateSelector from './DateSeletor'
 
 export default class Orders extends React.Component {
 
@@ -30,55 +32,64 @@ export default class Orders extends React.Component {
     }
   }
   render() {
-      console.log(this.state.data)
-  return (
-    <React.Fragment>
+    console.log(this.state.data)
+    return (
+      <React.Fragment>
         <Paper>
-      <Typography component="h2" variant="h6" color="primary" align='center' gutterBottom>
-      Sales
+          <Typography component="h2" variant="h3" color="primary" align='center' gutterBottom>
+            Sales
     </Typography>
-      <Table size="small">
-        <TableHead>
-          <TableRow>
-          <TableCell>Serial No.</TableCell>
-            <TableCell>Customer Name</TableCell>
-            <TableCell>Product Details</TableCell>
-            <TableCell>Total Rate</TableCell>
-            <TableCell>Total GST</TableCell>
-            <TableCell>Grand Total</TableCell>
-            <TableCell>Date</TableCell>
-            <TableCell>Invoice Number</TableCell>
-            <TableCell align="right">Download Pdf</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {
-            this.state.isLoading ?
-            <TableSkeleton/>
-            :
-          this.state.data.map((row, index) => (
+    <DateSelector/><br/><br/>
+          <Table size="small">
+            <TableHead>
+              <TableRow>
+                <TableCell>Serial No.</TableCell>
+                <TableCell>Customer Name</TableCell>
+                <TableCell>Product Details</TableCell>
+                <TableCell>Total Rate</TableCell>
+                <TableCell>Total GST</TableCell>
+                <TableCell>Grand Total</TableCell>
+                <TableCell>Date</TableCell>
+                <TableCell>Invoice Number</TableCell>
+                <TableCell align="right">Download Pdf</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {
+                this.state.isLoading ?
+                  <TableSkeleton />
+                  :
+                  this.state.data.map((row, index) => (
+
+                    <TableRow key={index}>
+                      <TableCell>{++index}.</TableCell>
+                      <TableCell>{row.customerName}</TableCell>
+                      <TableCell>
+                        {row.orderData.map((item, index) => (
+                          <Typography key={index}>{++index}{'.  '}{item.item}<br />({item.checkout + '' + item.uom}) ₹{item.sellingRate}</Typography>
+                        ))}
+                      </TableCell>
+                      <TableCell>{row.totalRate}</TableCell>
+                      <TableCell>{row.totalGst}</TableCell>
+                      <TableCell>{row.grandTotal}</TableCell>
+                      <TableCell>{row.date === null ? '' : row.date.split('T')[0].split('-')[2] + '-' + row.date.split('T')[0].split('-')[1] + '-' + row.date.split('T')[0].split('-')[0]}</TableCell>
+                      <TableCell>{row.invoiceNo}</TableCell>
+                      <TableCell align="center">{'+'}</TableCell>
+                    </TableRow>
+                  ))}
               
-            <TableRow key={index}>
-                <TableCell>{++index}.</TableCell>
-              <TableCell>{row.customerName}</TableCell>
-              <TableCell>
-              {row.orderData.map((item, index)=> (
-              <Typography key={index}>{++index}{'.  '}{item.item}<br/>({item.checkout+''+item.uom}) ₹{item.sellingRate}</Typography>
-              ))}
-              </TableCell>
-              <TableCell>{row.totalRate}</TableCell>
-              <TableCell>{row.totalGst}</TableCell>
-              <TableCell>{row.grandTotal}</TableCell>
-              <TableCell>{row.date === null ?'': row.date.split('T')[0].split('-')[2]+'-'+row.date.split('T')[0].split('-')[1]+'-'+row.date.split('T')[0].split('-')[0]}</TableCell>
-              <TableCell>{row.invoiceNo}</TableCell>
-              <TableCell align="center">{'+'}</TableCell>
-            </TableRow>
-          ))}
-        
-        </TableBody>
-      </Table>
-      </Paper>
-    </React.Fragment>
-  );
-}
+            </TableBody>
+            <TablePagination
+                component="div"
+                count={100}
+                page={2}
+                onChangePage={''}
+                rowsPerPage={10}
+                onChangeRowsPerPage={''}
+              />
+          </Table>
+        </Paper>
+      </React.Fragment>
+    );
+  }
 }
