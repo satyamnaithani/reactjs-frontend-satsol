@@ -35,7 +35,8 @@ class StockRow extends Component {
 
 
     render() {
-        let { item, vendor, rate, gst, purchaseRate, exp, uom, initialQuantity, _id } = this.props.data.data;
+        const { item, vendor, rate, gst, purchaseRate, uom, initialQuantity, _id } = this.props.data.data;
+        let {exp} = this.props.data.data;
         this.props.data.data['checkout'] = parseInt(this.state.checkout)
         this.props.data.data['sellingRate'] = parseFloat(this.state.sellingRate)
         if (exp !== null) {
@@ -53,7 +54,7 @@ class StockRow extends Component {
                     <DialogTitle id="alert-dialog-title">{"CheckOut Details"}</DialogTitle>
                     <DialogContent>
                         <DialogContentText id="alert-dialog-description">
-                            Hello World!
+                           {item}
           </DialogContentText>
                         <TextField
                             id={_id}
