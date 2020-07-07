@@ -403,7 +403,6 @@ export default class Orders extends React.Component {
         );
 
     }
-
     createAndDownloadPdf = () => {
         this.setState({ dialogOpen: true })
         this.fetchCustomerNames()

@@ -2,15 +2,24 @@ import React, { useState } from 'react';
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
 import { Button } from '@material-ui/core';
-export default function DateSelector() {
+export default function DateSelector(props) {
 
-    const [selectedDateStart, setSelectedDateStart] = useState();
-    const [selectedDateEnd, setSelectedDateEnd] = useState();
+    const [selectedDateStart, setSelectedDateStart] = useState('');
+    const [selectedDateEnd, setSelectedDateEnd] = useState('');
 
-
+    const handleSubmit = () => {
+        if(selectedDateStart === '' || selectedDateEnd === ''){
+            alert('Enter Date First!')
+        }
+        else{
+            props.dateSelector(selectedDateStart, selectedDateEnd)
+        }
+       
+      }
     return (
         <Grid container justify="center" spacing='5'>
             <Grid item >
+                
             <TextField
                 id="date"
                 label="Satrt Date"
@@ -21,7 +30,7 @@ export default function DateSelector() {
                     shrink: true,
                 }}
                 value={selectedDateStart}
-            onChange={e => setSelectedDateStart(e.value)}
+            onChange={e => setSelectedDateStart(e.target.value)}
             />
             </Grid>
             <Grid item>
@@ -35,12 +44,13 @@ export default function DateSelector() {
                     shrink: true,
                 }}
                 value={selectedDateEnd}
-            onChange={e => setSelectedDateEnd(e.value)}
+            onChange={e => setSelectedDateEnd(e.target.value)}
             />
             </Grid>
             <Grid item>
-             <Button size="large" variant="contained" color="primary">Search</Button>
+             <Button size="large" variant="contained" color="primary" onClick={handleSubmit}>Search</Button>
             </Grid>
         </Grid>
   );
+  
 }

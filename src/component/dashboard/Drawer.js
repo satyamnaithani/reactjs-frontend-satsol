@@ -2,6 +2,7 @@ import React from 'react';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
+//import Button from '@material-ui/core/Button';
 import List from '@material-ui/core/List';
 import Divider from '@material-ui/core/Divider';
 import { secondaryListItems } from './listItems';
@@ -21,9 +22,10 @@ import BarChartIcon from '@material-ui/icons/BarChart';
 
 const drawerWidth = 240;
 
-export default function Headers() {
+export default function Headers(props) {
     const classes = useStyles();
     const [open] = React.useState(true);
+
   
 
     return (
