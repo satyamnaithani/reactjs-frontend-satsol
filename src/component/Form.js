@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -12,10 +12,15 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import {url} from '../globalVariables';
-import axios from 'axios'
+import { url } from '../globalVariables';
+import axios from 'axios';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import Snackbar from '@material-ui/core/Snackbar';
+import MuiAlert from '@material-ui/lab/Alert';
 
-
+function Alert(props) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
 
 function Copyright() {
   return (
@@ -53,35 +58,47 @@ const useStyles = makeStyles((theme) => ({
 export default function SignIn() {
   const classes = useStyles();
   const [email, setEmail] = useState('')
-const [password, setPassword] =useState('')
-const [rememberMe, setRememberMe] = useState(false)
-//const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InNhdHlhbW5haXRoYW5pOTlAZ21haWwuY29tIiwidXNlcklkIjoiNWYwNGI3NGQxOGQ1ODkxZjNjYjg2NjljIiwiaWF0IjoxNTk0MTQ2NjYwLCJleHAiOjE1OTQxNTAyNjB9.H-Kcg-bOYMQUZ9ABe4cIzLVRgg09v_vUYB_aw8z-aNw'
-const handleSubmit=()=> {
-  axios({
-    method: 'post',
-    url: url+ '/user/login',
-    config: { headers: { 'Content-Type': 'application/json' } },
-    data: {
-      email:email,
-      password:password
-    }
-})
-    .then((response) => console.log(response.data))
-    .catch((error)=> {
-        if(error.message ==='Request failed with status code 404'){
-         
-          alert('Email Not Exit!')
+  const [password, setPassword] = useState('')
+  const [rememberMe, setRememberMe] = useState(false)
+  const [tokenNo, setTokenNo] = useState('');
+  const [userName, setUserName] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const [openSnackBar, setOpenSnackBar] = useState('');
+  console.log(tokenNo)
+  console.log(userName)
+  const handleSubmit = () => {
+    setIsLoading(true);
+    axios({
+      method: 'post',
+      url: url + '/user/login',
+      config: { headers: { 'Content-Type': 'application/json' } },
+      data: {
+        email: email,
+        password: password,
+      }
+    })
+      .then((response) => {
+        setTokenNo(response.data.token);
+        setUserName(response.data.name);
+        setIsLoading(false)
+        setOpenSnackBar('authenticated')
+      })
+      .catch((error) => {
+        setIsLoading(false)
+        if (error.message === 'Request failed with status code 404') {
+
+          setOpenSnackBar('email_not_exit')
         }
-        else if(error.message ==='Request failed with status code 401'){
-         
-          alert('Incorrect Password!')
+        else if (error.message === 'Request failed with status code 401') {
+
+          setOpenSnackBar('incorrect_password')
         }
-        else{
-         
+        else {
+
           alert('Error')
         }
-    });
-}
+      });
+  }
 
   return (
     <Container component="main" maxWidth="xs">
@@ -100,7 +117,7 @@ const handleSubmit=()=> {
             required
             fullWidth
             value={email}
-            onChange={(e)=> setEmail(e.target.value)}
+            onChange={(e) => setEmail(e.target.value)}
             id="email"
             label="Email Address"
             name="email"
@@ -113,7 +130,7 @@ const handleSubmit=()=> {
             required
             fullWidth
             value={password}
-            onChange={(e)=> setPassword(e.target.value)}
+            onChange={(e) => setPassword(e.target.value)}
             name="password"
             label="Password"
             type="password"
@@ -121,7 +138,7 @@ const handleSubmit=()=> {
             autoComplete="current-password"
           />
           <FormControlLabel
-            control={<Checkbox value={rememberMe} color="primary" onChange={(e)=> {setRememberMe(e.target.checked)}} checked={rememberMe}/>}
+            control={<Checkbox value={rememberMe} color="primary" onChange={(e) => { setRememberMe(e.target.checked) }} checked={rememberMe} />}
             label="Remember me"
           />
           <Button
@@ -131,8 +148,10 @@ const handleSubmit=()=> {
             color="primary"
             onClick={handleSubmit}
             className={classes.submit}
-          >
-            Sign In
+          >{
+              isLoading ? <CircularProgress size='1.5rem' color='inherit' /> : 'Sign In'
+            }
+
           </Button>
           <Grid container>
             <Grid item xs>
@@ -151,8 +170,22 @@ const handleSubmit=()=> {
       <Box mt={8}>
         <Copyright />
       </Box>
+      <Snackbar open={openSnackBar==='authenticated'} autoHideDuration={3000} onClose={()=> setOpenSnackBar('')} anchorOrigin={{ vertical: 'top', horizontal: 'center' }}>
+        <Alert onClose={()=> setOpenSnackBar('')} severity="success">
+          Authenticated!
+  </Alert>
+      </Snackbar>
+      <Snackbar open={openSnackBar==='email_not_exit'} autoHideDuration={3000} onClose={()=> setOpenSnackBar('')} anchorOrigin={{ vertical: 'top', horizontal: 'center' }}>
+        <Alert onClose={()=> setOpenSnackBar('')} severity="error">
+          Email Not Exit!
+  </Alert>
+      </Snackbar>
+      <Snackbar open={openSnackBar==='incorrect_password'} autoHideDuration={3000} onClose={()=> setOpenSnackBar('')} anchorOrigin={{ vertical: 'top', horizontal: 'center' }}>
+        <Alert onClose={()=> setOpenSnackBar('')} severity="error">
+          Incorrect Password!
+  </Alert>
+      </Snackbar>
     </Container>
   );
-
-  
 }
+

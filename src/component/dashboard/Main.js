@@ -95,24 +95,24 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function Copyright() {
-    return (
-      <Typography variant="body2" color="textSecondary" align="center">
-        {'Copyright © '}
-        <Link color="inherit" href="https://satsolindia.com/">
-          Satvik Solutions
+  return (
+    <Typography variant="body2" color="textSecondary" align="center">
+      {'Copyright © '}
+      <Link color="inherit" href="https://satsolindia.com/">
+        Satvik Solutions
         </Link>{' '}
-        {new Date().getFullYear()}
-        {'.'}
-      </Typography>
-    );
-  }
+      {new Date().getFullYear()}
+      {'.'}
+    </Typography>
+  );
+}
 
 export default function Main() {
-    const classes = useStyles();
+  const classes = useStyles();
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
-    return (
-      <div className={classes.root}>
-        <main className={classes.content}>
+  return (
+    <div className={classes.root}>
+      <main className={classes.content}>
         <div className={classes.appBarSpacer} />
         <Container maxWidth="lg" className={classes.container}>
           <Grid container spacing={3}>
@@ -146,6 +146,7 @@ export default function Main() {
           </Box>
         </Container>
       </main>
-      </div>
-    )
+    </div>
+  )
 }
+
