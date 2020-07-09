@@ -19,7 +19,8 @@ export default class Orders extends React.Component {
     axios({
       method: 'GET',
 
-      url: url + '/sales/'+this.state.page+'/'+this.state.rowsPerPage
+      url: url + '/sales/'+this.state.page+'/'+this.state.rowsPerPage,
+      headers: {'Authorization': 'Bearer ' + JSON.parse(localStorage.getItem('token')).token},
     })
       .then(response => this.setState({ data: response.data.sales, isLoading: false, open: false, totalSalesCount: response.data.count }))
       .catch(error => console.log(error))
@@ -40,7 +41,8 @@ export default class Orders extends React.Component {
     axios({
       method: 'GET',
 
-      url: url + '/sales/date/' + startDate + '/' + endDate
+      url: url + '/sales/date/' + startDate + '/' + endDate,
+      headers: {'Authorization': 'Bearer ' + JSON.parse(localStorage.getItem('token')).token},
     })
       .then(response => this.setState({ data: response.data, isLoading: false, open: false, totalSalesCount: response.data.length }))
       .catch(error => console.log(error))
@@ -51,7 +53,8 @@ export default class Orders extends React.Component {
     axios({
       method: 'GET',
 
-      url: url + '/sales/'+newPage*this.state.rowsPerPage+'/'+this.state.rowsPerPage
+      url: url + '/sales/'+newPage*this.state.rowsPerPage+'/'+this.state.rowsPerPage,
+      headers: {'Authorization': 'Bearer ' + JSON.parse(localStorage.getItem('token')).token}
     })
       .then(response => this.setState({ data: response.data.sales, isLoading: false, open: false, totalSalesCount: response.data.count }))
       .catch(error => console.log(error))
@@ -61,7 +64,8 @@ export default class Orders extends React.Component {
     axios({
       method: 'GET',
 
-      url: url + '/sales/'+this.state.page+'/'+event.target.value
+      url: url + '/sales/'+this.state.page+'/'+event.target.value,
+      headers: {'Authorization': 'Bearer ' + JSON.parse(localStorage.getItem('token')).token}
     })
       .then(response => this.setState({ data: response.data.sales, isLoading: false, open: false, totalSalesCount: response.data.count }))
       .catch(error => console.log(error))

@@ -15,20 +15,26 @@ export default class Orders extends React.Component {
   componentDidMount() {
     axios({
       method: 'GET',
-
-      url: url + '/stock'
+      url: url + '/stock',
+      headers: {'Authorization': 'Bearer ' + JSON.parse(localStorage.getItem('token')).token},
     })
       .then(response => this.setState({ data: response.data.items, isLoading: false, open: false }))
       .catch(error => console.log(error))
+      
   }
   constructor(props) {
     super(props);
     this.state = {
       isLoading: true,
-      data: []
+      data: [],
+      token: ''
     }
+   
   }
+  
+  
   render() {
+    
   return (
     <React.Fragment>
       <Title>Available Stock</Title>

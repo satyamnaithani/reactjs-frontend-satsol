@@ -6,14 +6,9 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Typography from '@material-ui/core/Typography';
-//import TableSkeleton from '../../common/TableSkeleton';
 import { url } from '../../../globalVariables'
-//import Checkbox from '@material-ui/core/Checkbox';
 import IconButton from '@material-ui/core/IconButton';
-// import AddIcon from '@material-ui/icons/Add';
-// import RemoveIcon from '@material-ui/icons/Remove';
-// import TextField from '@material-ui/core/TextField';
-// import InputAdornment from '@material-ui/core/InputAdornment';
+
 //Dialog
 import CheckedItemTable from './CheckedItemTable'
 import Grid from '@material-ui/core/Grid';
@@ -49,7 +44,8 @@ export default class Orders extends React.Component {
         axios({
             method: 'GET',
 
-            url: url + '/stock'
+            url: url + '/stock',
+            headers: {'Authorization': 'Bearer ' + JSON.parse(localStorage.getItem('token')).token},
         })
             .then(response => {
                 this.setState({ data: response.data.items, isLoading: false, open: false })
@@ -88,27 +84,6 @@ export default class Orders extends React.Component {
         this.handleFormSubmit = this.handleFormSubmit.bind(this)
     }
 
-
-    // handleCheckChange = (event) => {
-    //     const data = JSON.parse(event.target.value)
-    //     if (event.target.checked) {
-
-    //         let arr = this.state.checkedItem
-    //         arr.push(data)
-    //         this.setState({ checkedItem: arr })
-    //     } else {
-    //         let arr = this.state.checkedItem
-    //         for (var i = 0; i < arr.length; i++) {
-    //             var obj = arr[i];
-    //             if (obj._id === data._id) {
-    //                 arr.splice(i, 1)
-    //                 this.setState({ checkedItem: arr })
-    //             }
-    //         }
-    //     }
-    //     console.log(this.state.checkedItem)
-
-    // }
     handleUnCheckChange = (value) => {
         let arr = this.state.checkedItem
         for (var i = 0; i < arr.length; i++) {
@@ -430,6 +405,7 @@ export default class Orders extends React.Component {
                 method: 'post',
                 url: url + '/sales',
                 config: { headers: { 'Content-Type': 'application/json' } },
+                headers: {'Authorization': 'Bearer ' + JSON.parse(localStorage.getItem('token')).token},
                 data: {
                     customer: customerName,
                     orderData: checkedItem,
@@ -494,7 +470,6 @@ export default class Orders extends React.Component {
                                 saveAs(pdfBlob, 'satyam.pdf');
                                 this.setState({ isPdfLoading: false, dialogOpen: false },()=> window.location.reload(true))
                             })
-                            //.then()
                             .catch(err => console.log(err))
 
                     }
@@ -509,7 +484,11 @@ export default class Orders extends React.Component {
         }
     }
     fetchCustomerNames = () => {
-        axios(url + "/customers/all")
+        axios({
+            method: 'get',
+            url: url + "/customers/all",
+            headers: {'Authorization': 'Bearer ' + JSON.parse(localStorage.getItem('token')).token},
+        })
             .then(result => { this.setState({ customer: result.data.items, isLoadingCustomer: false }) })
             .catch(err => console.log(err))
     }

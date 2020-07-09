@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Paper from '@material-ui/core/Paper';
 import Box from '@material-ui/core/Box';
 //import InvoiceList from './InvoiceList'
-import Sales from './Sales'
+import SalesTable from './SalesTable'
 
 class OrderList extends Component {
 
@@ -18,7 +18,7 @@ class OrderList extends Component {
             overflowX: "hidden"
           }}>
           {/* <InvoiceList/> */}
-          <Sales/>
+          <SalesTable/>
         </Paper>
       </Box>
     );

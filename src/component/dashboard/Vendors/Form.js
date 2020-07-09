@@ -30,6 +30,7 @@ export default function AddressForm() {
       method: 'post',
       url: url+'/vendors/',
       config: { headers: { 'Content-Type': 'application/json' } },
+      headers: {'Authorization': 'Bearer ' + JSON.parse(localStorage.getItem('token')).token},
       data: {
         name: name,
         code: code,

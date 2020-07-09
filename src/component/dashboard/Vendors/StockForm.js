@@ -42,6 +42,7 @@ export default function AddressForm() {
                 method: 'get',
                 url: url+'/items/all_item',
                 config: { headers: { 'Content-Type': 'application/json' } },
+                headers: {'Authorization': 'Bearer ' + JSON.parse(localStorage.getItem('token')).token},
             })
                 .then(result => {
                     setIsLoadingItem(false)
@@ -59,6 +60,7 @@ export default function AddressForm() {
                 method: 'get',
                 url: url + '/vendors/all_vendor',
                 config: { headers: { 'Content-Type': 'application/json' } },
+                headers: {'Authorization': 'Bearer ' + JSON.parse(localStorage.getItem('token')).token},
             })
                 .then(result => {
                     setIsLoadingVendor(false)
@@ -82,6 +84,7 @@ export default function AddressForm() {
             method: 'get',
             url: url1,
             config: { headers: { 'Content-Type': 'application/json' } },
+            headers: {'Authorization': 'Bearer ' + JSON.parse(localStorage.getItem('token')).token}
         })
             .then(function (response) {
                 setGst(response.data.item[0].gst)
@@ -113,6 +116,7 @@ export default function AddressForm() {
             method: 'post',
             url: url + '/stock',
             config: { headers: { 'Content-Type': 'application/json' } },
+            headers: {'Authorization': 'Bearer ' + JSON.parse(localStorage.getItem('token')).token},
             data: {
                 item: item,
                 lotNo: lotNo,

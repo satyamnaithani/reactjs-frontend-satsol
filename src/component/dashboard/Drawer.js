@@ -2,7 +2,6 @@ import React from 'react';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
-//import Button from '@material-ui/core/Button';
 import List from '@material-ui/core/List';
 import Divider from '@material-ui/core/Divider';
 import { secondaryListItems } from './listItems';
@@ -50,20 +49,20 @@ export default function Headers(props) {
       <ListItemText primary="Dashboard" />
     </ListItem>
        </NavLink>
-       <NavLink to='/orders' style={{textDecoration: 'inherit'}}>
+       <NavLink to='/stock' style={{textDecoration: 'inherit'}}>
     <ListItem button>
       <ListItemIcon>
         <ShoppingCartIcon />
       </ListItemIcon>
-      <ListItemText primary="Orders" />
+      <ListItemText primary="Stock" />
     </ListItem>
       </NavLink>
-      <NavLink to='/invoice' style={{textDecoration: 'inherit'}}>
+      <NavLink to='/sales' style={{textDecoration: 'inherit'}}>
     <ListItem button>
       <ListItemIcon>
         <ShoppingCartIcon />
       </ListItemIcon>
-      <ListItemText primary="Invoice" />
+      <ListItemText primary="Sales" />
     </ListItem>
       </NavLink>
     <NavLink to='/vendors' style={{textDecoration: 'inherit'}}>

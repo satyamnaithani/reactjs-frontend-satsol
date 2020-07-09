@@ -6,11 +6,11 @@ import {
 } from "react-router-dom";
 import FormLogin from './component/Form'
 import Dashboard from './component/dashboard/Dashboard'
-import Orders from './component/dashboard/Orders/Orders'
+import Stock from './component/dashboard/Stock/Stock'
 import Vendors from './component/dashboard/Vendors/Vendors'
 import Customer from './component/dashboard/Customers/Customers'
 import ItemMaster from './component/dashboard/ItemMaster/ItemMaster'
-import Invoice from './component/dashboard/Invoice/Invoice'
+import Sales from './component/dashboard/Sales/Sales'
 
 class App extends Component {
    render() {
@@ -23,8 +23,8 @@ class App extends Component {
           <Route path="/dashboard">
             <Dashboard />
           </Route>
-          <Route exact path="/orders">
-            <Orders />
+          <Route exact path="/stock">
+            <Stock />
           </Route>
           <Route exact path="/vendors">
             <Vendors />
@@ -35,8 +35,8 @@ class App extends Component {
           <Route exact path="/item_master">
             <ItemMaster />
           </Route>
-          <Route exact path="/invoice">
-            <Invoice />
+          <Route exact path="/sales">
+            <Sales />
           </Route>
           <Route path="*">
             <div>Invalid route</div>

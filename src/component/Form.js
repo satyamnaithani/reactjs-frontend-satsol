@@ -17,6 +17,7 @@ import axios from 'axios';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
+import {Redirect} from 'react-router-dom'
 
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -64,8 +65,21 @@ export default function SignIn() {
   const [userName, setUserName] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [openSnackBar, setOpenSnackBar] = useState('');
+  const [verified, setVeried] = useState(false)
   console.log(tokenNo)
   console.log(userName)
+  React.useEffect(() => {
+    axios({
+      method: 'GET',
+      url: url + '/logout/blacklist', //deletes all blacklisted tokens post 1 hr
+     
+  })
+      .then(response => console.log(response))
+      .catch(error => console.log(error))
+  }, []);
+  if(verified){
+    return <Redirect to= '/dashboard'/>
+  }
   const handleSubmit = () => {
     setIsLoading(true);
     axios({
@@ -81,9 +95,18 @@ export default function SignIn() {
         setTokenNo(response.data.token);
         setUserName(response.data.name);
         setIsLoading(false)
-        setOpenSnackBar('authenticated')
+        setOpenSnackBar('authenticated');
+        localStorage.setItem('token',JSON.stringify({
+          token:response.data.token,
+          name: response.data.name
+        }));
+        setVeried(true)
       })
       .catch((error) => {
+        localStorage.setItem('token',JSON.stringify({
+          token:'error',
+          name: 'error'
+        }))
         setIsLoading(false)
         if (error.message === 'Request failed with status code 404') {
 

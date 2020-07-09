@@ -26,7 +26,8 @@ export default function Deposits() {
     axios({
       method: 'GET',
   
-      url: url + '/sales/recent'
+      url: url + '/sales/recent',
+      headers: {'Authorization': 'Bearer ' + JSON.parse(localStorage.getItem('token')).token}
   })
       .then(response => {
           setData(response.data[0])

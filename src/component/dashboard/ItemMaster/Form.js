@@ -35,6 +35,7 @@ export default function AddressForm() {
       method: 'post',
       url: url+'/items',
       config: { headers: { 'Content-Type': 'application/json' } },
+      headers: {'Authorization': 'Bearer ' + JSON.parse(localStorage.getItem('token')).token},
       data: {
         catogory: category,
         name: name,

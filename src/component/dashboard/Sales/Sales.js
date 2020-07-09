@@ -4,7 +4,7 @@ import Header from '../Header'
 import Drawer from '../Drawer'
 import {useStyles} from '../useStyles'
 //import Grid from '@material-ui/core/Grid';
-import OrderList from './OrderList';
+import SalesContainer from './SalesContainer';
 
 
 
@@ -16,7 +16,7 @@ export default function Invoice() {
       <CssBaseline />
       <Header/>
       <Drawer/>
-      <OrderList/>
+      <SalesContainer/>
     </div>
   );
 }
