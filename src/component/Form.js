@@ -118,7 +118,7 @@ export default function SignIn() {
         }
         else {
 
-          alert('Error')
+          alert(error)
         }
       });
   }
