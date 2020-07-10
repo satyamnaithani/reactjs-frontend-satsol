@@ -41,7 +41,7 @@ export default function Headers(props) {
         </div>
         <Divider />
         <List className={classes.drawerColor}>
-       <NavLink to='/dashboard' style={{textDecoration: 'inherit'}}>
+       <NavLink to='/dashboard' style={{textDecoration: 'none', color: 'inherit'}}>
         <ListItem button>
       <ListItemIcon>
         <DashboardIcon />
@@ -49,7 +49,7 @@ export default function Headers(props) {
       <ListItemText primary="Dashboard" />
     </ListItem>
        </NavLink>
-       <NavLink to='/stock' style={{textDecoration: 'inherit'}}>
+       <NavLink to='/stock' style={{textDecoration: 'none', color: 'inherit'}}>
     <ListItem button>
       <ListItemIcon>
         <ShoppingCartIcon />
@@ -57,7 +57,7 @@ export default function Headers(props) {
       <ListItemText primary="Stock" />
     </ListItem>
       </NavLink>
-      <NavLink to='/sales' style={{textDecoration: 'inherit'}}>
+      <NavLink to='/sales' style={{textDecoration: 'none', color: 'inherit'}}>
     <ListItem button>
       <ListItemIcon>
         <ShoppingCartIcon />
@@ -65,7 +65,7 @@ export default function Headers(props) {
       <ListItemText primary="Sales" />
     </ListItem>
       </NavLink>
-    <NavLink to='/vendors' style={{textDecoration: 'inherit'}}>
+    <NavLink to='/vendors' style={{textDecoration: 'none', color: 'inherit'}}>
     <ListItem button>
       <ListItemIcon>
         <PeopleIcon />
@@ -73,7 +73,7 @@ export default function Headers(props) {
       <ListItemText primary="Vendors" />
     </ListItem>
       </NavLink>
-    <NavLink to='/customers' style={{textDecoration: 'inherit'}}> 
+    <NavLink to='/customers' style={{textDecoration: 'none', color: 'inherit'}}> 
     <ListItem button>
       <ListItemIcon>
         <PeopleIcon />
@@ -81,7 +81,7 @@ export default function Headers(props) {
       <ListItemText primary="Customers" />
     </ListItem>
       </NavLink>
-    <NavLink to='/item_master' style={{textDecoration: 'inherit'}}>
+    <NavLink to='/item_master' style={{textDecoration: 'none', color: 'inherit'}}>
     <ListItem button>
       <ListItemIcon>
         <BarChartIcon />

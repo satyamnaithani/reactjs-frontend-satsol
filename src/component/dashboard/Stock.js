@@ -8,6 +8,8 @@ import TableRow from '@material-ui/core/TableRow';
 import Title from './Title';
 import TableSkeleton from '../common/TableSkeleton';
 import {url} from '../../globalVariables';
+import Snackbar from '@material-ui/core/Snackbar';
+import Alert from '@material-ui/lab/Alert';
 
 
 export default class Orders extends React.Component {
@@ -19,7 +21,10 @@ export default class Orders extends React.Component {
       headers: {'Authorization': 'Bearer ' + JSON.parse(localStorage.getItem('token')).token},
     })
       .then(response => this.setState({ data: response.data.items, isLoading: false, open: false }))
-      .catch(error => console.log(error))
+      .catch(error => {
+           //console.log(error)
+           this.setState({error:true})
+      })
       
   }
   constructor(props) {
@@ -27,7 +32,8 @@ export default class Orders extends React.Component {
     this.state = {
       isLoading: true,
       data: [],
-      token: ''
+      token: '',
+      error: false
     }
    
   }
@@ -70,6 +76,11 @@ export default class Orders extends React.Component {
           ))}
         </TableBody>
       </Table>
+      <Snackbar open={this.state.error}  onClose={()=> this.setState({error: false})} anchorOrigin={{ vertical: 'top', horizontal: 'center' }}>
+        <Alert elevation={6} variant="filled" onClose={()=> this.setState({error: false})} severity="error">
+          Error!
+      </Alert>
+      </Snackbar>
     </React.Fragment>
   );
 }

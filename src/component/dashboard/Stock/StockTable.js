@@ -57,7 +57,10 @@ export default class Orders extends React.Component {
                     }
                 }
             })
-            .catch(error => console.log(error))
+            .catch(error => {
+                console.log(error)
+                alert(error)
+            })
     }
     constructor(props) {
         super(props);
@@ -101,7 +104,6 @@ export default class Orders extends React.Component {
         this.setState({ checkedItem: arr })
     }
     render() {
-        console.log(this.state)
         return (
             <React.Fragment>
                 <Typography align='center' component="h2" variant="h6" color="primary" gutterBottom>

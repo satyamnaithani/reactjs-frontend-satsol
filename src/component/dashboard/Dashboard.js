@@ -5,13 +5,8 @@ import Drawer from './Drawer'
 import Main from './Main';
 import {useStyles} from './useStyles'
 
-
-
-
 export default function Dashboard() {
   const classes = useStyles();
-
-
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -20,5 +15,5 @@ export default function Dashboard() {
       <Main/>
     </div>
   );
-} // Dashboard Class Closed
+} 
 

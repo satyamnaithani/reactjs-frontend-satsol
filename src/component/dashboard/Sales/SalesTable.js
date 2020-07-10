@@ -23,7 +23,9 @@ export default class Orders extends React.Component {
       headers: {'Authorization': 'Bearer ' + JSON.parse(localStorage.getItem('token')).token},
     })
       .then(response => this.setState({ data: response.data.sales, isLoading: false, open: false, totalSalesCount: response.data.count }))
-      .catch(error => console.log(error))
+      .catch(error => {
+        alert(error)
+        console.log(error)})
   }
   constructor(props) {
     super(props);
