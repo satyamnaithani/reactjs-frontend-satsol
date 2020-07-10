@@ -80,7 +80,8 @@ export default function SignIn() {
   if(verified){
     return <Redirect to= '/dashboard'/>
   }
-  const handleSubmit = () => {
+  const handleSubmit = (e) => {
+    e.preventDefault();
     setIsLoading(true);
     axios({
       method: 'post',
@@ -133,7 +134,7 @@ export default function SignIn() {
         <Typography component="h1" variant="h5">
           Sign in
         </Typography>
-        <form className={classes.form} >
+        <form className={classes.form} onSubmit={handleSubmit} >
           <TextField
             variant="outlined"
             margin="normal"
@@ -165,11 +166,10 @@ export default function SignIn() {
             label="Remember me"
           />
           <Button
-            //type="submit"
+            type="submit"
             fullWidth
             variant="contained"
             color="primary"
-            onClick={handleSubmit}
             className={classes.submit}
           >{
               isLoading ? <CircularProgress size='1.5rem' color='inherit' /> : 'Sign In'
