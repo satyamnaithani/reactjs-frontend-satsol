@@ -9,6 +9,8 @@ import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 // import IconButton from '@material-ui/core/IconButton';
 // import MoreVertIcon from '@material-ui/icons/MoreVert';
+import AddCircleIcon from '@material-ui/icons/AddCircle';
+import IconButton from '@material-ui/core/IconButton';
 import Skeleton from '@material-ui/lab/Skeleton';
 
 const useStyles = makeStyles((theme) => ({
@@ -38,13 +40,13 @@ export default function Media(props) {
         //     />
         //   )
         // }
-        // action={
-        //   loading ? null : (
-        //     <IconButton aria-label="settings">
-        //       <MoreVertIcon />
-        //     </IconButton>
-        //   )
-        // }
+        action={
+          loading ? null : (
+            props.actionButton === 'add'? <IconButton aria-label="settings">
+            <AddCircleIcon/>
+          </IconButton>: null
+          )
+        }
         title={
           loading ? (
             <Skeleton animation="wave" height={10} width="80%" style={{ marginBottom: 6 }} />
@@ -80,6 +82,21 @@ export default function Media(props) {
           <Typography variant="body2" color="textSecondary" component="p">
           {
             props.content2
+          }
+        </Typography>
+        <Typography variant="body2" color="textSecondary" component="p">
+          {
+            props.content3
+          }
+        </Typography>
+        <Typography variant="body2" color="textSecondary" component="p">
+          {
+            props.content4
+          }
+        </Typography>
+        <Typography variant="body2" color="textSecondary" component="p">
+          {
+            props.content5
           }
         </Typography>
         </>

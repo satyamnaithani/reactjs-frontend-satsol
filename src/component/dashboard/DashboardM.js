@@ -1,7 +1,7 @@
 import React from 'react';
 import DrawerM from './DrawerM'
 import AppBarM from '../common/AppBarM'
-// import Deposits from './Deposits'
+import MonthlySaleM from './MonthlySaleM'
 import DepositsM from './DepositsM'
 export default function DashboardM() {
   
@@ -11,7 +11,7 @@ export default function DashboardM() {
     <AppBarM/>
     {/* <p>Dashboard</p> */}
     <DepositsM/>
-    {/* <Deposits/> */}
+    <MonthlySaleM/>
     <DrawerM value={0}/>
     </>
   );
