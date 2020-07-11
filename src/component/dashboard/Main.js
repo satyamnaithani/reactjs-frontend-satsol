@@ -7,10 +7,12 @@ import Link from '@material-ui/core/Link';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import clsx from 'clsx';
-import Chart from './Chart';
+import SalesChart from './SalesChart';
 import Deposits from './Deposits';
 import Orders from './Orders';
 import Stock from './Stock'
+import Sales from './Sales'
+import Chart from './Chart'
 
 
 const drawerWidth = 240;
@@ -119,13 +121,23 @@ export default function Main() {
             {/* Chart */}
             <Grid item xs={12} md={8} lg={9}>
               <Paper className={fixedHeightPaper}>
-                <Chart />
+                <SalesChart />
               </Paper>
             </Grid>
             {/* Recent Deposits */}
             <Grid item xs={12} md={4} lg={3}>
               <Paper className={fixedHeightPaper}>
                 <Deposits />
+              </Paper>
+            </Grid>
+            <Grid item xs={12} md={4} lg={3}>
+              <Paper className={fixedHeightPaper}>
+                <Sales />
+              </Paper>
+            </Grid>
+            <Grid item xs={12} md={8} lg={9}>
+              <Paper className={fixedHeightPaper}>
+                <Chart />
               </Paper>
             </Grid>
             {/* Stock */}

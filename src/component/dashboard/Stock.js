@@ -6,7 +6,7 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Title from './Title';
-import TableSkeleton from '../common/TableSkeleton';
+import TableSkeleton from '../common/TableSkeletonDashboard';
 import {url} from '../../globalVariables';
 import Snackbar from '@material-ui/core/Snackbar';
 import Alert from '@material-ui/lab/Alert';

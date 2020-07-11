@@ -33,7 +33,7 @@ import Snackbar from '@material-ui/core/Snackbar';
 import TextField from '@material-ui/core/TextField';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
-
+import TableSkeleton from '../../common/TableSkeleton'
 
 import TableContainer from '@material-ui/core/TableContainer';
 
@@ -360,8 +360,8 @@ export default class Orders extends React.Component {
                     <TableBody>
                         {
                             this.state.isLoading ?
-                                // <TableSkeleton />
-                                <TableRow><TableCell>Loading...</TableCell></TableRow>
+                                <TableSkeleton />
+                                // <TableRow><TableCell>Loading...</TableCell></TableRow>
                                 :
                                 this.state.data.map((row, index) => (<StockRow handleCheckChange={this.handleCheckChange} handleUnCheckChange={this.handleUnCheckChange} key={index} data={row} />))
                         }

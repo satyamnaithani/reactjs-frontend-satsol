@@ -16,6 +16,7 @@ import { saveAs } from 'file-saver';
 import GetAppIcon from '@material-ui/icons/GetApp';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Backdrop from '@material-ui/core/Backdrop';
+import IconButton from '@material-ui/core/IconButton';
 
 export default class Orders extends React.Component {
 
@@ -130,7 +131,7 @@ export default class Orders extends React.Component {
         .then(() => axios.get(url + '/pdf/fetch-pdf', { responseType: 'blob' }))
         .then((res) => {
           const pdfBlob = new Blob([res.data], { type: 'application/pdf' });
-          saveAs(pdfBlob, 'satyam.pdf');
+          saveAs(pdfBlob, invoiceNo+'.pdf');
           this.setState({ isPdfLoading: false, dialogOpen: false, isDownloading: false })
         })
         .catch(err => {
@@ -201,7 +202,7 @@ export default class Orders extends React.Component {
             <TableCell>{row.grandTotal}</TableCell>
             <TableCell>{row.date === null ? '' : row.date.split('T')[0].split('-')[2] + '-' + row.date.split('T')[0].split('-')[1] + '-' + row.date.split('T')[0].split('-')[0]}</TableCell>
             <TableCell>{row.invoiceNo}</TableCell>
-              <TableCell align="center"><GetAppIcon onClick={() => handleDownloadPdf(row)}/>
+              <TableCell align="center"><IconButton size='small'><GetAppIcon onClick={() => handleDownloadPdf(row)}/></IconButton>
               </TableCell>
           </TableRow>
         ))}
