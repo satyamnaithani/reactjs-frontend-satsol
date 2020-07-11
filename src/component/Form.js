@@ -61,13 +61,9 @@ export default function SignIn() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [rememberMe, setRememberMe] = useState(false)
-  const [tokenNo, setTokenNo] = useState('');
-  const [userName, setUserName] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [openSnackBar, setOpenSnackBar] = useState('');
   const [verified, setVeried] = useState(false)
-  console.log(tokenNo)
-  console.log(userName)
   React.useEffect(() => {
     axios({
       method: 'GET',
@@ -93,8 +89,6 @@ export default function SignIn() {
       }
     })
       .then((response) => {
-        setTokenNo(response.data.token);
-        setUserName(response.data.name);
         setIsLoading(false)
         setOpenSnackBar('authenticated');
         localStorage.setItem('token',JSON.stringify({

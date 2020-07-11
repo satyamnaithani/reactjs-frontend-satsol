@@ -11,7 +11,7 @@ import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 
 import axios from 'axios'
-import {url} from '../../../globalVariables'
+import { url } from '../../../globalVariables'
 
 
 
@@ -35,14 +35,15 @@ export default function AddressForm() {
     const [totalCost, setTotalCost] = useState("")
     const [isLoadingItem, setIsLoadingItem] = useState(true)
     const [isLoadingVendor, setIsLoadingVendor] = useState(true)
+    const [loading, setLoading] = useState(false)
 
     useEffect(() => {
         const fetchData = async () => {
             axios({
                 method: 'get',
-                url: url+'/items/all_item',
+                url: url + '/items/all_item',
                 config: { headers: { 'Content-Type': 'application/json' } },
-                headers: {'Authorization': 'Bearer ' + JSON.parse(localStorage.getItem('token')).token},
+                headers: { 'Authorization': 'Bearer ' + JSON.parse(localStorage.getItem('token')).token },
             })
                 .then(result => {
                     setIsLoadingItem(false)
@@ -60,7 +61,7 @@ export default function AddressForm() {
                 method: 'get',
                 url: url + '/vendors/all_vendor',
                 config: { headers: { 'Content-Type': 'application/json' } },
-                headers: {'Authorization': 'Bearer ' + JSON.parse(localStorage.getItem('token')).token},
+                headers: { 'Authorization': 'Bearer ' + JSON.parse(localStorage.getItem('token')).token },
             })
                 .then(result => {
                     setIsLoadingVendor(false)
@@ -84,7 +85,7 @@ export default function AddressForm() {
             method: 'get',
             url: url1,
             config: { headers: { 'Content-Type': 'application/json' } },
-            headers: {'Authorization': 'Bearer ' + JSON.parse(localStorage.getItem('token')).token}
+            headers: { 'Authorization': 'Bearer ' + JSON.parse(localStorage.getItem('token')).token }
         })
             .then(function (response) {
                 setGst(response.data.item[0].gst)
@@ -99,24 +100,12 @@ export default function AddressForm() {
 
     const handleSubmit = (evt) => {
         evt.preventDefault();
-        setItem("");
-        setVendor("");
-        setLotNo("")
-        setBillDate("");
-        setBillNo("")
-        setGst("")
-        setExp("")
-        setPurchaseRate("")
-        setQuantity("");
-        setReceiveDate("");
-        setUom("");
-        setRate("");
-        setTotalCost("")
+        setLoading(true);
         axios({
             method: 'post',
             url: url + '/stock',
             config: { headers: { 'Content-Type': 'application/json' } },
-            headers: {'Authorization': 'Bearer ' + JSON.parse(localStorage.getItem('token')).token},
+            headers: { 'Authorization': 'Bearer ' + JSON.parse(localStorage.getItem('token')).token },
             data: {
                 item: item,
                 lotNo: lotNo,
@@ -131,15 +120,31 @@ export default function AddressForm() {
                 billDate: billDate,
                 uom: uom,
                 hsn: hsn,
-                itemCode: itemCode
+                itemCode: itemCode,
+                addedBy: JSON.parse(localStorage.getItem('token')).name
             }
         })
             .then(function (response) {
                 console.log(response);
+                setLoading(false)
+                setItem("");
+                setVendor("");
+                setLotNo("")
+                setBillDate("");
+                setBillNo("")
+                setGst("")
+                setExp("")
+                setPurchaseRate("")
+                setQuantity("");
+                setReceiveDate("");
+                setUom("");
+                setRate("");
+                setTotalCost("")
                 alert('Item Added to Stock')
             })
             .catch(function (error) {
                 console.log(error);
+                setLoading(false)
                 alert('Error adding item to Stock')
             });
 
@@ -353,7 +358,7 @@ export default function AddressForm() {
                     color="primary"
                     className={classes.submit}
                 >
-                    ADD
+                   {loading?'Processing...': 'ADD'}
           </Button>
             </form>
         </div>

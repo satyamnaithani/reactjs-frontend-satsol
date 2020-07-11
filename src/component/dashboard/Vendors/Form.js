@@ -11,9 +11,7 @@ import {url} from '../../../globalVariables'
 
 export default function AddressForm() {
   const [name, setName] = useState("");
-  const [code, setCode] = useState("");
-  const [address1, setAddress1] = useState("");
-  const [address2, setAddress2] = useState("");
+  const [address, setAddress] = useState("");
   const [city, setCity] = useState("");
   const [state, setState] = useState("");
   const [zip, setZip] = useState("");
@@ -21,11 +19,12 @@ export default function AddressForm() {
   const [dl, setDl] = useState("");
   const [contact, setContact] = useState("");
   const [person, setPerson] = useState("");
+  const [loading, setLoading] = useState(false)
 
 
   const handleSubmit = (evt) => {
+    setLoading(true);
     evt.preventDefault();
-    const address = address1 + " " + address2;
     axios({
       method: 'post',
       url: url+'/vendors/',
@@ -33,7 +32,6 @@ export default function AddressForm() {
       headers: {'Authorization': 'Bearer ' + JSON.parse(localStorage.getItem('token')).token},
       data: {
         name: name,
-        code: code,
         address: address,
         city: city,
         state: state,
@@ -41,28 +39,30 @@ export default function AddressForm() {
         gst: gst,
         dl: dl,
         contact: contact,
-        person: person
+        person: person,
+        addedBy: JSON.parse(localStorage.getItem('token')).name
       }
     })
     .then(function (response) {
       console.log(response);
+      setLoading(false)
       alert('Vendor Added Successfuly')
+      setName("");
+      setAddress("");
+      setCity("");
+      setContact("");
+      setDl("");
+      setPerson("");
+      setZip("");
+      setState("")
+      setGst("");
     })
     .catch(function (error) {
       console.log(error);
+      setLoading(false)
       alert('Error adding Vendor')
     });
-    setName("");
-    setCode("");
-    setAddress1("");
-    setAddress2("");
-    setCity("");
-    setCode("");
-    setContact("");
-    setDl("");
-    setPerson("");
-    setZip("");
-    setState("")
+   
 
 }
   
@@ -74,7 +74,7 @@ export default function AddressForm() {
       </Typography>
       <form className={classes.form} noValidate onSubmit={handleSubmit}>
       <Grid container spacing={3}>
-        <Grid item xs={8}>
+        <Grid item xs={12}>
           <TextField
             required
             id="name"
@@ -86,39 +86,16 @@ export default function AddressForm() {
             onChange={e=> setName(e.target.value)}
           />
         </Grid>
-        <Grid item xs={4} >
+        <Grid item xs={12}>
           <TextField
             required
-            id="code"
-            name="code"
-            label="Vendor Code"
+            id="address"
+            name="address"
+            label="Address line "
             fullWidth
-            autoComplete="Vcode"
-            value={code}
-            onChange={e=> setCode(e.target.value)}
-          />
-        </Grid>
-        <Grid item xs={6}>
-          <TextField
-            required
-            id="address1"
-            name="address1"
-            label="Address line 1"
-            fullWidth
-            autoComplete="billing address-line1"
-            value={address1}
-            onChange={e=> setAddress1(e.target.value)}
-          />
-        </Grid>
-        <Grid item xs={6}>
-          <TextField
-            id="address2"
-            name="address2"
-            label="Address line 2"
-            fullWidth
-            autoComplete="billing address-line2"
-            value={address2}
-            onChange={e=> setAddress2(e.target.value)}
+            autoComplete="billing address-line"
+            value={address}
+            onChange={e=> setAddress(e.target.value)}
           />
         </Grid>
         <Grid item xs={12} sm={4}>
@@ -213,7 +190,7 @@ export default function AddressForm() {
             color="primary"
             className={classes.submit}
           >
-            ADD
+           {loading?'Processing...': 'ADD'}
           </Button>
       </form>
    </div>

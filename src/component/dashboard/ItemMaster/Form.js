@@ -20,17 +20,12 @@ export default function AddressForm() {
   const [hsn, setHsn] = useState("");
   const [gst, setGst] = useState("");
   const [uom, setUom] = useState("");
-  const [itemCode, setItemCode] = useState("");
-
+  const [loading, setLoading] = useState(false)
 
   const handleSubmit = (evt) => {
-    setCategory("");
-    setName("");
-    setHsn("");
-    setGst("")
-    setUom("");
-    setItemCode("");
+    
     evt.preventDefault();
+    setLoading(true);
     axios({
       method: 'post',
       url: url+'/items',
@@ -42,15 +37,21 @@ export default function AddressForm() {
         hsn: hsn,
         gst: gst,
         uom: uom,
-        itemCode: itemCode
+        addedBy: JSON.parse(localStorage.getItem('token')).name
       }
     })
     .then(function (response) {
       console.log(response);
-      //alert('Registered Item')
+      setLoading(false)
+      setCategory("");
+    setName("");
+    setHsn("");
+    setGst("")
+    setUom("");
     })
     .catch(function (error) {
       console.log(error);
+      setLoading(false)
       alert('Error Adding Item')
     });
 
@@ -64,7 +65,7 @@ export default function AddressForm() {
       </Typography>
       <form className={classes.form} noValidate onSubmit={handleSubmit}>
       <Grid container spacing={3}>
-        <Grid item xs={6}>
+        <Grid item xs={12}>
         <FormControl className={classes.formControl}>
         <InputLabel id="category">Category</InputLabel>
         <Select
@@ -78,22 +79,10 @@ export default function AddressForm() {
           <MenuItem value={"Medical Equipment"}>Medical Equipment</MenuItem>
           <MenuItem value={"Spears"}>Spares</MenuItem>
           <MenuItem value={"Consumables"}>Consumables</MenuItem>
-          <MenuItem value={"Office Durables"}>Office Durables</MenuItem>
-          <MenuItem value={"Office Consumables"}>Office Consumables</MenuItem>
+          <MenuItem disabled value={"Office Durables"}>Office Durables</MenuItem>
+          <MenuItem disabled value={"Office Consumables"}>Office Consumables</MenuItem>
         </Select>
       </FormControl>
-        </Grid>
-        <Grid item xs={6}>
-          <TextField
-            required
-            id="itemCode"
-            name="itemCode"
-            label="Item Code"
-            fullWidth
-            autoComplete="ItemCode"
-            value={itemCode}
-            onChange={e=> setItemCode(e.target.value)}
-          />
         </Grid>
         <Grid item xs={12}>
           <TextField
@@ -157,7 +146,7 @@ export default function AddressForm() {
             color="primary"
             className={classes.submit}
           >
-            ADD
+             {loading?'Processing...': 'ADD'}
           </Button>
       </form>
    </div>

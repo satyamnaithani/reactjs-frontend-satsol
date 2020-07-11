@@ -419,7 +419,8 @@ export default class Orders extends React.Component {
                     dispatchThrough: dispatchThrough,
                     destination: destination,
                     termsOfDelivery: termsOfDelivery,
-                    interState: interState
+                    interState: interState,
+                    addedBy: JSON.parse(localStorage.getItem('token')).name
                 }
             })
                 .then(response => {
