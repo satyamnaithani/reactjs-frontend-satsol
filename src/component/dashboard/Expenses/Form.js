@@ -6,19 +6,16 @@ import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import axios from 'axios'
 import {url} from '../../../globalVariables';
-
+import MenuItem from '@material-ui/core/MenuItem';
+import Select from '@material-ui/core/Select';
+import InputLabel from '@material-ui/core/InputLabel';
+import FormControl from '@material-ui/core/FormControl';
 
 
 export default function AddressForm() {
-  const [name, setName] = useState("");
-  const [address, setAddress] = useState("");
-  const [city, setCity] = useState("");
-  const [state, setState] = useState("");
-  const [zip, setZip] = useState("");
-  const [gst, setGst] = useState("");
-  const [dl, setDl] = useState("");
-  const [contact, setContact] = useState("");
-  const [person, setPerson] = useState("");
+  const [type, setType]= useState("");
+  const [amount, setAmount] = useState("")
+  const [description, setDescription] = useState("")
   const [loading, setLoading] = useState(false)
 
   const handleSubmit = (evt) => {
@@ -26,40 +23,28 @@ export default function AddressForm() {
     setLoading(true);
     axios({
       method: 'post',
-      url: url +'/cuomers/',
+      url: url +'/expense',
       config: { headers: { 'Content-Type': 'application/json' } },
       headers: {'Authorization': 'Bearer ' + JSON.parse(localStorage.getItem('token')).token},
       data: {
-        name: name,
-        address: address,
-        city: city,
-        state: state,
-        zip: zip,
-        gst: gst,
-        dl: dl,
-        contact: contact,
-        person: person,
+        type: type,
+        amount: amount,
+        description: description,
         addedBy: JSON.parse(localStorage.getItem('token')).name
       }
     })
     .then(function (response) {
       console.log(response);
       setLoading(false)
-      alert('Customer Added')
-      setName("");
-      setAddress("");
-      setCity("");
-      setContact("");
-      setDl("");
-      setPerson("");
-      setZip("");
-      setState("")
-      setGst("")
+      alert('Expense Added')
+      setAmount("")
+      setDescription("")
+      setType("")
     })
     .catch(function (error) {
       console.log(error);
       setLoading(false)
-      alert('Error adding Customer')
+      alert('Error adding Expense')
     });
    
 
@@ -69,118 +54,51 @@ export default function AddressForm() {
   return (
     <div className={classes.paper}>
       <Typography variant="h6" gutterBottom className={classes.heading}>
-        Expense
+        Expenses
       </Typography>
       <form className={classes.form} noValidate onSubmit={handleSubmit}>
       <Grid container spacing={3}>
         <Grid item xs={12}>
-          <TextField
-            required
-            id="name"
-            name="name"
-            label="Customer Name"
-            fullWidth
-            autoComplete="Cname"
-            value={name}
-            onChange={e=> setName(e.target.value)}
-          />
+        <FormControl className={classes.formControl}>
+        <InputLabel id="type">Type</InputLabel>
+        <Select
+          labelId="type"
+          name="Type"
+          label="Type"
+          id="type"
+          value={type}
+          onChange={e=> setType(e.target.value)} 
+        >
+          <MenuItem value={"Transportation"}>Transportation</MenuItem>
+          <MenuItem value={"Utility"}>Utility</MenuItem>
+          <MenuItem value={"Consumables"}>Consumables</MenuItem>
+        </Select>
+      </FormControl>
         </Grid>
         <Grid item xs={12}>
           <TextField
             required
-            id="address"
-            name="address"
-            label="Address"
+            id="amount"
+            name="amount"
+            label="Amount"
             fullWidth
-            autoComplete="billing address-line1"
-            value={address}
-            onChange={e=> setAddress(e.target.value)}
+            autoComplete="amount"
+            value={amount}
+            onChange={e=> setAmount(e.target.value)}
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <TextField
+            id="description"
+            name="Description"
+            label="Description"
+            fullWidth
+            autoComplete="description"
+            value={description}
+            onChange={e=> setDescription(e.target.value)}
           />
         </Grid>
         
-        <Grid item xs={12} sm={6}>
-          <TextField
-            required
-            id="city"
-            name="city"
-            label="City"
-            fullWidth
-            autoComplete="city"
-            value={city}
-            onChange={e=> setCity(e.target.value)}
-          />
-        </Grid>
-        <Grid item xs={12} sm={6}>
-          <TextField
-            required 
-            id="state" 
-            name="state" 
-            label="State" 
-            fullWidth
-            value={state}
-            onChange={e=> setState(e.target.value)}
-            />
-        </Grid>
-        <Grid item xs={12} sm={6}>
-          <TextField
-            required
-            id="zip"
-            name="zip"
-            label="Zip / Postal code"
-            fullWidth
-            autoComplete="billing postal-code"
-            value={zip}
-            onChange={e=> setZip(e.target.value)}
-          />
-        </Grid>
-        <Grid item xs={12} sm={6}>
-          <TextField
-            required
-            id="gst"
-            name="gst"
-            label="GSTIN"
-            fullWidth
-            autoComplete="GST"
-            value={gst}
-            onChange={e=> setGst(e.target.value)}
-          />
-        </Grid>
-        <Grid item xs={12} sm={6}>
-        <TextField
-            required
-            id="dl"
-            name="dl"
-            label="Drug License"
-            fullWidth
-            autoComplete="dl"
-            value={dl}
-            onChange={e=> setDl(e.target.value)}
-          />
-        </Grid>
-        <Grid item xs={12} sm={6}>
-        <TextField
-            required
-            id="phone"
-            name="phone"
-            label="Contact No."
-            fullWidth
-            autoComplete="contact"
-            value={contact}
-            onChange={e=> setContact(e.target.value)}
-          />
-        </Grid>
-        <Grid item xs={12}>
-        <TextField
-            required
-            id="person"
-            name="person"
-            label="Contact Person"
-            fullWidth
-            autoComplete="person"
-            value={person}
-            onChange={e=> setPerson(e.target.value)}
-          />
-        </Grid>
         
       </Grid>
       <Button
@@ -223,5 +141,8 @@ const useStyles = makeStyles((theme) => ({
   },
   heading: {
     paddingTop: theme.spacing(6)
+  },
+  formControl: {
+    minWidth: 120,
   }
 }));

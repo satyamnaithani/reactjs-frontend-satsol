@@ -1,5 +1,6 @@
-import React, {useEffect, useState} from 'react';
+import React, { useState, useEffect} from 'react';
 import axios from 'axios';
+
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Title from './Title';
@@ -15,36 +16,38 @@ const useStyles = makeStyles({
 
 
 export default function Deposits() {
-  const [data, setData] = useState('');
-  const [loading, setLoading] = useState(true)
-  const classes = useStyles();
+   const [data, setData] = useState('');
+   const [loading, setLoading] = useState(true)
+   const classes = useStyles();
   useEffect(() => {
     axios({
       method: 'GET',
   
-      url: url + '/sales/recent',
+      url: url + '/sales/quarterly',
       headers: {'Authorization': 'Bearer ' + JSON.parse(localStorage.getItem('token')).token}
   })
       .then(response => {
-          setData(response.data[0])
+          setData(response.data)
           setLoading(false)
       })
       .catch(error => console.log(error))
   }, []);
- // console.log(data)
+console.log(data)
   return (
     <React.Fragment>
       
-      <Title>Recent Sale</Title>
+      <Title>Total Quarterly Sales</Title>
       <Typography component="p" variant="h4">
-        {loading?<Skeleton animation="wave" />: '₹'+data.grandTotal}
+        {loading?<Skeleton animation="wave" />: '₹'+ data.total}
       </Typography>
       <Typography color="textSecondary" className={classes.depositContext}>
-        {loading?<Skeleton animation="wave" />:data.date === undefined ?'':'on '+data.date.split('T')[0].split('-')[2]+'/'+data.date.split('T')[0].split('-')[1]+'/'+data.date.split('T')[0].split('-')[0]} 
-        <br/>
-        {loading?<Skeleton animation="wave" />:'to '+data.customerName}
-        <br/>
-        {loading?<Skeleton animation="wave" />:'by '+data.addedBy}
+      {loading?<Skeleton animation="wave" />:'Total Orders: '+ data.count}
+      {/* <br/>
+      {loading?<Skeleton animation="wave" />:'Total Rate: ₹'+ data.rate} */}
+      <br/>
+      {loading?<Skeleton animation="wave" />:'Total GST: ₹'+ data.gst} 
+      <br/>
+      {data.quarterlyMonthStartDate}
       </Typography>
     </React.Fragment>
   );

@@ -83,6 +83,13 @@ export default class Orders extends React.Component {
 
 
   render() {
+    var res = 0;
+    const handleRow=(data)=> {
+      if(data!==undefined|| data!==null){
+      
+      res = res + parseFloat(data) 
+      console.log(res.toFixed(2))}
+    }
     const handleDownloadPdf = (data) => {
       this.setState({isDownloading: true})
       const { orderData,
@@ -185,7 +192,12 @@ export default class Orders extends React.Component {
         :
 
         this.state.data.map((row, index) => (
+         
           <TableRow key={index}>
+             {
+               
+             handleRow(row.grandTotal)
+             }
             <TableCell>{++index}</TableCell>
             <TableCell>{row.customerName}</TableCell>
             <TableCell>

@@ -18,7 +18,8 @@ import Purchase from './Purchase'
 import LastMonthSale from './LastMonthSale'
 import Expenses from './Expenses'
 import Profits from './Profits'
-
+import SalesQuarterly from './SalesQuarterly'
+import ExpensesChart from './ExpensesChart'
 
 function Copyright() {
   return (
@@ -78,10 +79,20 @@ export default function Main() {
             </Grid>
             <Grid item xs={12} md={4} lg={3}>
               <Paper className={fixedHeightPaper}>
-                <Expenses />
+                <SalesQuarterly />
               </Paper>
             </Grid>
             <Grid item xs={12} md={4} lg={3}>
+              <Paper className={fixedHeightPaper}>
+                <ExpensesChart />
+              </Paper>
+            </Grid>
+            <Grid item xs={12} md={6} lg={6}>
+              <Paper className={fixedHeightPaper}>
+                <Expenses />
+              </Paper>
+            </Grid>
+            <Grid item xs={12} md={6} lg={6}>
               <Paper className={fixedHeightPaper}>
                 <Profits />
               </Paper>
