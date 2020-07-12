@@ -32,7 +32,7 @@ export default function SimpleBottomNavigation(props) {
             <BottomNavigationAction label="Dashboard" icon={<Link to='/dashboard' style={{textDecoration: 'none',color: 'inherit'}}><DashboardIcon /></Link>} />
             <BottomNavigationAction label="Stock" icon={<Link to='/stock' style={{textDecoration: 'none',color: 'inherit'}}><StockIcon /></Link>} />
             <BottomNavigationAction label="Sales" icon={<Link to='/sales' style={{textDecoration: 'none',color: 'inherit'}}><ShoppingCartIcon /></Link>} />
-            <BottomNavigationAction label="Expenses" icon={<Link to='/vendors' style={{textDecoration: 'none',color: 'inherit'}}><Expense/></Link>} />
+            <BottomNavigationAction label="Expenses" icon={<Link to='/expenses' style={{textDecoration: 'none',color: 'inherit'}}><Expense/></Link>} />
           
         </BottomNavigation>
     );

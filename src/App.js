@@ -16,6 +16,8 @@ import DashboardM from './component/dashboard/DashboardM';
 import StockM from './component/dashboard/Stock/StockM'
 import SalesM from './component/dashboard/Sales/SalesM'
 import VendorsM from './component/dashboard/Vendors/VendorsM'
+import Expenses from './component/dashboard/Expenses/Expenses'
+import ExpensesM from './component/dashboard/Expenses/ExpensesM'
 export default function App() {
   const matches = useMediaQuery('(min-width:600px)');
 
@@ -42,6 +44,9 @@ export default function App() {
         </Route>
         <Route exact path="/item_master">
           <ItemMaster />
+        </Route>
+        <Route exact path="/expenses">
+        {matches?<Expenses />:<ExpensesM/>}
         </Route>
         <Route path="*">
           <div>Invalid route</div>

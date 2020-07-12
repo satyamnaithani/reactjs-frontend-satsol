@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import axios from 'axios';
+
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Title from './Title';
@@ -22,27 +23,29 @@ export default function Deposits() {
     axios({
       method: 'GET',
   
-      url: url + '/sales/recent',
+      url: url + '/sales/last-month',
       headers: {'Authorization': 'Bearer ' + JSON.parse(localStorage.getItem('token')).token}
   })
       .then(response => {
-          setData(response.data[0])
+          setData(response.data)
           setLoading(false)
       })
       .catch(error => console.log(error))
   }, []);
- // console.log(data)
+// console.log(data)
   return (
     <React.Fragment>
       
-      <Title>Recent Sale</Title>
+      <Title>Last Month Sale</Title>
       <Typography component="p" variant="h4">
-        {loading?<Skeleton animation="wave" />: '₹'+data.grandTotal}
+        {loading?<Skeleton animation="wave" />: '₹'+data.total}
       </Typography>
       <Typography color="textSecondary" className={classes.depositContext}>
-        {loading?<Skeleton animation="wave" />:data.date === undefined ?'':'on '+data.date.split('T')[0].split('-')[2]+'/'+data.date.split('T')[0].split('-')[1]+'/'+data.date.split('T')[0].split('-')[0]} 
+      {loading?<Skeleton animation="wave" />:'Total Monthly Orders: '+data.count}
+      <br/>
+      {loading?<Skeleton animation="wave" />:'Total Monthly Rate: '+data.rate} 
         <br/>
-        {loading?<Skeleton animation="wave" />:'to '+data.customerName}
+        {loading?<Skeleton animation="wave" />:'Total Monthly GST: '+data.gst}
       </Typography>
     </React.Fragment>
   );

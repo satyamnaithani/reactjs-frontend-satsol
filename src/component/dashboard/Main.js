@@ -13,10 +13,105 @@ import Orders from './Orders';
 import Stock from './Stock'
 import Sales from './Sales'
 import Chart from './Chart'
+import SalesChartLastMonth from './SalesChartLastMonth'
+import Purchase from './Purchase'
+import LastMonthSale from './LastMonthSale'
+import Expenses from './Expenses'
+import Profits from './Profits'
 
 
+function Copyright() {
+  return (
+    <Typography variant="body2" color="textSecondary" align="center">
+      {'Copyright © '}
+      <Link color="inherit" href="https://satsolindia.com/">
+        Satvik Solutions
+        </Link>{' '}
+      {new Date().getFullYear()}
+      {'.'}
+    </Typography>
+  );
+}
+
+export default function Main() {
+  const classes = useStyles();
+  const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
+  return (
+    <div className={classes.root}>
+      <main className={classes.content}>
+        <div className={classes.appBarSpacer} />
+        <Container maxWidth="lg" className={classes.container}>
+          <Grid container spacing={3}>
+            {/* Chart */}
+            <Grid item xs={12} md={8} lg={9}>
+              <Paper className={fixedHeightPaper}>
+                <SalesChart />
+              </Paper>
+            </Grid>
+            {/* Recent Deposits */}
+            
+            <Grid item xs={12} md={4} lg={3}>
+              <Paper className={fixedHeightPaper}>
+                <Sales />
+              </Paper>
+            </Grid>
+            <Grid item xs={12} md={8} lg={9}>
+              <Paper className={fixedHeightPaper}>
+                <SalesChartLastMonth />
+              </Paper>
+            </Grid>
+            <Grid item xs={12} md={4} lg={3}>
+              <Paper className={fixedHeightPaper}>
+                <LastMonthSale/>
+              </Paper>
+            </Grid>
+            
+            <Grid item xs={12} md={4} lg={3}>
+              <Paper className={fixedHeightPaper}>
+                <Deposits />
+              </Paper>
+            </Grid>
+            <Grid item xs={12} md={4} lg={3}>
+              <Paper className={fixedHeightPaper}>
+                <Purchase />
+              </Paper>
+            </Grid>
+            <Grid item xs={12} md={4} lg={3}>
+              <Paper className={fixedHeightPaper}>
+                <Expenses />
+              </Paper>
+            </Grid>
+            <Grid item xs={12} md={4} lg={3}>
+              <Paper className={fixedHeightPaper}>
+                <Profits />
+              </Paper>
+            </Grid>
+            <Grid item xs={12}>
+              <Paper className={fixedHeightPaper}>
+                <Chart />
+              </Paper>
+            </Grid>
+            {/* Stock */}
+            <Grid item xs={12}>
+              <Paper className={classes.paper}>
+                <Stock />
+              </Paper>
+            </Grid>
+            <Grid item xs={12}>
+              <Paper className={classes.paper}>
+                <Orders />
+              </Paper>
+            </Grid>
+          </Grid>
+          <Box pt={4}>
+            <Copyright />
+          </Box>
+        </Container>
+      </main>
+    </div>
+  )
+}
 const drawerWidth = 240;
-
 const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
@@ -95,70 +190,3 @@ const useStyles = makeStyles((theme) => ({
     height: 240,
   },
 }));
-
-function Copyright() {
-  return (
-    <Typography variant="body2" color="textSecondary" align="center">
-      {'Copyright © '}
-      <Link color="inherit" href="https://satsolindia.com/">
-        Satvik Solutions
-        </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
-
-export default function Main() {
-  const classes = useStyles();
-  const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
-  return (
-    <div className={classes.root}>
-      <main className={classes.content}>
-        <div className={classes.appBarSpacer} />
-        <Container maxWidth="lg" className={classes.container}>
-          <Grid container spacing={3}>
-            {/* Chart */}
-            <Grid item xs={12} md={8} lg={9}>
-              <Paper className={fixedHeightPaper}>
-                <SalesChart />
-              </Paper>
-            </Grid>
-            {/* Recent Deposits */}
-            <Grid item xs={12} md={4} lg={3}>
-              <Paper className={fixedHeightPaper}>
-                <Deposits />
-              </Paper>
-            </Grid>
-            <Grid item xs={12} md={4} lg={3}>
-              <Paper className={fixedHeightPaper}>
-                <Sales />
-              </Paper>
-            </Grid>
-            <Grid item xs={12} md={8} lg={9}>
-              <Paper className={fixedHeightPaper}>
-                <Chart />
-              </Paper>
-            </Grid>
-            {/* Stock */}
-            <Grid item xs={12}>
-              <Paper className={classes.paper}>
-                <Stock />
-              </Paper>
-            </Grid>
-            {/* Recent Orders */}
-            <Grid item xs={12}>
-              <Paper className={classes.paper}>
-                <Orders />
-              </Paper>
-            </Grid>
-          </Grid>
-          <Box pt={4}>
-            <Copyright />
-          </Box>
-        </Container>
-      </main>
-    </div>
-  )
-}
-

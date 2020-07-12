@@ -15,7 +15,7 @@ export default function Chart() {
     axios({
         method: 'GET',
   
-        url: url + '/sales/sales-chart-current-month',
+        url: url + '/sales/sales-chart-previous-month',
         headers: { 'Authorization': 'Bearer ' + JSON.parse(localStorage.getItem('token')).token }
     })
         .then(response => {
@@ -26,11 +26,10 @@ export default function Chart() {
           setLoading(false)
           console.log(error)})
   }, []);
-  //console.log(JSON.parse(localStorage.getItem('token')).token)
   return (
     
     <React.Fragment>
-      <Title>This Month Sale</Title>
+      <Title>Last Month Sale</Title>
       {loading?<Skeleton variant="rect" width={880} height={500} animation="wave" />:
        <ResponsiveContainer>
          <LineChart
