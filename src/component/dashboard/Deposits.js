@@ -29,7 +29,8 @@ export default function Deposits() {
           setData(response.data[0])
           setLoading(false)
       })
-      .catch(error => console.log(error))
+      .catch(error => {console.log(error)
+      alert(error)})
   }, []);
  // console.log(data)
   return (

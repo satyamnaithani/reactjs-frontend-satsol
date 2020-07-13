@@ -137,7 +137,7 @@ export default function SignIn() {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             id="email"
-            label="Email Address"
+            label="Username"
             name="email"
             autoComplete="email"
             autoFocus
@@ -194,7 +194,7 @@ export default function SignIn() {
       </Snackbar>
       <Snackbar open={openSnackBar==='email_not_exit'} autoHideDuration={3000} onClose={()=> setOpenSnackBar('')} anchorOrigin={{ vertical: 'top', horizontal: 'center' }}>
         <Alert onClose={()=> setOpenSnackBar('')} severity="error">
-          Email Not Exit!
+          Username Not Exist!
   </Alert>
       </Snackbar>
       <Snackbar open={openSnackBar==='incorrect_password'} autoHideDuration={3000} onClose={()=> setOpenSnackBar('')} anchorOrigin={{ vertical: 'top', horizontal: 'center' }}>

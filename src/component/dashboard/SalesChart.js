@@ -24,7 +24,9 @@ export default function Chart() {
         })
         .catch(error => {
           setLoading(false)
-          console.log(error)})
+          console.log(error)
+          alert(error)
+        })
   }, []);
   //console.log(JSON.parse(localStorage.getItem('token')).token)
   return (

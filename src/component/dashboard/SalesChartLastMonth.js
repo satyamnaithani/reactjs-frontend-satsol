@@ -24,6 +24,7 @@ export default function Chart() {
         })
         .catch(error => {
           setLoading(false)
+          alert(error)
           console.log(error)})
   }, []);
   return (
