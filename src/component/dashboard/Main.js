@@ -37,6 +37,7 @@ function Copyright() {
 export default function Main() {
   const classes = useStyles();
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
+  const fixedHeightPaperBarChart = clsx(classes.paper, classes.fixedHeightBarChart);
   return (
     <div className={classes.root}>
       <main className={classes.content}>
@@ -97,15 +98,15 @@ export default function Main() {
                 <Profits />
               </Paper>
             </Grid>
-            <Grid item xs={12}>
-              <Paper className={fixedHeightPaper}>
-                <Chart />
-              </Paper>
-            </Grid>
             {/* Stock */}
             <Grid item xs={12}>
               <Paper className={classes.paper}>
                 <Stock />
+              </Paper>
+            </Grid>
+            <Grid item xs={12}>
+              <Paper className={fixedHeightPaperBarChart}>
+                <Chart />
               </Paper>
             </Grid>
             <Grid item xs={12}>
@@ -200,4 +201,7 @@ const useStyles = makeStyles((theme) => ({
   fixedHeight: {
     height: 240,
   },
+  fixedHeightBarChart: {
+    height: 400,
+  }
 }));
