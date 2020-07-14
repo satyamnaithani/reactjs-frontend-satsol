@@ -1,53 +1,105 @@
-import React, { useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Title from './Title';
-import {url} from '../../globalVariables'
+import { url } from '../../globalVariables'
 import Skeleton from '@material-ui/lab/Skeleton';
-
-
+import MenuItem from '@material-ui/core/MenuItem';
+import Select from '@material-ui/core/Select';
+import InputLabel from '@material-ui/core/InputLabel';
+import FormControl from '@material-ui/core/FormControl';
 const useStyles = makeStyles({
   depositContext: {
     flex: 1,
+  },
+  formControl: {
+    minWidth: 100,
+    textDecoration: 'none'
   },
 });
 
 
 export default function Deposits() {
-   const [data, setData] = useState('');
-   const [loading, setLoading] = useState(true)
-
+  const [data, setData] = useState('');
+  const [loading, setLoading] = useState(true)
+  const [user, setUser] = useState()
   const classes = useStyles();
-  useEffect(() => {
+
+  const fetchAll = () => {
     axios({
       method: 'GET',
-  
+
       url: url + '/expense/total',
-      headers: {'Authorization': 'Bearer ' + JSON.parse(localStorage.getItem('token')).token}
-  })
+      headers: { 'Authorization': 'Bearer ' + JSON.parse(localStorage.getItem('token')).token }
+    })
       .then(response => {
-          setData(response.data)
-          setLoading(false)
+        setData(response.data)
+        setLoading(false)
+      })
+      .catch(error => {
+        setLoading(false)
+        console.log(error)})
+  }
+
+  const fetchUser = (user) => {
+    setLoading(true)
+    if(user === 'all'){
+      fetchAll()
+    }
+    else {
+    axios({
+      method: 'GET',
+
+      url: url + '/expense/total/' + user,
+      headers: { 'Authorization': 'Bearer ' + JSON.parse(localStorage.getItem('token')).token }
+    })
+      .then(response => {
+        setData(response.data)
+        setLoading(false)
       })
       .catch(error => console.log(error))
+    }
+  }
+
+
+  useEffect(() => {
+    fetchAll()
   }, []);
-console.log(data)
   return (
-    <React.Fragment>
-      
-      <Title>Monthly Expenses</Title>
+    <div style={{ overflow: 'hidden' }}>
+      <FormControl style={{ float: 'right', transform: 'translate(-10px, 0px)' }} className={classes.formControl}>
+        <InputLabel id="user">User</InputLabel>
+        <Select
+          labelId="user"
+          name="User"
+          label="User"
+          id="user"
+          value={user}
+          onChange={e => {
+            setUser(e.target.value)
+            fetchUser(e.target.value)
+          }}
+        >
+          <MenuItem value={"all"}>All</MenuItem>
+          <MenuItem value={"Alok Naithani"}>Alok Naithani</MenuItem>
+          <MenuItem value={"Ashish Joshi"}>Ashish Joshi</MenuItem>
+          <MenuItem value={"Satyam Naithani"}>Satyam Naithani</MenuItem>
+        </Select>
+      </FormControl>
+      <Title style={{ float: 'left' }}>Monthly Expenses</Title>
       <Typography component="p" variant="h4">
-        {loading?<Skeleton animation="wave" />: '₹'+ data.total}
+        {loading ? <Skeleton animation="wave" /> : '₹' + data.total}
       </Typography>
       <Typography color="textSecondary" className={classes.depositContext}>
-      {loading?<Skeleton animation="wave" />:'Transportation Expenses: ₹0000'}
-      <br/>
-      {loading?<Skeleton animation="wave" />:'Utitly Expenses: ₹0000'} 
-        <br/>
-        {loading?<Skeleton animation="wave" />:'Consumables Expenses: ₹0000'}
+        {loading ? <Skeleton animation="wave" /> : 'Transportation Expenses: ₹' + data.transportation.sum}
+        <br />
+        {loading ? <Skeleton animation="wave" /> : 'Utitly Expenses: ₹' + data.utility.sum}
+        <br />
+        {loading ? <Skeleton animation="wave" /> : 'Consumables Expenses: ₹' + data.consumables.sum}
       </Typography>
-    </React.Fragment>
+    </div>
   );
 }
+

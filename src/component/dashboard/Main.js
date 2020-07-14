@@ -90,7 +90,7 @@ export default function Main() {
             </Grid>
             <Grid item xs={12} md={6} lg={6}>
               <Paper className={fixedHeightPaper}>
-                <Expenses />
+                <Expenses/>
               </Paper>
             </Grid>
             <Grid item xs={12} md={6} lg={6}>

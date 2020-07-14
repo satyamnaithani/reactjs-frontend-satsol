@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { url } from '../../../globalVariables'
 import CardM from '../../common/CardM'
-import Loader from '../../common/Loader'
+
 
 
 export default function Deposits() {
@@ -26,7 +26,7 @@ export default function Deposits() {
     return (
         <React.Fragment>
             {
-                loading ? <Loader/> : data.map((value, index) => {
+                loading ? <><CardM loading/><CardM loading/><CardM loading/></> : data.map((value, index) => {
                     return (
                         <CardM
                             key={index}
