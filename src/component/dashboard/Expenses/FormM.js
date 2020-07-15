@@ -82,6 +82,7 @@ export default function AddressForm() {
             id="amount"
             name="amount"
             label="Amount"
+            type='Number'
             fullWidth
             autoComplete="amount"
             value={amount}

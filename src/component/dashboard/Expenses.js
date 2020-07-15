@@ -10,6 +10,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
 import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
+import ExpensesDialog from './ExpensesDialog'
 const useStyles = makeStyles({
   depositContext: {
     flex: 1,
@@ -24,7 +25,7 @@ const useStyles = makeStyles({
 export default function Deposits() {
   const [data, setData] = useState('');
   const [loading, setLoading] = useState(true)
-  const [user, setUser] = useState()
+  const [user, setUser] = useState('all')
   const classes = useStyles();
 
   const fetchAll = () => {
@@ -62,6 +63,10 @@ export default function Deposits() {
       .catch(error => console.log(error))
     }
   }
+  // const handleInfo = () => {
+  //  setOpen(true)
+  //  console.log(open)
+  // }
 
 
   useEffect(() => {
@@ -69,7 +74,8 @@ export default function Deposits() {
   }, []);
   return (
     <div style={{ overflow: 'hidden' }}>
-      <FormControl style={{ float: 'right', transform: 'translate(-10px, 0px)' }} className={classes.formControl}>
+      <ExpensesDialog user={user} grandTotal={data.total}/>
+      <FormControl style={{ float: 'right', transform: 'translate(-12px, 0px)' }} className={classes.formControl}>
         <InputLabel id="user">User</InputLabel>
         <Select
           labelId="user"
@@ -99,6 +105,7 @@ export default function Deposits() {
         <br />
         {loading ? <Skeleton animation="wave" /> : 'Consumables Expenses: ₹' + data.consumables.sum}
       </Typography>
+      
     </div>
   );
 }
