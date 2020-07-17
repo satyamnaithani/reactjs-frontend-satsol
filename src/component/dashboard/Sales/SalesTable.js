@@ -6,7 +6,7 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 //import Title from './Title';
-import TableSkeleton from '../../common/TableSkeleton';
+import TableSkeleton from '../../common/TableSkeletonSales';
 import { url } from '../../../globalVariables';
 import Typography from '@material-ui/core/Typography';
 
@@ -17,7 +17,8 @@ import GetAppIcon from '@material-ui/icons/GetApp';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Backdrop from '@material-ui/core/Backdrop';
 import IconButton from '@material-ui/core/IconButton';
-
+import CheckCircleIcon from '@material-ui/icons/CheckCircle';
+import DialogExpenseAdd from './DialogExpenseAdd'
 export default class Orders extends React.Component {
 
   componentDidMount() {
@@ -42,7 +43,7 @@ export default class Orders extends React.Component {
       rowsPerPage: 10,
       totalSalesCount: 0,
       paginationVisible: true,
-      isDownloading: false
+      isDownloading: false,
     }
   }
   dateSelector = (startDate, endDate) => {
@@ -89,6 +90,19 @@ export default class Orders extends React.Component {
       
       res = res + parseFloat(data) 
       console.log(res.toFixed(2))}
+    }
+
+    const updateExpenses = (id, expense) => {
+     // console.log('success' + id)
+      let arr = this.state.data.splice(0)
+     var updatedData = arr.filter((data, index)=> {
+        if(data._id === id){
+          arr[index].expense = expense
+        }
+        return arr
+       
+      })
+      this.setState({data: updatedData})
     }
     const handleDownloadPdf = (data) => {
       this.setState({isDownloading: true})
@@ -146,12 +160,10 @@ export default class Orders extends React.Component {
           console.log(err)
           alert(err)
         })
-
-  
   }
   return(
       <React.Fragment>
-
+       {console.log(this.state.data)}
   <Typography component="h2" variant="h4" color="primary" align='center' gutterBottom>
     Sales
     </Typography><br />
@@ -181,6 +193,7 @@ export default class Orders extends React.Component {
       <TableCell>Grand Total</TableCell>
       <TableCell>Date</TableCell>
       <TableCell>Invoice Number</TableCell>
+      <TableCell>Expense</TableCell>
       <TableCell align="right">Download Pdf</TableCell>
     </TableRow>
   </TableHead>
@@ -214,6 +227,12 @@ export default class Orders extends React.Component {
             <TableCell>{row.grandTotal}</TableCell>
             <TableCell>{row.date === null ? '' : row.date.split('T')[0].split('-')[2] + '-' + row.date.split('T')[0].split('-')[1] + '-' + row.date.split('T')[0].split('-')[0]}</TableCell>
             <TableCell>{row.invoiceNo}</TableCell>
+            <TableCell align="center">{row.expense !== 0?<CheckCircleIcon/>:
+            //  <IconButton size='small'><AddIcon onClick={() => handleAddExpense(row._id)}/>
+            // </IconButton>
+            <DialogExpenseAdd id={row._id} invoiceNo={row.invoiceNo} updateExpenses={updateExpenses} totalSale={row.grandTotal}/>
+            }
+              </TableCell>
               <TableCell align="center"><IconButton size='small'><GetAppIcon onClick={() => handleDownloadPdf(row)}/></IconButton>
               </TableCell>
           </TableRow>

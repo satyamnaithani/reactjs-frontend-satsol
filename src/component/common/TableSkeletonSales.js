@@ -31,6 +31,12 @@ export default function Orders() {
                             <TableCell><Skeleton animation="wave" /></TableCell>
                             <TableCell><Skeleton animation="wave" /></TableCell>
                             <TableCell><Skeleton animation="wave" /></TableCell>
+                            <TableCell><Skeleton animation="wave" /></TableCell>
+                            <TableCell><Skeleton animation="wave" /></TableCell>
+                            <TableCell><Skeleton animation="wave" /></TableCell>
+                            <TableCell><Skeleton animation="wave" /></TableCell>
+                            <TableCell><Skeleton animation="wave" /></TableCell>
+                            <TableCell align="right"><Skeleton animation="wave" /></TableCell>
                         </TableRow>
                     ))}
              

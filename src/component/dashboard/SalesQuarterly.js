@@ -32,7 +32,7 @@ export default function Deposits() {
       })
       .catch(error => console.log(error))
   }, []);
-console.log(data)
+
   return (
     <React.Fragment>
       

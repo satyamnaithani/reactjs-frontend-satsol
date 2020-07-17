@@ -100,7 +100,7 @@ export default function Main() {
             </Grid>
             {/* Stock */}
             <Grid item xs={12}>
-              <Paper className={classes.paper}>
+              <Paper className={classes.paper} style={{overflowY: 'hidden'}}>
                 <Stock />
               </Paper>
             </Grid>

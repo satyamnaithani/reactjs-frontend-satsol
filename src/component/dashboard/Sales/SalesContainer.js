@@ -15,7 +15,8 @@ class OrderList extends Component {
             flexDirection: 'column',
             minHeight: '90vh', 
             minWidth: '80vw',
-            overflowX: "hidden"
+            overflowX: "hidden",
+            overflowY: 'hidden'
           }}>
           {/* <InvoiceList/> */}
           <SalesTable/>

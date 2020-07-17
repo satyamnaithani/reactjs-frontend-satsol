@@ -45,7 +45,7 @@ export default class Orders extends React.Component {
             method: 'GET',
 
             url: url + '/stock',
-            headers: {'Authorization': 'Bearer ' + JSON.parse(localStorage.getItem('token')).token},
+            headers: { 'Authorization': 'Bearer ' + JSON.parse(localStorage.getItem('token')).token },
         })
             .then(response => {
                 this.setState({ data: response.data.items, isLoading: false, open: false })
@@ -82,7 +82,10 @@ export default class Orders extends React.Component {
             dispatchThrough: 'Surface Transport',
             destination: '',
             termsOfDelivery: 'Door',
-            interState: false
+            interState: false,
+            productAddedDialog: false,
+            createdProduct: {},
+            updatedData: []
         }
         this.handleFormSubmit = this.handleFormSubmit.bind(this)
     }
@@ -104,6 +107,7 @@ export default class Orders extends React.Component {
         this.setState({ checkedItem: arr })
     }
     render() {
+        // console.log(this.state.data)
         return (
             <React.Fragment>
                 <Typography align='center' component="h2" variant="h6" color="primary" gutterBottom>
@@ -361,7 +365,6 @@ export default class Orders extends React.Component {
                         {
                             this.state.isLoading ?
                                 <TableSkeleton />
-                                // <TableRow><TableCell>Loading...</TableCell></TableRow>
                                 :
                                 this.state.data.map((row, index) => (<StockRow handleCheckChange={this.handleCheckChange} handleUnCheckChange={this.handleUnCheckChange} key={index} data={row} />))
                         }
@@ -376,6 +379,27 @@ export default class Orders extends React.Component {
                     //autoHideDuration={6000}
                     //onClose={handleClose}
                     message="Pdf Processing..." />
+                <Dialog
+                    open={this.state.productAddedDialog}
+                    onClose={() => { this.setState({ productAddedDialog: false }) }}
+                    aria-labelledby="alert-dialog-title"
+                    aria-describedby="alert-dialog-description"
+                >
+                    <DialogTitle id="alert-dialog-title">{"Stock Released!"}</DialogTitle>
+                    <DialogContent>
+                        <DialogContentText id="alert-dialog-description">
+                            Do you want to download Invoice?
+          </DialogContentText>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={() => { this.setState({ productAddedDialog: false, data: this.state.updatedData }) }} color="primary">
+                            No
+          </Button>
+                        <Button onClick={this.handlePdfDownload} color="primary" autoFocus>
+                            Yes
+          </Button>
+                    </DialogActions>
+                </Dialog>
             </React.Fragment>
         );
 
@@ -396,6 +420,24 @@ export default class Orders extends React.Component {
         window.scrollTo(0, parseInt(scrollY || '0') * -1);
     }
 
+    updateItemData = () => {
+        let arr = this.state.data.splice(0)
+        var updatedData = arr.filter((value, index) => {
+            if (value.data.checkout === 0 || isNaN(value.data.checkout)) {
+                arr[index].data.checkout = 0
+            }
+            else if (value.data.checkout > 0) {
+                arr[index].data.quantity = arr[index].data.quantity - arr[index].data.checkout
+                arr[index].data.checkout = 0;
+            }
+            return arr
+        })
+        this.setState({ updatedData: updatedData })
+
+    }
+
+
+
     async handleFormSubmit() {
         const { dispatchThrough, modeOfPayment, destination, termsOfDelivery, customerName, date, checkedItem, orderNo, challanDate, challanNo, interState } = this.state
         if (customerName === '' || destination === '' || date === '' || checkedItem === [] || dispatchThrough === '' || modeOfPayment === '' || termsOfDelivery === '') {
@@ -407,7 +449,7 @@ export default class Orders extends React.Component {
                 method: 'post',
                 url: url + '/sales',
                 config: { headers: { 'Content-Type': 'application/json' } },
-                headers: {'Authorization': 'Bearer ' + JSON.parse(localStorage.getItem('token')).token},
+                headers: { 'Authorization': 'Bearer ' + JSON.parse(localStorage.getItem('token')).token },
                 data: {
                     customer: customerName,
                     orderData: checkedItem,
@@ -427,53 +469,27 @@ export default class Orders extends React.Component {
                     if (response.data.message === 'Created Product Successfully!') {
                         this.setState({
                             isTransactingOrder: false,
-                            isPdfLoading: true,
-                            checkedItem: []
+                            checkedItem: [],
+                            productAddedDialog: true,
+                            createdProduct: response.data.createdProduct,
+                            dialogOpen: false,
+                            date: '',
+                            challanNo: '',
+                            challanDate: '',
+                            modeOfPayment: 'Against Delivery',
+                            orderNo: '',
+                            dispatchThrough: 'Surface Transport',
+                            destination: '',
+                            termsOfDelivery: 'Door',
+                            interState: false,
+                            customerName: ''
+
                         })
-                        console.log(response.data)
                         const scrollY = document.body.style.top;
                         document.body.style.position = '';
                         document.body.style.top = '';
                         window.scrollTo(0, parseInt(scrollY || '0') * -1);
-
-                        const { orderData,challanNo, date, customer, invoiceNo, challanDate, modeOfPayment, orderNumber, dispatchThrough, destination, termsOfDelivery, interState, grandTotalInWords } = response.data.createdProduct
-                        const arr = orderData
-                        
-                        let arrSize = arr.length
-
-                        if (arr.length < 10) {
-                            for (var i = 0; i < 10 - arrSize; i++) {
-                                arr.push('')
-                            }
-                        }
-                        var dateFormat = date.split('T')[0].split('-')
-                        var dateString = dateFormat[2] + '-' + dateFormat[1] + '-' + dateFormat[0]
-                        if(challanDate!==null){
-                        var ChallanDateFormat = challanDate.split('T')[0].split('-')
-                        var ChallanDateString = ChallanDateFormat[2] + '-' + ChallanDateFormat[1] + '-' + ChallanDateFormat[0]
-                        }
-                        arr[10] = customer
-                        arr[11] = invoiceNo
-                        arr[12]= ChallanDateString 
-                        arr[13] = modeOfPayment
-                        arr[14]= orderNumber 
-                        arr[15]=dispatchThrough
-                        arr[16]= destination
-                        arr[17]=termsOfDelivery
-                        arr[18] = interState
-                        arr[19]= grandTotalInWords
-                        arr[20]= dateString
-                        arr[21] = challanNo
-
-
-                        axios.post(url + '/pdf/create-pdf', arr)
-                            .then(() => axios.get(url + '/pdf/fetch-pdf', { responseType: 'blob' }))
-                            .then((res) => {
-                                const pdfBlob = new Blob([res.data], { type: 'application/pdf' });
-                                saveAs(pdfBlob, 'satyam.pdf');
-                                this.setState({ isPdfLoading: false, dialogOpen: false },()=> window.location.reload(true))
-                            })
-                            .catch(err => console.log(err))
+                        this.updateItemData();
 
                     }
                     else {
@@ -486,11 +502,53 @@ export default class Orders extends React.Component {
                 });
         }
     }
+    handlePdfDownload = () => {
+        this.setState({ data: this.state.updatedData })
+        const { orderData, challanNo, date, customer, invoiceNo, challanDate, modeOfPayment, orderNumber, dispatchThrough, destination, termsOfDelivery, interState, grandTotalInWords } = this.state.createdProduct
+        const arr = orderData
+        this.setState({ isPdfLoading: true, productAddedDialog: false })
+
+        let arrSize = arr.length
+
+        if (arr.length < 10) {
+            for (var i = 0; i < 10 - arrSize; i++) {
+                arr.push('')
+            }
+        }
+        var dateFormat = date.split('T')[0].split('-')
+        var dateString = dateFormat[2] + '-' + dateFormat[1] + '-' + dateFormat[0]
+        if (challanDate !== null) {
+            var ChallanDateFormat = challanDate.split('T')[0].split('-')
+            var ChallanDateString = ChallanDateFormat[2] + '-' + ChallanDateFormat[1] + '-' + ChallanDateFormat[0]
+        }
+        arr[10] = customer
+        arr[11] = invoiceNo
+        arr[12] = ChallanDateString
+        arr[13] = modeOfPayment
+        arr[14] = orderNumber
+        arr[15] = dispatchThrough
+        arr[16] = destination
+        arr[17] = termsOfDelivery
+        arr[18] = interState
+        arr[19] = grandTotalInWords
+        arr[20] = dateString
+        arr[21] = challanNo
+
+
+        axios.post(url + '/pdf/create-pdf', arr)
+            .then(() => axios.get(url + '/pdf/fetch-pdf', { responseType: 'blob' }))
+            .then((res) => {
+                const pdfBlob = new Blob([res.data], { type: 'application/pdf' });
+                saveAs(pdfBlob, invoiceNo + '.pdf');
+                this.setState({ isPdfLoading: false, productAddedDialog: false })
+            })
+            .catch(err => console.log(err))
+    }
     fetchCustomerNames = () => {
         axios({
             method: 'get',
             url: url + "/customers/all",
-            headers: {'Authorization': 'Bearer ' + JSON.parse(localStorage.getItem('token')).token},
+            headers: { 'Authorization': 'Bearer ' + JSON.parse(localStorage.getItem('token')).token },
         })
             .then(result => { this.setState({ customer: result.data.items, isLoadingCustomer: false }) })
             .catch(err => console.log(err))

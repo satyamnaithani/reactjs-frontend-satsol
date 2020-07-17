@@ -16,14 +16,14 @@ import DashboardIcon from '@material-ui/icons/Dashboard';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import PeopleIcon from '@material-ui/icons/People';
 import BarChartIcon from '@material-ui/icons/BarChart';
-import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import IconButton from '@material-ui/core/IconButton';
+// import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
+// import IconButton from '@material-ui/core/IconButton';
 
 const drawerWidth = 240;
 
 export default function Headers(props) {
     const classes = useStyles();
-    const [open, setOpen] = React.useState(true);
+    const [open] = React.useState(true);
 
   
 
@@ -39,9 +39,9 @@ export default function Headers(props) {
         
         <div className={classes.toolbarIcon}>
           <img src={logo} alt="Satvik Solutions" width="220" height="40"/>
-          <IconButton onClick={()=> setOpen(false)}>
+          {/* <IconButton onClick={()=> setOpen(false)}>
             <ChevronLeftIcon />
-          </IconButton>
+          </IconButton> */}
         </div>
         
         <Divider />
