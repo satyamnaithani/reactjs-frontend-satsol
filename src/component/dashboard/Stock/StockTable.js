@@ -28,16 +28,16 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import { saveAs } from 'file-saver';
 
 import Tooltip from '@material-ui/core/Tooltip';
-import GetAppIcon from '@material-ui/icons/GetApp';
 import Snackbar from '@material-ui/core/Snackbar';
 import TextField from '@material-ui/core/TextField';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import TableSkeleton from '../../common/TableSkeleton'
-
+import NoteAddIcon from '@material-ui/icons/NoteAdd';
 import TableContainer from '@material-ui/core/TableContainer';
 
 import Paper from '@material-ui/core/Paper';
+
 
 export default class Orders extends React.Component {
     componentDidMount() {
@@ -117,13 +117,13 @@ export default class Orders extends React.Component {
                             this.state.checkedItem.length === 0 ?
                                 <IconButton disabled aria-label="download">
                                     <Tooltip title="Generate and Download Invoice" aria-label="Download Invoice">
-                                        <GetAppIcon fontSize='large' />
+                                        <NoteAddIcon fontSize='large' />
                                     </Tooltip>
                                 </IconButton>
                                 :
                                 <IconButton color='primary' aria-label="download">
                                     <Tooltip title="Generate and Download Invoice" aria-label="Download Invoice">
-                                        <GetAppIcon fontSize='large' onClick={this.createAndDownloadPdf} />
+                                        <NoteAddIcon fontSize='large' onClick={this.createAndDownloadPdf} />
                                     </Tooltip>
                                 </IconButton>}
                         {/* Dialog Start */}
@@ -400,6 +400,7 @@ export default class Orders extends React.Component {
           </Button>
                     </DialogActions>
                 </Dialog>
+                
             </React.Fragment>
         );
 

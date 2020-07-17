@@ -78,7 +78,7 @@ export default function AlertDialogSlide(props) {
         fullScreen
 
       >
-        <DialogTitle id="alert-dialog-slide-title">{"Expenses Details"}</DialogTitle>
+        <DialogTitle id="alert-dialog-slide-title">{"Monthly Overview"}</DialogTitle>
         <DialogContent className={classes.dialog}>
           <DialogContentText id="alert-dialog-slide-description">
           <TableContainer component={Paper}>
@@ -130,16 +130,17 @@ export default function AlertDialogSlide(props) {
                   <StyledTableCell align="center">Item
                   <TableHead>
                       <TableRow>
-                        <StyledTableCell>Name</StyledTableCell>
-                        <StyledTableCell align="center">gst</StyledTableCell>
-                        <StyledTableCell align="center">Quantity</StyledTableCell>
-                        <StyledTableCell align="center">purchaseRate</StyledTableCell>
-                        <StyledTableCell align="center">sellingRate</StyledTableCell>
-                        <StyledTableCell align="center">netProfit</StyledTableCell>
+                        <StyledTableCell style={{width: '200px'}}>Name</StyledTableCell>
+                        <StyledTableCell style={{width: '100px'}} align="center">gst</StyledTableCell>
+                        <StyledTableCell style={{width: '100px'}}align="center">Quantity</StyledTableCell>
+                        <StyledTableCell style={{width: '100px'}}align="center">purchaseRate</StyledTableCell>
+                        <StyledTableCell style={{width: '100px'}}align="center">sellingRate</StyledTableCell>
+                        <StyledTableCell style={{width: '100px'}}align="center">netProfit</StyledTableCell>
                       </TableRow>
                     </TableHead>
                   </StyledTableCell>
                   <StyledTableCell align="center">Date</StyledTableCell>
+                  <StyledTableCell align="center">Transport Expense</StyledTableCell>
                   <StyledTableCell align="center">Added By</StyledTableCell>
                 </TableRow>
               </TableHead>
@@ -154,20 +155,21 @@ export default function AlertDialogSlide(props) {
                     <StyledTableCell align="center" style={{ minWidth: '120px' }}>
 
 
-                      <TableBody style={{ minWidth: '120px' }}>
+                      <TableBody>
                       {row.itemArr === undefined || row.itemArr === null ? 'Loading...' : row.itemArr.map((row, index) => (
                         <TableRow key={row.index}>
-                          <TableCell padding='100px' component="th" scope="row">{row.item}</TableCell>
-                          <TableCell align="center">{row.gst}</TableCell>
-                          <TableCell align="center">{row.checkoutOuantity}</TableCell>
-                          <TableCell align="center">₹{row.purchaseRate}</TableCell>
-                          <TableCell align="center">₹{row.sellingRate}</TableCell>
-                          <TableCell align="center">₹{row.netProfit}</TableCell>
+                          <TableCell style={{width: '200px'}} component="th" scope="row">{row.item}</TableCell>
+                          <TableCell style={{width: '100px'}}align="center">{row.gst}</TableCell>
+                          <TableCell style={{width: '100px'}}align="center">{row.checkoutOuantity}</TableCell>
+                          <TableCell style={{width: '100px'}} align="center">₹{row.purchaseRate}</TableCell>
+                          <TableCell style={{width: '100px'}}align="center">₹{row.sellingRate}</TableCell>
+                          <TableCell style={{width: '100px'}}align="center">₹{row.netProfit}</TableCell>
                         </TableRow>
                       )
                       )}</TableBody>
                     </StyledTableCell>
                     <StyledTableCell align="center">{row.date.split('T')[0].split('-')[2] + '-' + row.date.split('T')[0].split('-')[1] + '-' + row.date.split('T')[0].split('-')[0]}</StyledTableCell>
+                    <StyledTableCell align="center">{row.expense}</StyledTableCell>
                     <StyledTableCell align="center">{row.addedBy}</StyledTableCell>
                   </StyledTableRow>
                 ))}

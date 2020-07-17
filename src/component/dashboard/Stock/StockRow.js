@@ -6,12 +6,14 @@ import TextField from '@material-ui/core/TextField';
 //import Typography from '@material-ui/core/Typography';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import Button from '@material-ui/core/Button';
-
+import IconButton from '@material-ui/core/IconButton';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import AddCircleIcon from '@material-ui/icons/AddCircle';
+import RemoveCircleIcon from '@material-ui/icons/RemoveCircle';
 class StockRow extends Component {
     constructor(props) {
         super(props);
@@ -97,7 +99,7 @@ class StockRow extends Component {
                     </DialogActions>
                 </Dialog>
                 <TableCell>
-                    {this.state.rowSelected ? <Button onClick={() => {
+                    {this.state.rowSelected ? <IconButton onClick={() => {
                         this.setState({
                             rowSelected: false,
                             quantity: this.state.quantity + parseInt(this.state.checkout),
@@ -107,8 +109,8 @@ class StockRow extends Component {
                             inputErrorPrice: false
                         })
                         this.props.handleUnCheckChange(this.props.data.data)
-                    }}>-</Button> :
-                        <Button onClick={() => { this.setState({ dialogOpen: true }) }}>+</Button>}
+                    }}><RemoveCircleIcon/></IconButton> :
+                        <IconButton onClick={() => { this.setState({ dialogOpen: true }) }}><AddCircleIcon/></IconButton>}
                 </TableCell>
                 <TableCell>{item}</TableCell>
                 <TableCell>{vendor}</TableCell>
