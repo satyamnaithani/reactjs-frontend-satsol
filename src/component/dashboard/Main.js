@@ -68,22 +68,22 @@ export default function Main() {
               </Paper>
             </Grid>
             
-            <Grid item xs={12} md={4} lg={3}>
+            <Grid item xs={12} md={6} lg={3}>
               <Paper className={fixedHeightPaper}>
                 <Deposits />
               </Paper>
             </Grid>
-            <Grid item xs={12} md={4} lg={3}>
+            <Grid item xs={12} md={6} lg={3}>
               <Paper className={fixedHeightPaper}>
                 <Purchase />
               </Paper>
             </Grid>
-            <Grid item xs={12} md={4} lg={3}>
+            <Grid item xs={12} md={6} lg={3}>
               <Paper className={fixedHeightPaper}>
                 <SalesQuarterly />
               </Paper>
             </Grid>
-            <Grid item xs={12} md={4} lg={3}>
+            <Grid item xs={12} md={6} lg={3}>
               <Paper className={fixedHeightPaper}>
                 <ExpensesChart />
               </Paper>
@@ -99,12 +99,12 @@ export default function Main() {
               </Paper>
             </Grid>
             {/* Stock */}
-            <Grid item xs={12}>
+            <Grid item xs={12} md={12} lg={12}>
               <Paper className={classes.paper} style={{overflowY: 'hidden'}}>
                 <Stock />
               </Paper>
             </Grid>
-            <Grid item xs={12}>
+            <Grid item xs={12} md={12} lg={12}>
               <Paper className={fixedHeightPaperBarChart}>
                 <Chart />
               </Paper>
@@ -172,7 +172,7 @@ const useStyles = makeStyles((theme) => ({
     }),
   },
   drawerPaperClose: {
-    overflowX: 'hidden',
+    ///overflowX: 'hidden',
     transition: theme.transitions.create('width', {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
@@ -185,8 +185,8 @@ const useStyles = makeStyles((theme) => ({
   appBarSpacer: theme.mixins.toolbar,
   content: {
     flexGrow: 1,
-    height: '100vh',
-    overflow: 'auto',
+    //height: '100vh',
+    //overflow: 'auto',
   },
   container: {
     paddingTop: theme.spacing(4),

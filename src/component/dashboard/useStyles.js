@@ -6,8 +6,8 @@ const drawerWidth = 240;
  export const useStyles = makeStyles((theme) => ({
     root: {
       display: 'flex',
-      overflowY: 'hidden',
-      overflowX: 'hidden',
+      //overflowY: 'hidden',
+      //overflowX: 'hidden',
       backgroundColor:' #bdd4e7',
       backgroundImage: "linear-gradient(315deg, #bdd4e7 0%, #8693ab 74%);" 
       //background: 'linear-gradient(90deg, rgba(255,255,255,1) 0%, rgba(7,166,185,0.7346288857339811) 84%, rgba(0,212,255,1) 100%);'
