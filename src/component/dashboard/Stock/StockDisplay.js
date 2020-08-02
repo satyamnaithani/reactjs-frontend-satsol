@@ -14,7 +14,7 @@ import SpeedDial from './SpeedDial';
             overflow: 'auto',
             flexDirection: 'column',
             minHeight: '90vh', 
-            minWidth: '80vw'
+           // minWidth: '80vw'
           }}>
           <SpeedDial/>
             <Stock/></Paper>

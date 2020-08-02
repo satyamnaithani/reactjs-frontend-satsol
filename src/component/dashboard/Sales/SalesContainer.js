@@ -14,7 +14,7 @@ class OrderList extends Component {
             overflow: 'auto',
             flexDirection: 'column',
             minHeight: '90vh', 
-            minWidth: '80vw',
+           // minWidth: '80vw',
             overflowX: "hidden",
             overflowY: 'hidden'
           }}>

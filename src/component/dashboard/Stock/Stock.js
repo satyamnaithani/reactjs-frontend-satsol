@@ -11,7 +11,7 @@ export default function Orders() {
   const classes = useStyles();
 
   return (
-    <div className={classes.root} style={{overflowX:"hidden"}}>
+    <div className={classes.root}>
       <CssBaseline />
       <Header/>
       <Drawer/> 
