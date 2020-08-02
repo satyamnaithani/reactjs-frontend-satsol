@@ -92,6 +92,7 @@ export default function Deposits() {
           <MenuItem value={"Alok Naithani"}>Alok Naithani</MenuItem>
           <MenuItem value={"Ashish Joshi"}>Ashish Joshi</MenuItem>
           <MenuItem value={"Satyam Naithani"}>Satyam Naithani</MenuItem>
+          <MenuItem value={"Test"}>Test</MenuItem>
         </Select>
       </FormControl>
       <Title style={{ float: 'left' }}>Monthly Expenses</Title>
