@@ -18,7 +18,6 @@ import SpeedDial from './SpeedDial';
           }}>
           <SpeedDial/>
             <Stock/></Paper>
-            
         </Box>
             
       );

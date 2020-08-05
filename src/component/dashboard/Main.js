@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { lazy, Suspense } from 'react';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
@@ -7,19 +7,22 @@ import Link from '@material-ui/core/Link';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import clsx from 'clsx';
-import SalesChart from './SalesChart';
-import Deposits from './Deposits';
-import Orders from './Orders';
-import Stock from './Stock'
-import Sales from './Sales'
-import Chart from './Chart'
-import SalesChartLastMonth from './SalesChartLastMonth'
-import Purchase from './Purchase'
-import LastMonthSale from './LastMonthSale'
-import Expenses from './Expenses'
-import Profits from './Profits'
-import SalesQuarterly from './SalesQuarterly'
-import ExpensesChart from './ExpensesChart'
+const SalesChart = lazy(()=>import('./SalesChart'))
+const Orders = lazy(()=>import('./Orders'))
+const Stock = lazy(()=>import('./Stock'))
+const Deposits = lazy(()=>import('./Deposits'))
+const Sales = lazy(()=>import('./Sales'))
+const Chart = lazy(()=>import('./Chart'))
+const SalesChartLastMonth = lazy(()=>import('./SalesChartLastMonth'))
+const Purchase = lazy(()=>import('./Purchase'))
+const LastMonthSale = lazy(()=>import('./LastMonthSale'))
+const Expenses = lazy(()=>import('./Expenses'))
+const Profits = lazy(()=>import('./Profits'))
+const SalesQuarterly = lazy(()=>import('./SalesQuarterly'))
+const ExpensesChart = lazy(()=>import('./ExpensesChart'))
+
+
+
 
 function Copyright() {
   return (
@@ -39,6 +42,7 @@ export default function Main() {
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
   const fixedHeightPaperBarChart = clsx(classes.paper, classes.fixedHeightBarChart);
   return (
+    <Suspense fallback={<div/>}>
     <div className={classes.root}>
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
@@ -121,6 +125,7 @@ export default function Main() {
         </Container>
       </main>
     </div>
+    </Suspense>
   )
 }
 const drawerWidth = 240;

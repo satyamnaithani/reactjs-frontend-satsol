@@ -12,7 +12,7 @@ import {url} from '../../globalVariables'
 import axios from 'axios';
 import {Redirect} from 'react-router-dom'
 import CircularProgress from '@material-ui/core/CircularProgress'
-
+import RegisterHeaderItem from './RegisterHeaderItem'
 
 
 export default function Headers() {
@@ -52,12 +52,14 @@ export default function Headers() {
           <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
             Dashboard
           </Typography>
-          {'Welcome ' + JSON.parse(localStorage.getItem('token')).name}
+          <RegisterHeaderItem/>{' '}
           {loading? <CircularProgress color='inherit'/>:
           <IconButton color="inherit"onClick={handleLogout}>
             <Badge badgeContent={'Logout'} style={{color:'#fff'}}>
               <ExitToApp />
+              
             </Badge>
+            
           </IconButton>
           }
         </Toolbar>

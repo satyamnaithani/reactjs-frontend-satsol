@@ -42,8 +42,9 @@ export default function Headers(props) {
           {/* <IconButton onClick={()=> setOpen(false)}>
             <ChevronLeftIcon />
           </IconButton> */}
+          
         </div>
-        
+        <strong className={classes.username}>{JSON.parse(localStorage.getItem('token')).name}</strong>
         <Divider />
         <List className={classes.drawerColor}>
        <NavLink to='/dashboard' style={{textDecoration: 'none', color: 'inherit'}}>
@@ -203,5 +204,10 @@ const useStyles = makeStyles((theme) => ({
     },
     drawerColor: {
       background: '#fff'
+    },
+    username: {
+      textAlign: 'center',
+      letterSpacing: '3px',
+      color: 'blue'
     }
   }));

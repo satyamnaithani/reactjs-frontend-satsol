@@ -7,6 +7,9 @@ import SpeedDialAction from '@material-ui/lab/SpeedDialAction';
 import FileCopyIcon from '@material-ui/icons/FileCopyOutlined';
 
 import RegisterIcon from '@material-ui/icons/Create';
+
+import ItemForm from '../../common/ItemForm'
+import VendorForm from '../../common/VendorForm'
 const useStyles = makeStyles((theme) => ({
   root: {
     height: 380,
@@ -21,16 +24,20 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const actions = [
-  { icon: <FileCopyIcon />, name: 'Stock Entry' },
-  { icon: <RegisterIcon />, name: 'Vendor Entry' },
-  { icon:  <RegisterIcon />, name: 'Customer Entry' },
-  { icon:  <RegisterIcon />, name: 'Item Entry' },
+  { icon: <FileCopyIcon />, name: 'Stock Entry', function: 'stockEntry' },
+  { icon: <RegisterIcon />, name: 'Vendor Entry', function: 'vendorEntry' },
+  { icon:  <RegisterIcon />, name: 'Customer Entry', function: 'customerEntry' },
+  { icon:  <RegisterIcon />, name: 'Item Entry', function: 'itemEntry' },
 ];
+
 
 export default function SpeedDialTooltipOpen() {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
+  const [funcType, setFuncType] = React.useState('');
   const [hidden] = React.useState(false);
+  const [itemFormOpen, setItemFormOpen] = React.useState(false);
+  const [vendorFormOpen, setVendorFormOpen] = React.useState(false);
 
  
 
@@ -41,7 +48,18 @@ export default function SpeedDialTooltipOpen() {
   const handleClose = () => {
     setOpen(false);
   };
-
+  const handleFunction = (value) => {
+    //setOpen(false);
+    setFuncType(value)
+    if(value === 'itemEntry'){
+      setItemFormOpen(true)
+    }
+    if(value === 'vendorEntry'){
+      setVendorFormOpen(true)
+    }
+  };
+  console.log(funcType)
+  
   return (
     <React.Fragment className={classes.root}>
       <Backdrop open={open} />
@@ -60,10 +78,12 @@ export default function SpeedDialTooltipOpen() {
             icon={action.icon}
             tooltipTitle={action.name}
             tooltipOpen
-            onClick={handleClose}
+            onClick={() => handleFunction(action.function)}
           />
         ))}
       </SpeedDial>
+      <ItemForm open={itemFormOpen} closeItemForm={()=>setItemFormOpen(false)}/>
+      <VendorForm open={vendorFormOpen} closeItemForm={()=>setVendorFormOpen(false)}/>
     </React.Fragment>
   );
 }

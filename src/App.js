@@ -1,23 +1,23 @@
 import './App.css';
-import React from 'react';
+import React, { Suspense } from 'react';
 import {
   Switch,
   Route
 } from "react-router-dom";
-import FormLogin from './component/Form'
+import useMediaQuery from '@material-ui/core/useMediaQuery';
 import Dashboard from './component/dashboard/Dashboard'
 import Stock from './component/dashboard/Stock/Stock'
 import Vendors from './component/dashboard/Vendors/Vendors'
 import Customer from './component/dashboard/Customers/Customers'
 import ItemMaster from './component/dashboard/ItemMaster/ItemMaster'
 import Sales from './component/dashboard/Sales/Sales'
-import useMediaQuery from '@material-ui/core/useMediaQuery';
 import DashboardM from './component/dashboard/DashboardM';
 import StockM from './component/dashboard/Stock/StockM'
 import SalesM from './component/dashboard/Sales/SalesM'
 import VendorsM from './component/dashboard/Vendors/VendorsM'
 import Expenses from './component/dashboard/Expenses/Expenses'
 import ExpensesM from './component/dashboard/Expenses/ExpensesM'
+const FormLogin = React.lazy(()=> import('./component/Form'))
 export default function App() {
   const matches = useMediaQuery('(min-width:600px)');
 
@@ -25,7 +25,9 @@ export default function App() {
     <div className='App'>
       <Switch>
         <Route exact path="/">
+          <Suspense fallback='Loading...'>
          <FormLogin /> 
+         </Suspense>
         </Route>
         <Route path="/dashboard">
           {matches?<Dashboard />:<DashboardM/>}

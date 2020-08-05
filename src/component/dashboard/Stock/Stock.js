@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Header from '../Header'
 import Drawer from '../Drawer'
-import StockDisplay from './StockDisplay'
 import {useStyles} from '../useStyles'
+const StockDisplay = React.lazy(()=> import('./StockDisplay'))
 
 
 
@@ -15,7 +15,9 @@ export default function Orders() {
       <CssBaseline />
       <Header/>
       <Drawer/> 
+      <Suspense fallback={<div/>}>
       <StockDisplay/>
+      </Suspense>
     </div>
   );
 }
