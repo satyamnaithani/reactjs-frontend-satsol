@@ -17,6 +17,8 @@ import SalesM from './component/dashboard/Sales/SalesM'
 import VendorsM from './component/dashboard/Vendors/VendorsM'
 import Expenses from './component/dashboard/Expenses/Expenses'
 import ExpensesM from './component/dashboard/Expenses/ExpensesM'
+import CircularProgress  from '@material-ui/core/CircularProgress';
+
 const FormLogin = React.lazy(()=> import('./component/Form'))
 export default function App() {
   const matches = useMediaQuery('(min-width:600px)');
@@ -25,7 +27,7 @@ export default function App() {
     <div className='App'>
       <Switch>
         <Route exact path="/">
-          <Suspense fallback='Loading...'>
+          <Suspense fallback={<CircularProgress />}>
          <FormLogin /> 
          </Suspense>
         </Route>

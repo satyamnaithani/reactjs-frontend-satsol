@@ -187,7 +187,7 @@ export default function AlertDialogSlide(props) {
             onChange={e=> setZip(e.target.value)}
           />
         </Grid>
-        <Grid item xs={12} sm={4}>
+        <Grid item  xs={12} md={12} lg={4}>
           <TextField
             required
             id="gst"
@@ -201,7 +201,7 @@ export default function AlertDialogSlide(props) {
             onChange={e=> setGst(e.target.value)}
           />
         </Grid>
-        <Grid item xs={4} sm={4}>
+        <Grid item xs={12} md={12} lg={4}>
         <TextField
             id="dl"
             name="dl"
@@ -214,7 +214,7 @@ export default function AlertDialogSlide(props) {
             onChange={e=> setDl(e.target.value)}
           />
         </Grid>
-        <Grid item xs={4} sm={4}>
+        <Grid item xs={12} md={12} lg={4}>
         <TextField
             id="phone"
             name="phone"

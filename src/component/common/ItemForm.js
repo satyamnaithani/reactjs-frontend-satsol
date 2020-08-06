@@ -108,12 +108,13 @@ export default function AlertDialogSlide(props) {
       <div className={classes.paper}>
         <form className={classes.form} onSubmit={handleSubmit} >
           <Grid container>
-        <Grid item sx='12' md='112' lg='12'>
+        <Grid item xs='12' md='12' lg='12'>
         <FormControl margin='normal' variant="outlined" fullWidth>
         <InputLabel id="category">Category</InputLabel>
         <Select
           labelId="category"
           name="category"
+          fullWidth
           label="Category"
           id="select-category"
           value={category}

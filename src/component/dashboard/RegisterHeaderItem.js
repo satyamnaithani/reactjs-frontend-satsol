@@ -1,12 +1,16 @@
-import React from 'react';
-import Button from '@material-ui/core/Button';
+import React, {lazy, Suspense } from 'react';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
+import IconButton from '@material-ui/core/IconButton';
+import MoreVertIcon from '@material-ui/icons/MoreVert';
 
-import ItemForm from '../common/ItemForm'
-import VendorForm from '../common/VendorForm'
-import CustomerForm from '../common/CustomerForm'
-import StockForm from '../common/StockForm'
+import Typography from '@material-ui/core/Typography';
+
+const ItemForm = lazy(()=> import('../common/ItemForm'))
+const VendorForm = lazy(()=> import('../common/VendorForm'))
+const CustomerForm = lazy(()=> import('../common/CustomerForm'))
+const StockForm = lazy(()=> import('../common/StockForm'))
+const Logout = lazy(()=>import('../common/LogoutM'))
 
 export default function SimpleMenu() {
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -25,9 +29,15 @@ export default function SimpleMenu() {
 
   return (
     <div>
-      <Button aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick} color='inherit'>
-        Register
-      </Button>
+      <IconButton
+        aria-label="more"
+        aria-controls="long-menu"
+        aria-haspopup="true"
+        onClick={handleClick}
+        color='inherit'
+      >
+        <MoreVertIcon />
+      </IconButton>
       <Menu
         id="simple-menu"
         anchorEl={anchorEl}
@@ -36,6 +46,7 @@ export default function SimpleMenu() {
         open={Boolean(anchorEl)}
         onClose={handleClose}
       >
+        <Typography style={{paddingLeft:'15px'}}><strong>{JSON.parse(localStorage.getItem('token')).name}</strong></Typography>
         <MenuItem onClick={()=> {
           setStockFormOpen(true)
           setAnchorEl(null);
@@ -52,12 +63,17 @@ export default function SimpleMenu() {
           setCustomerFormOpen(true)
           setAnchorEl(null);
         }}>Customer Registration</MenuItem>
+        <Suspense fallback={<div/>}>
+        <Logout/>
+        </Suspense>
+        
       </Menu>
-     
+      <Suspense fallback={<div/>}>
       <ItemForm open={itemFormOpen} closeItemForm={()=>setItemFormOpen(false)}/>
       <VendorForm open={vendorFormOpen} closeItemForm={()=>setVendorFormOpen(false)}/>
       <CustomerForm open={customerFormOpen} closeItemForm={()=>setCustomerFormOpen(false)}/>
       <StockForm open={stockFormOpen} closeItemForm={()=>setStockFormOpen(false)}/>
+      </Suspense>
     </div>
   );
 }

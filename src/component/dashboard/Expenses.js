@@ -63,12 +63,6 @@ export default function Deposits() {
       .catch(error => console.log(error))
     }
   }
-  // const handleInfo = () => {
-  //  setOpen(true)
-  //  console.log(open)
-  // }
-
-
   useEffect(() => {
     fetchAll()
   }, []);
