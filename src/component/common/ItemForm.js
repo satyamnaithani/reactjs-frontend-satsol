@@ -4,8 +4,7 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Slide from '@material-ui/core/Slide';
-import CheckCircleIcon from '@material-ui/icons/CheckCircle';
-import DialogActions from '@material-ui/core/DialogActions';
+
 
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
@@ -21,6 +20,8 @@ import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
+import Snackbar from '@material-ui/core/Snackbar';
+import MuiAlert from '@material-ui/lab/Alert';
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
@@ -44,6 +45,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function AlertDialogSlide(props) {
+  console.log(props)
   const classes = useStyles();
   const [loading, setLoading] = useState(false);
   const [category, setCategory] = useState("");
@@ -52,17 +54,17 @@ export default function AlertDialogSlide(props) {
   const [gst, setGst] = useState("");
   const [uom, setUom] = useState("");
   const [SuccessMessageDialog, setSucessMessageDialog] = useState(false);
-
+  const [edit, setEdit] = useState(false);
   const handleSubmit = (e) => {
     e.preventDefault();
     setLoading(true);
       axios({
-        method: 'post',
-        url: url+'/items',
+        method: edit?'patch':'post',
+        url: edit? url+'/items/' + props.edit._id : url+'/items' ,
         config: { headers: { 'Content-Type': 'application/json' } },
         headers: {'Authorization': 'Bearer ' + JSON.parse(localStorage.getItem('token')).token},
         data: {
-          catogory: category,
+          category: category,
           name: name,
           hsn: hsn,
           gst: gst,
@@ -74,11 +76,11 @@ export default function AlertDialogSlide(props) {
         console.log(response);
         setLoading(false)
         setCategory("");
-      setName("");
-      setHsn("");
-      setGst("")
-      setUom("");
-      setSucessMessageDialog(true);
+        setName("");
+        setHsn("");
+        setGst("")
+        setUom("");
+        setSucessMessageDialog(true);
       })
       .catch(function (error) {
         console.log(error);
@@ -90,6 +92,17 @@ export default function AlertDialogSlide(props) {
   const handleClose = () => {
     props.closeItemForm();
   };
+  React.useEffect(()=> {
+    if(props.edit !== undefined){
+      const {name, catogory, hsn, gst, uom} = props.edit
+        setCategory(catogory);
+        setName(name);
+        setHsn(hsn);
+        setGst(gst)
+        setUom(uom);
+        setEdit(true)
+    }
+  },[props.edit])
 
   return (
     <div>
@@ -101,7 +114,7 @@ export default function AlertDialogSlide(props) {
         aria-labelledby="alert-dialog-slide-title"
         aria-describedby="alert-dialog-slide-description"
       >
-        <DialogTitle className={classes.title} id="alert-dialog-slide-title">Item Entry</DialogTitle>
+        <DialogTitle className={classes.title} id="alert-dialog-slide-title">{edit?'Item Update':'Item Entry'}</DialogTitle>
         <DialogContent>
           <Container component="main" maxWidth="xs">
       <CssBaseline />
@@ -201,7 +214,7 @@ export default function AlertDialogSlide(props) {
             color="primary"
             className={classes.submit}
           >{
-              loading ? <CircularProgress size='1.5rem' color='inherit' /> : 'Add'
+              loading ? <CircularProgress size='1.5rem' color='inherit' /> : edit?'UPDATE': 'Add'
             }
           </Button>
           <Button
@@ -215,42 +228,20 @@ export default function AlertDialogSlide(props) {
          </Grid>
           </Grid>
         </form>
+          <Snackbar open={SuccessMessageDialog} autoHideDuration={3000} onClose={()=> {
+          setSucessMessageDialog(false)
+          if(edit) {
+          props.closeItemForm()
+        }
+          }} anchorOrigin={{ vertical: 'top', horizontal: 'center' }}>
+        <MuiAlert elevation={6} variant="filled" onClose={()=> setSucessMessageDialog(false)} severity="success">
+        {edit?'Item Updated': 'Item Added'}
+        </MuiAlert>
+    </Snackbar>
       </div>
-      
     </Container>
         </DialogContent>  
       </Dialog>
-
-      {/* SuccessMessageDialog */}
-      
-      <Dialog
-        open={SuccessMessageDialog}
-        keepMounted
-        onClose={()=> setSucessMessageDialog(false)}>
-          <DialogTitle>
-            
-            <CheckCircleIcon 
-            fontSize='inherit'
-            htmlColor='green'
-            />
-            {' '}
-            Item Added
-          </DialogTitle>
-          <DialogActions>
-          <Button onClick={()=> {
-            setSucessMessageDialog(false)
-          }} color="primary">
-            Add More
-          </Button>
-          <Button onClick={()=>{
-            setSucessMessageDialog(false)
-            handleClose()
-          }} color="primary">
-            Finish
-          </Button>
-        </DialogActions>
-
-    </Dialog>
     </div>
   );
 }

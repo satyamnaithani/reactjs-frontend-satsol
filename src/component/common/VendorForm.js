@@ -4,9 +4,8 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Slide from '@material-ui/core/Slide';
-import CheckCircleIcon from '@material-ui/icons/CheckCircle';
-import DialogActions from '@material-ui/core/DialogActions';
-
+import Snackbar from '@material-ui/core/Snackbar';
+import MuiAlert from '@material-ui/lab/Alert';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
 
@@ -17,6 +16,7 @@ import Container from '@material-ui/core/Container';
 import { url } from '../../globalVariables';
 import axios from 'axios';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import PropTypes from 'prop-types';
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
@@ -39,7 +39,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export default function AlertDialogSlide(props) {
+export default function CustomerDialog(props) {
   const classes = useStyles();
   const [loading, setLoading] = useState(false);
   const [name, setName] = useState("");
@@ -52,47 +52,50 @@ export default function AlertDialogSlide(props) {
   const [contact, setContact] = useState("");
   const [person, setPerson] = useState("");
   const [SuccessMessageDialog, setSucessMessageDialog] = useState(false);
+  const [edit, setEdit] = useState(false);
+
 
   const handleSubmit = (e) => {
     e.preventDefault();
     setLoading(true);
+    
     axios({
-      method: 'post',
-      url: url+'/vendors/',
-      config: { headers: { 'Content-Type': 'application/json' } },
-      headers: {'Authorization': 'Bearer ' + JSON.parse(localStorage.getItem('token')).token},
-      data: {
-        name: name,
-        address: address,
-        city: city,
-        state: state,
-        zip: zip,
-        gst: gst,
-        dl: dl,
-        contact: contact,
-        person: person,
-        addedBy: JSON.parse(localStorage.getItem('token')).name
-      }
-    })
-    .then(function (response) {
-      console.log(response);
-      setLoading(false)
-      setName("");
-      setAddress("");
-      setCity("");
-      setContact("");
-      setDl("");
-      setPerson("");
-      setZip("");
-      setState("")
-      setGst("");
-      setSucessMessageDialog(true)
-    })
-    .catch(function (error) {
-      console.log(error);
-      setLoading(false)
-      alert('Error adding Vendor')
-    });
+        method: edit?'patch':'post',
+        url:  edit? url + '/vendors/' + props.edit._id :url + '/vendors/',
+        config: { headers: { 'Content-Type': 'application/json' } },
+        headers: {'Authorization': 'Bearer ' + JSON.parse(localStorage.getItem('token')).token},
+        data: {
+          name: name,
+          address: address,
+          city: city,
+          state: state,
+          zip: zip,
+          gst: gst,
+          dl: dl,
+          contact: contact,
+          person: person,
+          addedBy: JSON.parse(localStorage.getItem('token')).name
+        }
+      })
+      .then(function (response) {
+        console.log(response);
+        setLoading(false)
+        setName("");
+        setAddress("");
+        setCity("");
+        setContact("");
+        setDl("");
+        setPerson("");
+        setZip("");
+        setState("")
+        setGst("")
+        setSucessMessageDialog(true)
+      })
+      .catch(function (error) {
+        console.log(error);
+        setLoading(false)
+        alert('Error adding Customer')
+      });
    
 
   }
@@ -100,7 +103,22 @@ export default function AlertDialogSlide(props) {
   const handleClose = () => {
     props.closeItemForm();
   };
-
+  React.useEffect(()=> {
+    if(props.edit !== undefined){
+      console.log(props.edit)
+      const {name, address, city, contact, dl, zip, state, gst, person} = props.edit
+        setName(name);
+        setAddress(address);
+        setCity(city);
+        setContact(contact);
+        setDl(dl);
+        setPerson(person);
+        setZip(zip);
+        setState(state)
+        setGst(gst)
+        setEdit(true)
+    }
+  },[props.edit])
   return (
     <div>
       <Dialog
@@ -111,7 +129,7 @@ export default function AlertDialogSlide(props) {
         aria-labelledby="alert-dialog-slide-title"
         aria-describedby="alert-dialog-slide-description"
       >
-        <DialogTitle className={classes.title} id="alert-dialog-slide-title">Vendor Registration</DialogTitle>
+        <DialogTitle className={classes.title} id="alert-dialog-slide-title">{edit?'Vendor Update':'Vendor Registration'}</DialogTitle>
         <DialogContent>
           <Container component="main" maxWidth="xs">
       <CssBaseline />
@@ -123,11 +141,11 @@ export default function AlertDialogSlide(props) {
             required
             id="name"
             name="name"
-            label="Vendor Name"
+            label="Customer Name"
             margin='normal'
             variant='outlined'
             fullWidth
-            autoComplete="Vname"
+            autoComplete="Cname"
             value={name}
             onChange={e=> setName(e.target.value)}
           />
@@ -146,7 +164,7 @@ export default function AlertDialogSlide(props) {
             onChange={e=> setAddress(e.target.value)}
           />
         </Grid>
-        <Grid item xs={12} sm={4}>
+        <Grid item xs={12} md={12} lg={4}>
           <TextField
             required
             id="city"
@@ -160,7 +178,7 @@ export default function AlertDialogSlide(props) {
             onChange={e=> setCity(e.target.value)}
           />
         </Grid>
-        <Grid item xs={12} sm={4}>
+        <Grid item xs={12} md={12} lg={4}>
           <TextField
             required 
             id="state" 
@@ -173,7 +191,7 @@ export default function AlertDialogSlide(props) {
             onChange={e=> setState(e.target.value)}
             />
         </Grid>
-        <Grid item xs={12} sm={4}>
+        <Grid item xs={12} md={12} lg={4}>
           <TextField
             required
             id="zip"
@@ -187,7 +205,7 @@ export default function AlertDialogSlide(props) {
             onChange={e=> setZip(e.target.value)}
           />
         </Grid>
-        <Grid item xs={12} sm={4}>
+        <Grid item  xs={12} md={12} lg={4}>
           <TextField
             required
             id="gst"
@@ -201,9 +219,8 @@ export default function AlertDialogSlide(props) {
             onChange={e=> setGst(e.target.value)}
           />
         </Grid>
-        <Grid item xs={4} sm={4}>
+        <Grid item xs={12} md={12} lg={4}>
         <TextField
-            required
             id="dl"
             name="dl"
             label="Drug License"
@@ -215,9 +232,8 @@ export default function AlertDialogSlide(props) {
             onChange={e=> setDl(e.target.value)}
           />
         </Grid>
-        <Grid item xs={4} sm={4}>
+        <Grid item xs={12} md={12} lg={4}>
         <TextField
-            required
             id="phone"
             name="phone"
             label="Contact No."
@@ -231,7 +247,6 @@ export default function AlertDialogSlide(props) {
         </Grid>
         <Grid item xs={12}>
         <TextField
-            required
             id="person"
             name="person"
             label="Contact Person"
@@ -249,7 +264,7 @@ export default function AlertDialogSlide(props) {
             color="primary"
             className={classes.submit}
           >{
-              loading ? <CircularProgress size='1.5rem' color='inherit' /> : 'Add'
+              loading ? <CircularProgress size='1.5rem' color='inherit' /> : edit?'UPDATE':'ADD'
             }
           </Button>
           <Button
@@ -263,44 +278,30 @@ export default function AlertDialogSlide(props) {
          </Grid>
           </Grid>
         </form>
+          <Snackbar open={SuccessMessageDialog} autoHideDuration={3000} onClose={()=> setSucessMessageDialog(false)} anchorOrigin={{ vertical: 'top', horizontal: 'center' }}>
+        <MuiAlert elevation={6} variant="filled" onClose={()=>{
+           if(edit) {
+          props.closeItemForm()
+        }
+         setSucessMessageDialog(false)
+        }} severity="success">
+         {edit?'Vendor Updated':'Vendor Added'}
+        </MuiAlert>
+    </Snackbar>
       </div>
       
     </Container>
         </DialogContent>  
       </Dialog>
-
-      {/* SuccessMessageDialog */}
-      
-      <Dialog
-        open={SuccessMessageDialog}
-        keepMounted
-        onClose={()=> setSucessMessageDialog(false)}>
-          <DialogTitle>
-            
-            <CheckCircleIcon 
-            fontSize='inherit'
-            htmlColor='green'
-            />
-            {' '}
-            Vendor Added
-          </DialogTitle>
-          <DialogActions>
-          <Button onClick={()=> {
-            setSucessMessageDialog(false)
-          }} color="primary">
-            Add More
-          </Button>
-          <Button onClick={()=>{
-            setSucessMessageDialog(false)
-            handleClose()
-          }} color="primary">
-            Finish
-          </Button>
-        </DialogActions>
-
-    </Dialog>
     </div>
   );
 }
+
+
+CustomerDialog.propTypes = {
+  open: PropTypes.bool,
+  closeItemForm: PropTypes.func,
+  edit: PropTypes.any
+};
 
 

@@ -15,7 +15,6 @@ export default function Invoice() {
       <CssBaseline />
       <Header/>
       <Drawer/>
-
       <Suspense fallback={'Loading...'}>
       <SalesContainer/>
       </Suspense>

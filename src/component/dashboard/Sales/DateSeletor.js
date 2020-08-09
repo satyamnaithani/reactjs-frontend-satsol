@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
-import { Button } from '@material-ui/core';
+import  Button  from '@material-ui/core/Button';
+import IconButton from '@material-ui/core/IconButton'
+import ResetIcon from '@material-ui/icons/RotateLeft';
 export default function DateSelector(props) {
 
     const [selectedDateStart, setSelectedDateStart] = useState('');
@@ -49,6 +51,15 @@ export default function DateSelector(props) {
             </Grid>
             <Grid item>
              <Button size="large" variant="contained" color="primary" onClick={handleSubmit}>Search</Button>
+            </Grid>
+            <Grid item>
+            <IconButton>
+            <ResetIcon onClick={()=>{
+                setSelectedDateStart('')
+                setSelectedDateEnd('')
+                props.handleReset()}
+                } />
+            </IconButton>
             </Grid>
         </Grid>
   );

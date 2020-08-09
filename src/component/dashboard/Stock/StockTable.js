@@ -7,8 +7,8 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Typography from '@material-ui/core/Typography';
 import { url } from '../../../globalVariables'
-import IconButton from '@material-ui/core/IconButton';
-
+import Fab from '@material-ui/core/Fab';
+import AddIcon from '@material-ui/icons/Add';
 //Dialog
 import CheckedItemTable from './CheckedItemTable'
 import Grid from '@material-ui/core/Grid';
@@ -33,7 +33,6 @@ import TextField from '@material-ui/core/TextField';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import TableSkeleton from '../../common/TableSkeleton'
-import NoteAddIcon from '@material-ui/icons/NoteAdd';
 import TableContainer from '@material-ui/core/TableContainer';
 
 import Paper from '@material-ui/core/Paper';
@@ -110,23 +109,9 @@ export default class Orders extends React.Component {
         // console.log(this.state.data)
         return (
             <React.Fragment>
-                <Typography align='center' component="h2" variant="h6" color="primary" gutterBottom>
-                    Available Stock
-                    <div style={{ float: "right", marginRight: '20px', marginTop: '8px' }}>
-                        {
-                            this.state.checkedItem.length === 0 ?
-                                <IconButton disabled aria-label="download">
-                                    <Tooltip title="Generate and Download Invoice" aria-label="Download Invoice">
-                                        <NoteAddIcon fontSize='large' />
-                                    </Tooltip>
-                                </IconButton>
-                                :
-                                <IconButton color='primary' aria-label="download">
-                                    <Tooltip title="Generate and Download Invoice" aria-label="Download Invoice">
-                                        <NoteAddIcon fontSize='large' onClick={this.createAndDownloadPdf} />
-                                    </Tooltip>
-                                </IconButton>}
-                        {/* Dialog Start */}
+            <Typography component="h2" variant="h4" color="primary" align='center' gutterBottom>
+    Available Stock
+    </Typography>
                         <Dialog
                             open={this.state.dialogOpen}
                             onClose={this.handleClose}
@@ -342,12 +327,7 @@ export default class Orders extends React.Component {
                             </div>
                         </Dialog>
                         {/* Dialog Closed */}
-
-
-                    </div>
-
-                </Typography>
-                <Table size="small">
+                <Table size="small" style={{minWidth:'80vw'}}>
                     <TableHead>
                         <TableRow>
                             <TableCell>Select</TableCell>
@@ -400,6 +380,28 @@ export default class Orders extends React.Component {
           </Button>
                     </DialogActions>
                 </Dialog>
+         <Tooltip title={this.state.checkedItem.length === 0 ? 
+         'Select atleast one item to continue':
+         'Add Further details'
+         }>
+                <Fab 
+                color="primary" 
+                aria-label="add" 
+                disabled={this.state.checkedItem.length === 0 ? true: false} 
+                onClick={this.createAndDownloadPdf}
+                style={{
+                    margin: 0,
+                    top: 'auto',
+                    right: '40%',
+                    bottom: 20,
+                    left: 'auto',
+                    position: 'fixed',
+                }}>
+    
+        <AddIcon/>
+        
+      </Fab>
+      </Tooltip>
                 
             </React.Fragment>
         );

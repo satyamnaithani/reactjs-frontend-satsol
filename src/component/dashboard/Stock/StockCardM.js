@@ -21,7 +21,7 @@ export default function Deposits() {
             })
             .catch(error => console.log(error))
     }, []);
-    console.log(data)
+    //console.log(data)
     //const date = data.date === undefined ?'':data.date.split('T')[0].split('-')[2]+'/'+data.date.split('T')[0].split('-')[1]+'/'+data.date.split('T')[0].split('-')[0]
     return (
         <React.Fragment>

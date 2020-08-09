@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { lazy,Suspense } from 'react';
 import DrawerM from './DrawerM'
 import AppBarM from '../common/AppBarM'
-import MonthlySaleM from './MonthlySaleM'
-import DepositsM from './DepositsM'
+
+const MonthlySaleM = lazy(()=> import('./MonthlySaleM'))
+const DepositsM = lazy(()=> import('./DepositsM'))
 export default function DashboardM() {
   
 
@@ -10,8 +11,10 @@ export default function DashboardM() {
     <>
     <AppBarM/>
     {/* <p>Dashboard</p> */}
+    <Suspense fallback={<div/>}>
     <DepositsM/>
     <MonthlySaleM/>
+    </Suspense>
     <DrawerM value={0}/>
     </>
   );

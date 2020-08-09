@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import Paper from '@material-ui/core/Paper';
 import Box from '@material-ui/core/Box';
-//import InvoiceList from './InvoiceList'
-import SalesTable from './SalesTable'
+import Table from './Table'
 
 class OrderList extends Component {
 
@@ -14,12 +13,11 @@ class OrderList extends Component {
             overflow: 'auto',
             flexDirection: 'column',
             minHeight: '90vh', 
-           // minWidth: '80vw',
-            overflowX: "hidden",
+            //minWidth: '80vh',
+            //overflowX: "hidden",
             overflowY: 'hidden'
           }}>
-          {/* <InvoiceList/> */}
-          <SalesTable/>
+            <Table/>
         </Paper>
       </Box>
     );

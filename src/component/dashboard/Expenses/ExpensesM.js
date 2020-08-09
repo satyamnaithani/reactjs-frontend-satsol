@@ -1,15 +1,14 @@
-import React from 'react';
+import React, { lazy,Suspense } from 'react';
 import DrawerM from '../DrawerM'
-
 import AppBarM from '../../common/AppBarM'
-import Form from './FormM';
+const Form = lazy(()=>import('./FormM'))
 export default function ExpensesM() {
-  
-
   return (
     <>
     <AppBarM/>
+    <Suspense fallback={<div/>}>
     <Form/>
+    </Suspense>
     <br/>
     <br/>
     <DrawerM value={3}/>

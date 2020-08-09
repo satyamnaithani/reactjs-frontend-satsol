@@ -190,7 +190,7 @@ export default function SignIn() {
       <Snackbar open={openSnackBar==='authenticated'} autoHideDuration={3000} onClose={()=> setOpenSnackBar('')} anchorOrigin={{ vertical: 'top', horizontal: 'center' }}>
         <Alert onClose={()=> setOpenSnackBar('')} severity="success">
           Authenticated!
-  </Alert>
+        </Alert>
       </Snackbar>
       <Snackbar open={openSnackBar==='email_not_exit'} autoHideDuration={3000} onClose={()=> setOpenSnackBar('')} anchorOrigin={{ vertical: 'top', horizontal: 'center' }}>
         <Alert onClose={()=> setOpenSnackBar('')} severity="error">

@@ -1,14 +1,14 @@
 import React from 'react';
 import Box from '@material-ui/core/Box';
-import Stock from './StockTable';
+import StockTable from './StockTable';
 import Paper from '@material-ui/core/Paper';
-import SpeedDial from './SpeedDial';
+
   
   
   export default class StockDisplay extends React.Component {
     render() {
       return (
-        <Box color="text.primary" mt={10} ml={3} mr={3} style={{minHeight: '100vh'}}>
+        <Box color="text.primary" mt={10} ml={3} mr={3} mb={5}>
           <Paper style={{
             display: 'flex',
             overflow: 'auto',
@@ -16,8 +16,7 @@ import SpeedDial from './SpeedDial';
             minHeight: '90vh', 
            // minWidth: '80vw'
           }}>
-          <SpeedDial/>
-            <Stock/></Paper>
+            <StockTable/></Paper>
         </Box>
             
       );

@@ -54,10 +54,12 @@ class StockRow extends Component {
                     aria-describedby="alert-dialog-description"
                 >
                     <DialogTitle id="alert-dialog-title">{"CheckOut Details"}</DialogTitle>
+                    
                     <DialogContent>
                         <DialogContentText id="alert-dialog-description">
                            {item}
-          </DialogContentText>
+                        </DialogContentText>
+                        <form onSubmit={this.handleDialog}>
                         <TextField
                             id={_id}
                             type='number'
@@ -88,15 +90,17 @@ class StockRow extends Component {
                             error={this.state.inputErrorPrice}
                             required
                         />
-                    </DialogContent>
-                    <DialogActions>
-                        <Button onClick={this.handleDialogClose} color="primary">
+                        <DialogActions>
+                         <Button onClick={this.handleDialogClose} color="secondary">
                             Cancel
-          </Button>
-                        <Button onClick={this.handleDialog} color="primary" autoFocus>
+                        </Button>
+                        <Button type='submit' color="primary" autoFocus>
                             Done
-          </Button>
+                        </Button>
                     </DialogActions>
+                       
+                        </form>
+                    </DialogContent> 
                 </Dialog>
                 <TableCell>
                     {this.state.rowSelected ? <IconButton onClick={() => {
@@ -143,7 +147,8 @@ class StockRow extends Component {
             this.setState({ inputErrorPrice: false })
         }
     }
-    handleDialog = () => {
+    handleDialog = (e) => {
+        e.preventDefault()
         if (this.state.inputErrorQuantity) {
             alert('Quantity Not Available')
         } else {

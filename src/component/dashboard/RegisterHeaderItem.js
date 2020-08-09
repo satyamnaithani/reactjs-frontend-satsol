@@ -6,6 +6,7 @@ import MoreVertIcon from '@material-ui/icons/MoreVert';
 
 import Typography from '@material-ui/core/Typography';
 
+const ExpenseForm = lazy(()=> import('../common/ExpenseForm'))
 const ItemForm = lazy(()=> import('../common/ItemForm'))
 const VendorForm = lazy(()=> import('../common/VendorForm'))
 const CustomerForm = lazy(()=> import('../common/CustomerForm'))
@@ -18,6 +19,7 @@ export default function SimpleMenu() {
   const [vendorFormOpen, setVendorFormOpen] = React.useState(false);
   const [customerFormOpen, setCustomerFormOpen] = React.useState(false);
   const [stockFormOpen, setStockFormOpen] = React.useState(false);
+  const [expenseFormOpen, setExpenseFormOpen] = React.useState(false);
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -48,6 +50,10 @@ export default function SimpleMenu() {
       >
         <Typography style={{paddingLeft:'15px'}}><strong>{JSON.parse(localStorage.getItem('token')).name}</strong></Typography>
         <MenuItem onClick={()=> {
+          setExpenseFormOpen(true)
+          setAnchorEl(null);
+        }}>Add Personal Expense</MenuItem>
+        <MenuItem onClick={()=> {
           setStockFormOpen(true)
           setAnchorEl(null);
         }}>Stock Entry</MenuItem>
@@ -73,6 +79,7 @@ export default function SimpleMenu() {
       <VendorForm open={vendorFormOpen} closeItemForm={()=>setVendorFormOpen(false)}/>
       <CustomerForm open={customerFormOpen} closeItemForm={()=>setCustomerFormOpen(false)}/>
       <StockForm open={stockFormOpen} closeItemForm={()=>setStockFormOpen(false)}/>
+      <ExpenseForm  open={expenseFormOpen} closeItemForm={()=>setExpenseFormOpen(false)}/>
       </Suspense>
     </div>
   );

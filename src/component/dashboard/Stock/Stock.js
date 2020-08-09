@@ -11,7 +11,7 @@ export default function Orders() {
   const classes = useStyles();
 
   return (
-    <div className={classes.root}>
+    <div className={classes.root}  style={{minHeight: '100vh'}}>
       <CssBaseline />
       <Header/>
       <Drawer/> 
