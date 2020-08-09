@@ -206,11 +206,11 @@ const handleSubmit = (evt) => {
               <form className={classes.form} onSubmit={handleSubmit} >
                 <Grid container spacing={1}>
                   <Grid item xs={12} md={12} lg={6}>
-                    <FormControl className={classes.formControl}>
+                    <FormControl fullWidth>
                       <InputLabel id="item">Item</InputLabel>
                       <Select
                         labelId="item"
-                        className={classes.select}
+                        fullWidth
                         name="Item"
                         label="Item"
                         id="item"
@@ -315,14 +315,14 @@ const handleSubmit = (evt) => {
                         />
                   </Grid>
                   <Grid item xs={12} md={12} lg={6}>
-                  <FormControl className={classes.formControl}>
+                  <FormControl fullWidth>
                             <InputLabel id="vendor">Vendor</InputLabel>
                             <Select
                                 labelId="vendor"
                                 name="Vendor"
-                                className={classes.select}
                                 variant='outlined'
                                 label="vendor"
+                                fullWidth
                                 id="vendor"
                                 value={vendor}
                                 onChange={e => setVendor(e.target.value)}
@@ -357,9 +357,10 @@ const handleSubmit = (evt) => {
                     <Grid item xs={12} md={12} lg={6}>
                         <TextField
                             id="receive_date"
-                           // label="Receive Date"
+                            label="Receive Date"
                             variant='outlined'
                             type="date"
+                            fullWidth
                             className={classes.textField}
                             InputLabelProps={{
                                 shrink: true,
@@ -376,7 +377,6 @@ const handleSubmit = (evt) => {
                         <TextField
                             id="billDate"
                             name="billDate"
-                           // label="Bill Date"
                             variant='outlined'
                             type="date"
                             InputLabelProps={{

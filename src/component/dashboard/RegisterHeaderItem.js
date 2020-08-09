@@ -69,7 +69,7 @@ export default function SimpleMenu() {
           setCustomerFormOpen(true)
           setAnchorEl(null);
         }}>Customer Registration</MenuItem>
-        <Suspense fallback={<div/>}>
+        <Suspense fallback={'Loading...'}>
         <Logout/>
         </Suspense>
         
