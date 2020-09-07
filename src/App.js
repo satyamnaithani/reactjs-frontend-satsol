@@ -1,5 +1,7 @@
 import './App.css';
-import React, { Suspense } from 'react';
+import React, {
+  Suspense
+} from 'react';
 import {
   Switch,
   Route
@@ -16,44 +18,64 @@ import DashboardM from './component/dashboard/DashboardM';
 import StockM from './component/dashboard/Stock/StockM'
 import SalesM from './component/dashboard/Sales/SalesM'
 import ExpensesM from './component/dashboard/Expenses/ExpensesM'
-const FormLogin = React.lazy(()=> import('./component/Form'))
+const FormLogin = React.lazy(() => import('./component/Form'))
 
 export default function App() {
+
   const matches = useMediaQuery('(min-width:600px)');
 
-  return (
-    <div className='App'>
-      <Switch>
-        <Route exact path="/">
-          <Suspense fallback={<div/>}>
-         <FormLogin /> 
-         </Suspense>
-        </Route>
-        <Route path="/dashboard">
-          {matches?<Dashboard />:<DashboardM/>}
-        </Route>
-        <Route exact path="/stock">
-          {matches?<Stock />:<StockM/>}
-        </Route>
-        <Route exact path="/sales">
-          {matches?<Sales />:<SalesM/>}
-        </Route>
-        <Route exact path="/vendors">
-          <Vendors />
-        </Route>
-        <Route exact path="/customers">
-          <Customer />
-        </Route>
-        <Route exact path="/item_master">
-          <ItemMaster />
-        </Route>
-        <Route exact path="/expenses">
-        {matches?<Expenses />:<ExpensesM/>}
-        </Route>
-        <Route path="*">
-          <div>Invalid route</div>
-        </Route>
-      </Switch>
-    </div>
+  return ( <
+    div className = 'App' >
+    <
+    Switch >
+    <
+    Route exact path = "/" >
+    <
+    Suspense fallback = {
+      <
+      div / >
+    } >
+    <
+    FormLogin / >
+    <
+    /Suspense> < /
+    Route > <
+    Route path = "/dashboard" > {
+      matches ? < Dashboard / > : < DashboardM / >
+    } <
+    /Route> <
+    Route exact path = "/stock" > {
+      matches ? < Stock / > : < StockM / >
+    } <
+    /Route> <
+    Route exact path = "/sales" > {
+      matches ? < Sales / > : < SalesM / >
+    } <
+    /Route> <
+    Route exact path = "/vendors" >
+    <
+    Vendors / >
+    <
+    /Route> <
+    Route exact path = "/customers" >
+    <
+    Customer / >
+    <
+    /Route> <
+    Route exact path = "/item_master" >
+    <
+    ItemMaster / >
+    <
+    /Route> <
+    Route exact path = "/expenses" > {
+      matches ? < Expenses / > : < ExpensesM / >
+    } <
+    /Route> <
+    Route path = "*" >
+    <
+    div > Invalid route < /div> < /
+    Route > <
+    /Switch> < /
+    div >
   );
 }

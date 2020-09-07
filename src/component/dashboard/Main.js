@@ -51,71 +51,96 @@ export default function Main() {
             {/* Chart */}
             <Grid item xs={12} md={8} lg={9}>
               <Paper className={fixedHeightPaper}>
+              <Suspense fallback={<div style={{minWidth: '80vh'}}/>}>
                 <SalesChart />
+                </Suspense>
               </Paper>
             </Grid>
             {/* Recent Deposits */}
             
             <Grid item xs={12} md={4} lg={3}>
               <Paper className={fixedHeightPaper}>
+              <Suspense fallback={<div/>}>
                 <Sales />
+                </Suspense>
               </Paper>
             </Grid>
             <Grid item xs={12} md={8} lg={9}>
               <Paper className={fixedHeightPaper}>
+              <Suspense fallback={<div/>}>
                 <SalesChartLastMonth />
+                </Suspense>
               </Paper>
             </Grid>
             <Grid item xs={12} md={4} lg={3}>
               <Paper className={fixedHeightPaper}>
+              <Suspense fallback={<div/>}>
                 <LastMonthSale/>
+                </Suspense>
               </Paper>
             </Grid>
-            
             <Grid item xs={12} md={6} lg={3}>
               <Paper className={fixedHeightPaper}>
+              <Suspense fallback={<div/>}>
                 <Deposits />
+                </Suspense>
               </Paper>
             </Grid>
             <Grid item xs={12} md={6} lg={3}>
               <Paper className={fixedHeightPaper}>
+              <Suspense fallback={<div/>}>
                 <Purchase />
+              </Suspense>
               </Paper>
             </Grid>
             <Grid item xs={12} md={6} lg={3}>
               <Paper className={fixedHeightPaper}>
+              <Suspense fallback={<div/>}>
                 <SalesQuarterly />
+              </Suspense>
               </Paper>
             </Grid>
             <Grid item xs={12} md={6} lg={3}>
               <Paper className={fixedHeightPaper}>
+              <Suspense fallback={<div/>}>
                 <ExpensesChart />
+              </Suspense>
               </Paper>
             </Grid>
             <Grid item xs={12} md={6} lg={6}>
               <Paper className={fixedHeightPaper}>
+              <Suspense fallback={<div/>}>
                 <Expenses/>
+                </Suspense>
               </Paper>
             </Grid>
             <Grid item xs={12} md={6} lg={6}>
               <Paper className={fixedHeightPaper}>
+              <Suspense fallback={<div/>}>
                 <Profits />
+              </Suspense>
               </Paper>
             </Grid>
             {/* Stock */}
             <Grid item xs={12} md={12} lg={12}>
               <Paper className={classes.paper} style={{overflowY: 'hidden'}}>
+              <Suspense fallback={<div/>}>
                 <Stock />
+              </Suspense>
               </Paper>
             </Grid>
             <Grid item xs={12} md={12} lg={12}>
               <Paper className={fixedHeightPaperBarChart}>
+              <Suspense fallback={<div/>}>
                 <Chart />
+              </Suspense>
               </Paper>
             </Grid>
             <Grid item xs={12}>
               <Paper className={classes.paper}>
+              <Suspense fallback={<div/>}>
                 <Orders />
+              </Suspense>
               </Paper>
             </Grid>
           </Grid>

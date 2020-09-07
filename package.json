@@ -13,6 +13,7 @@
     "@testing-library/user-event": "^7.1.2",
     "axios": "^0.19.2",
     "clsx": "^1.1.0",
+    "cors": "^2.8.5",
     "file-saver": "^2.0.2",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
@@ -50,5 +51,6 @@
   "devDependencies": {
     "css-loader": "^3.5.2",
     "style-loader": "^1.1.4"
-  }
+  },
+  "proxy": "http://localhost:3008"
 }
