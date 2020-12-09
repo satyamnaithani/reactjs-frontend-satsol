@@ -65,7 +65,7 @@ export default function AlertDialogSlide(props) {
           "Bearer " + JSON.parse(localStorage.getItem("token")).token,
       },
       data: {
-        category: category,
+        catogory: category,
         name: name,
         hsn: hsn,
         gst: gst,
