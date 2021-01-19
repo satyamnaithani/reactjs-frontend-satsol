@@ -38,14 +38,14 @@ export default function Deposits() {
       
       <Title>Recent Sale</Title>
       <Typography component="p" variant="h4">
-        {loading?<Skeleton animation="wave" />: '₹'+data.grandTotal}
+        {loading?<Skeleton animation="wave" />: '₹'+data.grandTotal == undefined ? 0 : data.grandTotal}
       </Typography>
       <Typography color="textSecondary" className={classes.depositContext}>
-        {loading?<Skeleton animation="wave" />:data.date === undefined ?'':'on '+data.date.split('T')[0].split('-')[2]+'/'+data.date.split('T')[0].split('-')[1]+'/'+data.date.split('T')[0].split('-')[0]} 
+        {loading?<Skeleton animation="wave" />:data.date === undefined ? '' :'on '+data.date.split('T')[0].split('-')[2]+'/'+data.date.split('T')[0].split('-')[1]+'/'+data.date.split('T')[0].split('-')[0]} 
         <br/>
-        {loading?<Skeleton animation="wave" />:'to '+data.customerName}
+        {loading?<Skeleton animation="wave" />:'to '+data.customerName == undefined ? '' : data.customerName}
         <br/>
-        {loading?<Skeleton animation="wave" />:'by '+data.addedBy}
+        {loading?<Skeleton animation="wave" />:'by '+data.addedBy == undefined ? '' : data.addedBy}
       </Typography>
     </React.Fragment>
   );
