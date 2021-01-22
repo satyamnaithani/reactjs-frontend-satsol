@@ -67,7 +67,7 @@ export default class Orders extends React.Component {
               <TableCell>{row.data.vendor}</TableCell>
               <TableCell>{row.data.rate}</TableCell>
               <TableCell>{row.data.gst}</TableCell>
-              <TableCell>{row.data.purchaseRate}</TableCell>
+              <TableCell>{row.data.purchaseRate === null ?'':row.data.purchaseRate.toFixed(2)}</TableCell>
               <TableCell>{row.data.exp === null ?'': row.data.exp.split('T')[0].split('-')[2]+'-'+row.data.exp.split('T')[0].split('-')[1]+'-'+row.data.exp.split('T')[0].split('-')[0]}</TableCell>
               <TableCell>{row.data.uom}</TableCell>
               <TableCell align="right">{row.data.quantity}</TableCell>

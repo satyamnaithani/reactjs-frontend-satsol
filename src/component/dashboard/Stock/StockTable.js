@@ -387,6 +387,11 @@ export default class Orders extends React.Component {
           </div>
         </Dialog>
         {/* Dialog Closed */}
+        {/* <TextField id="outlined-basic" placeholder="Search" onChange={event => {
+          let arr = [];
+          arr = this.state.data.filter(data => data.data.item.toUpperCase().includes(event.target.value.toUpperCase()))
+          this.setState({data: arr})
+        } } variant="outlined" /> */}
         <Table size="small" style={{ minWidth: "80vw" }}>
           <TableHead>
             <TableRow>

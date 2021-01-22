@@ -120,7 +120,7 @@ class StockRow extends Component {
                 <TableCell>{vendor}</TableCell>
                 <TableCell>{rate}</TableCell>
                 <TableCell>{gst}</TableCell>
-                <TableCell>{purchaseRate}</TableCell>
+                <TableCell>{purchaseRate == null ? '' : purchaseRate.toFixed(2)}</TableCell>
                 <TableCell>{exp}</TableCell>
                 <TableCell>{uom}</TableCell>
                 <TableCell>{this.state.quantity}{'/'}{initialQuantity}{' '}<br />{this.state.checkout}</TableCell>
