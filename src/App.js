@@ -75,7 +75,8 @@ export default function App() {
     <
     div > Invalid route < /div> < /
     Route > <
-    /Switch> < /
+    /Switch> 
+    < /
     div >
   );
 }

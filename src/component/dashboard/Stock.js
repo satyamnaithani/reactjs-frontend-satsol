@@ -40,7 +40,6 @@ export default class Orders extends React.Component {
   
   
   render() {
-    
   return (
     <React.Fragment>
       <Title>Available Stock</Title>
