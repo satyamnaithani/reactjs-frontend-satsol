@@ -37,7 +37,7 @@ export default function Deposits() {
     <React.Fragment>
       
       <Title>Recent Sale</Title>
-      {/* <Typography component="p" variant="h4">
+      <Typography component="p" variant="h4">
         {loading?<Skeleton animation="wave" />: '₹'+ data.grandTotal}
       </Typography>
       <Typography color="textSecondary" className={classes.depositContext}>
@@ -46,7 +46,7 @@ export default function Deposits() {
         {loading?<Skeleton animation="wave" />:'to '+ data.customerName}
         <br/>
         {loading?<Skeleton animation="wave" />:'by '+ data.addedBy}
-      </Typography> */}
+      </Typography>
     </React.Fragment>
   );
 }
