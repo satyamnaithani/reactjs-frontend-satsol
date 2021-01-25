@@ -49,6 +49,7 @@ export default class Orders extends React.Component {
       },
     })
       .then((response) => {
+        console.log(response.data.items)
         this.setState({
           data: response.data.items,
           isLoading: false,

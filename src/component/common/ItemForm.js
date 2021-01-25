@@ -139,7 +139,7 @@ export default function AlertDialogSlide(props) {
                         <MenuItem value={"Medical Equipment"}>
                           Medical Equipment
                         </MenuItem>
-                        <MenuItem value={"Spears"}>Spares</MenuItem>
+                        <MenuItem value={"Spares"}>Spares</MenuItem>
                         <MenuItem value={"Consumables"}>Consumables</MenuItem>
                         <MenuItem value={"Service"}>Service</MenuItem>
                         <MenuItem value={"Office Durables"}>
