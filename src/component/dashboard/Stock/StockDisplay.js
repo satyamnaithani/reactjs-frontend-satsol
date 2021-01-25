@@ -11,10 +11,8 @@ import Paper from '@material-ui/core/Paper';
         <Box color="text.primary" mt={10} ml={3} mr={3} mb={5}>
           <Paper style={{
             display: 'flex',
-            overflow: 'auto',
             flexDirection: 'column',
             minHeight: '90vh', 
-           // minWidth: '80vw'
           }}>
             <StockTable/></Paper>
         </Box>

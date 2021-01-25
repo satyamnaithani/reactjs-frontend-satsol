@@ -3,8 +3,6 @@ import axios from 'axios';
 import { url } from '../../../globalVariables'
 import CardM from '../../common/CardM'
 
-
-
 export default function Deposits() {
     const [data, setData] = useState('');
     const [loading, setLoading] = useState(true)
@@ -21,8 +19,6 @@ export default function Deposits() {
             })
             .catch(error => console.log(error))
     }, []);
-    //console.log(data)
-    //const date = data.date === undefined ?'':data.date.split('T')[0].split('-')[2]+'/'+data.date.split('T')[0].split('-')[1]+'/'+data.date.split('T')[0].split('-')[0]
     return (
         <React.Fragment>
             {
