@@ -24,7 +24,7 @@ const StyledTableRow = withStyles((theme) => ({
 
 export default function CustomizedTables(props) {
   
-  const { gst, sellingRate, checkout, uom, itemCode, _id, item} = props.item
+  const { gst, sellingRate, checkout, uom, itemCode, _id, item, lotNo, hsn} = props.item
   let {exp} = props.item
   var totalAmount = (sellingRate + sellingRate * (gst / 100))
   if(exp !== null){
@@ -37,10 +37,12 @@ export default function CustomizedTables(props) {
       <StyledTableCell component="th" scope="row">
         {item}
       </StyledTableCell>
-      <StyledTableCell align="right">{checkout} {' '} {uom}</StyledTableCell>
-      <StyledTableCell align="right">{exp}</StyledTableCell>
-      <StyledTableCell align="right">{sellingRate}</StyledTableCell>
-      <StyledTableCell align="right">{gst}</StyledTableCell>
+      <StyledTableCell>{checkout} {' '} {uom}</StyledTableCell>
+      <StyledTableCell>{exp}</StyledTableCell>
+      <StyledTableCell>{sellingRate}</StyledTableCell>
+      <StyledTableCell>{gst}</StyledTableCell>
+      <StyledTableCell>{lotNo}</StyledTableCell>
+      <StyledTableCell>{hsn}</StyledTableCell>
       <StyledTableCell align="right">{grandTotal}</StyledTableCell>
     </StyledTableRow>
   );

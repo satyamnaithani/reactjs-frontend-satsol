@@ -346,17 +346,23 @@ export default class Orders extends React.Component {
                           <TableCell style={{ color: "white" }}>
                             Product Name
                           </TableCell>
-                          <TableCell style={{ color: "white" }} align="right">
+                          <TableCell style={{ color: "white" }}>
                             CheckOut Quantity
                           </TableCell>
-                          <TableCell style={{ color: "white" }} align="right">
+                          <TableCell style={{ color: "white" }}>
                             Exp
                           </TableCell>
-                          <TableCell style={{ color: "white" }} align="right">
+                          <TableCell style={{ color: "white" }}>
                             Amount
                           </TableCell>
-                          <TableCell style={{ color: "white" }} align="right">
+                          <TableCell style={{ color: "white" }}>
                             Gst%
+                          </TableCell>
+                          <TableCell style={{ color: "white" }}>
+                            Lot No.
+                          </TableCell>
+                          <TableCell style={{ color: "white" }}>
+                            HSN
                           </TableCell>
                           <TableCell style={{ color: "white" }} align="right">
                             Total Amount
