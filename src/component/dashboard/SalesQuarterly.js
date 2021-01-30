@@ -1,6 +1,5 @@
 import React, { useState, useEffect} from 'react';
 import axios from 'axios';
-
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Title from './Title';
@@ -13,7 +12,6 @@ const useStyles = makeStyles({
     flex: 1,
   },
 });
-
 
 export default function Deposits() {
    const [data, setData] = useState('');
@@ -35,15 +33,13 @@ export default function Deposits() {
 
   return (
     <React.Fragment>
-      
-      <Title>Total Quarterly Sales</Title>
+      <Title>Total Annual Sales</Title>
       <Typography component="p" variant="h4">
         {loading?<Skeleton animation="wave" />: '₹'+ data.total}
+        <p style={{fontSize: '12px'}}>{ data.grandTotalInWords !== undefined ? data.grandTotalInWords.split('And')[0] : '' }</p>
       </Typography>
       <Typography color="textSecondary" className={classes.depositContext}>
       {loading?<Skeleton animation="wave" />:'Total Orders: '+ data.count}
-      {/* <br/>
-      {loading?<Skeleton animation="wave" />:'Total Rate: ₹'+ data.rate} */}
       <br/>
       {loading?<Skeleton animation="wave" />:'Total GST: ₹'+ data.gst} 
       <br/>

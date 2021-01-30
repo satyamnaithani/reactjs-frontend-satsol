@@ -28,6 +28,7 @@ export default function Deposits() {
   })
       .then(response => {
           setData(response.data)
+          console.log(response)
           setLoading(false)
       })
       .catch(error => console.log(error))
@@ -35,16 +36,17 @@ export default function Deposits() {
 // console.log(data)
   return (
     <React.Fragment>
-      <Title>Total Quarterly Purchase</Title>
+      <Title>Total Annual Purchase</Title>
       <Typography component="p" variant="h4">
         {loading?<Skeleton animation="wave" />: '₹'+data.total}
+        <p style={{fontSize: '12px'}}>{ data.grandTotalInWords !== undefined ? data.grandTotalInWords.split('And')[0] : '' }</p>
       </Typography>
       <Typography color="textSecondary" className={classes.depositContext}>
-      {loading?<Skeleton animation="wave" />:'Total Orders: '+data.count}
-      <br/>
-      {loading?<Skeleton animation="wave" />:'Total Rate: '+data.rate} 
+      {loading?<Skeleton animation="wave" />:'Total Purchase: '+data.count}
         <br/>
         {loading?<Skeleton animation="wave" />:'Total GST: '+data.gst}
+        <br/>
+      {data.quarterlyMonthStartDate}
       </Typography>
     </React.Fragment>
   );
