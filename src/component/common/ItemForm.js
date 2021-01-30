@@ -129,6 +129,7 @@ export default function AlertDialogSlide(props) {
                       <InputLabel id="category">Category</InputLabel>
                       <Select
                         labelId="category"
+                        disabled={edit}
                         name="category"
                         fullWidth
                         label="Category"
