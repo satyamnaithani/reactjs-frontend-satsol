@@ -128,6 +128,7 @@ export default function AlertDialogSlide(props) {
                     <FormControl margin="normal" variant="outlined" fullWidth>
                       <InputLabel id="category">Category</InputLabel>
                       <Select
+                        required
                         labelId="category"
                         disabled={edit}
                         name="category"

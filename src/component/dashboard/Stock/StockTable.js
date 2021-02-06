@@ -408,8 +408,7 @@ export default class Orders extends React.Component {
               <TableCell>Purchase Rate</TableCell>
               <TableCell>GST%</TableCell>
               <TableCell>Product Amount</TableCell>
-              <TableCell>Lot Exp.</TableCell>
-              <TableCell>UOM</TableCell>
+              <TableCell>Lot No.</TableCell>
               <TableCell>Quantity</TableCell>
             </TableRow>
           </TableHead>

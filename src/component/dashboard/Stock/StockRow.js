@@ -33,7 +33,8 @@ class StockRow extends Component {
 
     }
     render() {
-        const { item, vendor, rate, gst, purchaseRate, uom, initialQuantity, _id } = this.props.data.data;
+        const { item, vendor, lotNo, rate, gst, purchaseRate, uom, initialQuantity, _id } = this.props.data.data;
+        console.log(this.props)
         let {exp} = this.props.data.data;
         this.props.data.data['checkout'] = parseInt(this.state.checkout)
         this.props.data.data['sellingRate'] = parseFloat(this.state.sellingRate)
@@ -117,9 +118,8 @@ class StockRow extends Component {
                 <TableCell>{rate}</TableCell>
                 <TableCell>{gst}</TableCell>
                 <TableCell>{purchaseRate == null ? '' : purchaseRate.toFixed(2)}</TableCell>
-                <TableCell>{exp}</TableCell>
-                <TableCell>{uom}</TableCell>
-                <TableCell>{this.state.quantity}{'/'}{initialQuantity}{' '}<br />{this.state.checkout}</TableCell>
+                <TableCell>{lotNo}</TableCell>
+                <TableCell>{this.state.quantity}{'/'}{initialQuantity}{' '}<br />{this.state.checkout}{''}</TableCell>
             </TableRow>
         );
     }
