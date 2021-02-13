@@ -315,7 +315,7 @@ export default function AlertDialogSlide(props) {
                       autoComplete="GST"
                       value={gst}
                       onChange={(e) => {
-                        setGst(e.target.value);
+                        setGst(parseInt(e.target.value));
                         setPurchaseRate(
                           parseInt(rate) * (1 + parseInt(e.target.value) / 100)
                         );
