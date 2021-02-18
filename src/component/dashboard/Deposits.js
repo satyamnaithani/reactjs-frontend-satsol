@@ -6,13 +6,11 @@ import Title from './Title';
 import {url} from '../../globalVariables'
 import Skeleton from '@material-ui/lab/Skeleton';
 
-
 const useStyles = makeStyles({
   depositContext: {
     flex: 1,
   },
 });
-
 
 export default function Deposits() {
   const [grandTotal, setGrandTotal] = useState('');
@@ -22,12 +20,12 @@ export default function Deposits() {
   const [loading, setLoading] = useState(true)
   const classes = useStyles();
   useEffect(() => {
-    axios({
-      method: 'GET',
-  
-      url: url + '/sales/recent',
-      headers: {'Authorization': 'Bearer ' + JSON.parse(localStorage.getItem('token')).token}
-  })
+        axios({
+          method: 'GET',
+      
+          url: url + '/sales/recent',
+          headers: {'Authorization': 'Bearer ' + JSON.parse(localStorage.getItem('token')).token}
+      })
       .then(response => {
         if(response.data.length > 0) {
           let {grandTotal, date, customerName, addedBy } = response.data[0];
@@ -43,7 +41,6 @@ export default function Deposits() {
   }, []);
   return (
     <React.Fragment>
-      
       <Title>Recent Sale</Title>
       <Typography component="p" variant="h4">
         {loading?<Skeleton animation="wave" />: '₹'+ grandTotal}
