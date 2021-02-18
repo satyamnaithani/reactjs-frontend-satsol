@@ -15,7 +15,10 @@ const useStyles = makeStyles({
 
 
 export default function Deposits() {
-  const [data, setData] = useState('');
+  const [grandTotal, setGrandTotal] = useState('');
+  const [date, setDate] = useState('');
+  const [customerName, setCustomerName] = useState('');
+  const [addedBy, setAddedBy] = useState('');
   const [loading, setLoading] = useState(true)
   const classes = useStyles();
   useEffect(() => {
@@ -26,26 +29,31 @@ export default function Deposits() {
       headers: {'Authorization': 'Bearer ' + JSON.parse(localStorage.getItem('token')).token}
   })
       .then(response => {
-          setData(response.data[0])
-          setLoading(false)
+        if(response.data.length > 0) {
+          let {grandTotal, date, customerName, addedBy } = response.data[0];
+          setGrandTotal(grandTotal);
+          setDate(date);
+          setCustomerName(customerName);
+          setAddedBy(addedBy);
+        }
+        setLoading(false)
       })
       .catch(error => {console.log(error)
       alert(error)})
   }, []);
- // console.log(data)
   return (
     <React.Fragment>
       
       <Title>Recent Sale</Title>
       <Typography component="p" variant="h4">
-        {loading?<Skeleton animation="wave" />: '₹'+ data.grandTotal}
+        {loading?<Skeleton animation="wave" />: '₹'+ grandTotal}
       </Typography>
       <Typography color="textSecondary" className={classes.depositContext}>
-        {loading?<Skeleton animation="wave" />:data.date === undefined ? '' :'on '+data.date.split('T')[0].split('-')[2]+'/'+data.date.split('T')[0].split('-')[1]+'/'+data.date.split('T')[0].split('-')[0]} 
+        {loading?<Skeleton animation="wave" />: 'on '+ date.split('T')[0].split('-')[2]+'/'+ date.split('T')[0].split('-')[1]+'/'+ date.split('T')[0].split('-')[0]} 
         <br/>
-        {loading?<Skeleton animation="wave" />:'to '+ data.customerName}
+        {loading?<Skeleton animation="wave" />:'to '+ customerName}
         <br/>
-        {loading?<Skeleton animation="wave" />:'by '+ data.addedBy}
+        {loading?<Skeleton animation="wave" />:'by '+ addedBy}
       </Typography>
     </React.Fragment>
   );
