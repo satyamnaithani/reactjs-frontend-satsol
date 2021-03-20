@@ -79,12 +79,12 @@ export default function Headers(props) {
       <ListItemText primary="Vendors" />
     </ListItem>
       </NavLink>
-      <NavLink to='/expenses' style={{textDecoration: 'none', color: 'inherit'}}>
+      <NavLink to='/payments' style={{textDecoration: 'none', color: 'inherit'}}>
     <ListItem button>
       <ListItemIcon>
         <PeopleIcon />
       </ListItemIcon>
-      <ListItemText primary="Expenses" />
+      <ListItemText primary="Payments" />
     </ListItem>
       </NavLink>
     <NavLink to='/customers' style={{textDecoration: 'none', color: 'inherit'}}> 

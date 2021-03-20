@@ -26,20 +26,12 @@ export default function App() {
 
   return ( <
     div className = 'App' >
-    <
-    Switch >
-    <
-    Route exact path = "/" >
-    <
-    Suspense fallback = {
-      <
-      div / >
-    } >
-    <
-    FormLogin / >
-    <
-    /Suspense> < /
-    Route > <
+    <Switch >
+    <Route exact path = "/" >
+    <Suspense fallback = {<div / >} >
+    <FormLogin / >
+    </Suspense> 
+    < /Route > <
     Route path = "/dashboard" > {
       matches ? < Dashboard / > : < DashboardM / >
     } <
@@ -67,7 +59,7 @@ export default function App() {
     ItemMaster / >
     <
     /Route> <
-    Route exact path = "/expenses" > {
+    Route exact path = "/payments" > {
       matches ? < Expenses / > : < ExpensesM / >
     } <
     /Route> <

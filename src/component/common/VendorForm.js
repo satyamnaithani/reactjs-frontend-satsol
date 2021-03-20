@@ -8,15 +8,14 @@ import Snackbar from "@material-ui/core/Snackbar";
 import MuiAlert from "@material-ui/lab/Alert";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import TextField from "@material-ui/core/TextField";
-
 import Grid from "@material-ui/core/Grid";
-
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import { url } from "../../globalVariables";
 import axios from "axios";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import PropTypes from "prop-types";
+
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
@@ -57,7 +56,6 @@ export default function CustomerDialog(props) {
   const handleSubmit = (e) => {
     e.preventDefault();
     setLoading(true);
-
     axios({
       method: edit ? "patch" : "post",
       url: edit ? url + "/vendors/" + props.edit._id : url + "/vendors/",
@@ -80,7 +78,6 @@ export default function CustomerDialog(props) {
       },
     })
       .then(function (response) {
-        console.log(response);
         setLoading(false);
         setName("");
         setAddress("");
@@ -96,7 +93,7 @@ export default function CustomerDialog(props) {
       .catch(function (error) {
         console.log(error);
         setLoading(false);
-        alert("Error adding Customer");
+        alert("Error adding Vendor");
       });
   };
 
@@ -106,17 +103,7 @@ export default function CustomerDialog(props) {
   React.useEffect(() => {
     if (props.edit !== undefined) {
       console.log(props.edit);
-      const {
-        name,
-        address,
-        city,
-        contact,
-        dl,
-        zip,
-        state,
-        gst,
-        person,
-      } = props.edit;
+      const { name, address, city, contact, dl, zip, state, gst, person } = props.edit;
       setName(name);
       setAddress(address);
       setCity(city);

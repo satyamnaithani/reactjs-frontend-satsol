@@ -3,8 +3,9 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import Header from "../Header";
 import Drawer from "../Drawer";
 import { useStyles } from "../useStyles";
-import Form from "./Form";
 import Grid from "@material-ui/core/Grid";
+import PaymentTable from './PaymentTable';
+
 
 export default function Customers() {
   const classes = useStyles();
@@ -12,23 +13,15 @@ export default function Customers() {
   return (
     <div
       className={classes.root}
-      style={{ overflowY: "hidden", height: "100vh" }}
+      style={{ minHeight: "100vh" }}
     >
       <CssBaseline />
       <Header />
       <Drawer />
-      <Grid
-        style={{ paddingLeft: "20px" }}
-        container
-        justify="center"
-        spacing={2}
-      >
-        <Grid item xs={4}>
-          {" "}
-          <Form />
+        <Grid item xs={12}>
+          <PaymentTable title="Vendor"/>
         </Grid>
-        <Grid item xs={8}></Grid>
-      </Grid>
+        {/* <Grid item xs={5}><PaymentTable title="Customer"/></Grid> */}
     </div>
   );
 }
