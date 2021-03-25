@@ -8,7 +8,6 @@ import TableRow from "@material-ui/core/TableRow";
 //import Title from './Title';
 import { url } from "../../../globalVariables";
 import Typography from "@material-ui/core/Typography";
-
 import TablePagination from "@material-ui/core/TablePagination";
 import DateSelector from "./DateSeletor";
 import { saveAs } from "file-saver";
@@ -19,30 +18,27 @@ import IconButton from "@material-ui/core/IconButton";
 import CheckCircleIcon from "@material-ui/icons/CheckCircle";
 import DialogExpenseAdd from "./DialogExpenseAdd";
 import Skeleton from "@material-ui/lab/Skeleton";
+const headerAuth = "Bearer " + JSON.parse(localStorage.getItem("token")).token;
 
 export default class Sales extends React.Component {
   fetchSale(page, rowsPerPage) {
     axios({
       method: "GET",
-
       url: url + "/sales/" + page + "/" + rowsPerPage,
-      headers: {
-        Authorization:
-          "Bearer " + JSON.parse(localStorage.getItem("token")).token,
-      },
+      headers: {Authorization: headerAuth},
     })
-      .then((response) =>
-        this.setState({
-          data: response.data.sales,
-          isLoading: false,
-          open: false,
-          totalSalesCount: response.data.count,
-        })
-      )
-      .catch((error) => {
-        alert(error);
-        console.log(error);
-      });
+    .then((response) =>
+      this.setState({
+        data: response.data.sales,
+        isLoading: false,
+        open: false,
+        totalSalesCount: response.data.count,
+      })
+    )
+    .catch((error) => {
+      alert(error);
+      console.log(error);
+    });
   }
   componentDidMount() {
     this.fetchSale(this.state.page, this.state.rowsPerPage);
@@ -68,12 +64,8 @@ export default class Sales extends React.Component {
     this.setState({ isLoading: true, paginationVisible: false });
     axios({
       method: "GET",
-
       url: url + "/sales/date/" + startDate + "/" + endDate,
-      headers: {
-        Authorization:
-          "Bearer " + JSON.parse(localStorage.getItem("token")).token,
-      },
+      headers: {Authorization: headerAuth},
     })
       .then((response) =>
         this.setState({
@@ -97,10 +89,7 @@ export default class Sales extends React.Component {
         newPage * this.state.rowsPerPage +
         "/" +
         this.state.rowsPerPage,
-      headers: {
-        Authorization:
-          "Bearer " + JSON.parse(localStorage.getItem("token")).token,
-      },
+      headers: {Authorization: headerAuth},
     })
       .then((response) =>
         this.setState({
@@ -122,10 +111,7 @@ export default class Sales extends React.Component {
       method: "GET",
 
       url: url + "/sales/" + this.state.page + "/" + event.target.value,
-      headers: {
-        Authorization:
-          "Bearer " + JSON.parse(localStorage.getItem("token")).token,
-      },
+      headers: {Authorization: headerAuth},
     })
       .then((response) =>
         this.setState({

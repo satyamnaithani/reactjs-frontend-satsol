@@ -21,7 +21,6 @@ export default function Deposits() {
   useEffect(() => {
     axios({
       method: "GET",
-
       url: url + "/sales/profits",
       headers: {
         Authorization:
