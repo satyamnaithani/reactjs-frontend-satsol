@@ -54,7 +54,7 @@ export default function PaymentTable({row}) {
       mode: mode,
       details: details
     }
-    let idArray = new Array();
+    let idArray = [];
     row.billDetails.forEach((data) => idArray.push(data._id));
     arr.push(newTransaction);
     console.log(arr);
@@ -69,7 +69,7 @@ export default function PaymentTable({row}) {
     })
     .then(response => {
       if(response.data.message === 'success') {
-        //clearForm();
+        clearForm();
       }
       handleClose();
     })
