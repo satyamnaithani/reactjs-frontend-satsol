@@ -26,28 +26,6 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-const useStyles = makeStyles((theme) => ({
-  paper: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-  },
-  form: {
-    width: "100%", // Fix IE 11 issue.
-  },
-  submit: {
-    margin: theme.spacing(3, 0, 2),
-    float: "right",
-  },
-  title: {
-    textAlign: "center",
-  },
-  select: {
-    width: 195,
-    maxHeight: 200,
-  },
-}));
-
 export default function AlertDialogSlide(props) {
   const classes = useStyles();
   const [vendor, setVendor] = useState("");
@@ -85,7 +63,7 @@ export default function AlertDialogSlide(props) {
       })
         .then((result) => {
           setIsLoadingItem(false);
-          setItemNames(result.data.items);
+          setItemNames(result.data);
         })
         .catch((err) => console.log(err));
     };
@@ -111,33 +89,18 @@ export default function AlertDialogSlide(props) {
     };
     fetchData();
   }, []);
-
+  
   const handleItem = (e) => {
     setItem(e.target.value);
     itemFetchDetails(e.target.value);
   };
 
-  const itemFetchDetails = (x) => {
-    const url1 = url + "/items/" + x;
-
-    axios({
-      method: "get",
-      url: url1,
-      config: { headers: { "Content-Type": "application/json" } },
-      headers: {
-        Authorization:
-          "Bearer " + JSON.parse(localStorage.getItem("token")).token,
-      },
-    })
-      .then(function (response) {
-        setGst(response.data.item[0].gst);
-        setUom(response.data.item[0].uom);
-        setHsn(response.data.item[0].hsn);
-        setItemCode(response.data.item[0].itemCode);
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
+  const itemFetchDetails = (itemName) => {
+    const item = itemNames.filter((data) => data.name === itemName)[0];
+      setGst(item.gst);
+      setUom(item.uom);
+      setHsn(item.hsn);
+      setItemCode(item.itemCode);
   };
 
   const handleSubmit = (evt) => {
@@ -233,8 +196,8 @@ export default function AlertDialogSlide(props) {
                           <MenuItem>Loading...</MenuItem>
                         ) : (
                           itemNames.map((itemName, index) => (
-                            <MenuItem key={index} value={itemName.name.name}>
-                              {itemName.name.name}
+                            <MenuItem key={index} value={itemName.name}>
+                              {itemName.name}
                             </MenuItem>
                           ))
                         )}
@@ -462,3 +425,24 @@ export default function AlertDialogSlide(props) {
     </div>
   );
 }
+const useStyles = makeStyles((theme) => ({
+  paper: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+  },
+  form: {
+    width: "100%", // Fix IE 11 issue.
+  },
+  submit: {
+    margin: theme.spacing(3, 0, 2),
+    float: "right",
+  },
+  title: {
+    textAlign: "center",
+  },
+  select: {
+    width: 195,
+    maxHeight: 200,
+  },
+}));
