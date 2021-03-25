@@ -13,10 +13,10 @@ import PaymentRow from './PaymentRow';
 export default function PaymentTable({title}) {
     const classes = useStyles();
     const [purchaseData, setPurchaseData] = useState([]);
+    const tableHead = ['View', 'Bill No', 'Date', 'Vendor', 'Item / Quantity', 'Bill Amount', 'Pending Amount', 'Status'];
     React.useEffect(() => {
         axios({
           method: 'GET',
-      
           url: url + '/purchase',
           headers: {'Authorization': 'Bearer ' + JSON.parse(localStorage.getItem('token')).token}
       })
@@ -31,17 +31,10 @@ export default function PaymentTable({title}) {
     <div className={classes.root}>
         <h2 className={classes.heading}>{title + ' Transactions'}</h2>
         <TableContainer>
-            <Table className={classes.table} size="small" aria-label="a dense table">
+            <Table className={classes.table} size="small" >
                 <TableHead>
                     <TableRow>
-                        <TableCell>View</TableCell>
-                        <TableCell>Bill No</TableCell>
-                        <TableCell align="center">{title}</TableCell>
-                        <TableCell align="center">Item</TableCell>
-                        <TableCell align="center">Date</TableCell>
-                        <TableCell align="center">Bill Amount</TableCell>
-                        <TableCell align="center">Amount Remaining</TableCell>
-                        <TableCell align="center">Payment Status</TableCell>
+                        {tableHead.map((heading, index) => (<TableCell key={index} align={heading === 'Item / Quantity' ? 'center' : 'left'} children={heading}/>))}
                     </TableRow>
                 </TableHead>
                 <TableBody>

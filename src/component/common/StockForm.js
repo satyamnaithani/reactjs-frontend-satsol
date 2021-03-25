@@ -172,15 +172,15 @@ export default function AlertDialogSlide(props) {
       .then(function (response) {
         setLoading(false);
         setItem("");
-        setVendor("");
+        //setVendor("");
         setLotNo("");
-        setBillDate("");
-        setBillNo("");
+        //setBillDate("");
+        //setBillNo("");
         setGst("");
         setExp("");
         setPurchaseRate("");
         setQuantity("");
-        setReceiveDate("");
+        //setReceiveDate("");
         setUom("");
         setRate("");
         setTotalCost("");
