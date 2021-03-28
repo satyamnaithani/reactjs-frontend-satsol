@@ -118,7 +118,9 @@ export default function PaymentTable({row}) {
         <DialogTitle>Transaction Details - {row._id.vendor}({row._id.billNo})</DialogTitle>
         <DialogContent className={classes.dailog}>
           <TransactionTable data={row._id.transaction}/>
-          <form onSubmit={handleTransactionForm}>
+          {
+            pendingAmount === 0 ? '' : 
+            <form onSubmit={handleTransactionForm}>
             <Grid container spacing={3}>
               <Grid item xs={12}><TextField required value={amount} label="Payment Amount" onChange={(e) => setAmount(e.target.value)} fullWidth variant="outlined" /></Grid>
               <Grid item xs={12}>
@@ -146,6 +148,7 @@ export default function PaymentTable({row}) {
               Submit
             </Button>
           </form>
+          }
         </DialogContent>
       </Dialog>
     </TableRow>
