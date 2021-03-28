@@ -47,7 +47,8 @@ export default function PaymentTable({row}) {
   }
   const handleTransactionForm = (e) => {
     e.preventDefault();
-    let arr = row._id.transaction;
+    let arr;
+    row._id.transaction === undefined ? arr = [] : arr = row._id.transaction;
       const newTransaction = {
       amount: amount,
       date: date,
@@ -69,6 +70,7 @@ export default function PaymentTable({row}) {
     })
     .then(response => {
       if(response.data.message === 'success') {
+        alert('Transaction updated!');
         clearForm();
       }
       handleClose();
