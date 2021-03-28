@@ -47,6 +47,10 @@ export default function PaymentTable({row}) {
   }
   const handleTransactionForm = (e) => {
     e.preventDefault();
+    if(amount > pendingAmount) {
+      alert('Please enter transaction amount less than or equal to pending amount');
+      return;
+    }
     let arr;
     row._id.transaction === undefined ? arr = [] : arr = row._id.transaction;
       const newTransaction = {
@@ -82,8 +86,6 @@ export default function PaymentTable({row}) {
   let paidAmount = 0;
   let pendingAmount;
   let halfPending;
-  // paidAmount += parseFloat(object.transaction.amount)
-  
   if(row.billDetails) {
     if(row._id.transaction) {
       row._id.transaction.forEach((data) => paidAmount += parseInt(data.amount));
@@ -122,7 +124,7 @@ export default function PaymentTable({row}) {
             pendingAmount === 0 ? '' : 
             <form onSubmit={handleTransactionForm}>
             <Grid container spacing={3}>
-              <Grid item xs={12}><TextField required value={amount} label="Payment Amount" onChange={(e) => setAmount(e.target.value)} fullWidth variant="outlined" /></Grid>
+              <Grid item xs={12}><TextField placeholder={pendingAmount} required value={amount} label="Payment Amount" onChange={(e) => {setAmount(e.target.value)}} fullWidth variant="outlined" /></Grid>
               <Grid item xs={12}>
                 <TextField required label="Payment Date" value={date} variant="outlined" onChange={(e) => setDate(e.target.value)} fullWidth InputLabelProps={{shrink: true}} type="date"/>
               </Grid>
@@ -138,15 +140,17 @@ export default function PaymentTable({row}) {
                 </FormControl>
               </Grid>
               <Grid item xs={12}>
-                <TextField required value={details} onChange={(e) => setDetails(e.target.value)} label="Payment Details" fullWidth multiline rows={4} variant="outlined"/>
+                <TextField required value={details} onChange={(e) => setDetails(e.target.value)} label="Payment Details" fullWidth rows={4} variant="outlined"/>
               </Grid>
             </Grid>
-            <Button onClick={handleClose} color="secondary">
-              Cancel
-            </Button>
-            <Button type="submit" color="primary">
-              Submit
-            </Button>
+            <div style={{display: 'flex', justifyContent: 'space-around', padding: '5px'}}>
+              <Button onClick={handleClose} color="secondary">
+                Cancel
+              </Button>
+              <Button type="submit" color="primary">
+                Submit
+              </Button>
+            </div>
           </form>
           }
         </DialogContent>
