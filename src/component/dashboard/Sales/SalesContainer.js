@@ -10,9 +10,9 @@ class OrderList extends Component {
       <Box color="text.primary" mt={10} ml={3} mr={3} mb={5}>
         <Paper
           style={{
-            display: "flex",
-            overflow: "auto",
-            flexDirection: "column",
+            //display: "flex",
+            //overflow: "auto",
+            //flexDirection: "column",
             minHeight: "90vh",
             // minWidth: '80vw',
             overflowX: "hidden",

@@ -5,7 +5,6 @@ import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
-//import Title from './Title';
 import { url } from "../../../globalVariables";
 import Typography from "@material-ui/core/Typography";
 import TablePagination from "@material-ui/core/TablePagination";
@@ -15,11 +14,13 @@ import GetAppIcon from "@material-ui/icons/GetApp";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import Backdrop from "@material-ui/core/Backdrop";
 import IconButton from "@material-ui/core/IconButton";
-import CheckCircleIcon from "@material-ui/icons/CheckCircle";
-import DialogExpenseAdd from "./DialogExpenseAdd";
+import SaleDetail from "./SaleDetail";
 import Skeleton from "@material-ui/lab/Skeleton";
+import PendingButton from '@material-ui/icons/ErrorOutlined';
+import CompleteButton from '@material-ui/icons/DoneAllOutlined';
 const headerAuth = "Bearer " + JSON.parse(localStorage.getItem("token")).token;
 
+const tableHeading = ['View', 'Invoice No.', 'Customer Name', 'Product Details', 'Grand Total', 'Date', 'Download Pdf', 'Payment Status'];
 export default class Sales extends React.Component {
   fetchSale(page, rowsPerPage) {
     axios({
@@ -82,7 +83,6 @@ export default class Sales extends React.Component {
     this.setState({ page: newPage, isLoading: true });
     axios({
       method: "GET",
-
       url:
         url +
         "/sales/" +
@@ -109,7 +109,6 @@ export default class Sales extends React.Component {
     });
     axios({
       method: "GET",
-
       url: url + "/sales/" + this.state.page + "/" + event.target.value,
       headers: {Authorization: headerAuth},
     })
@@ -123,40 +122,12 @@ export default class Sales extends React.Component {
       )
       .catch((error) => console.log(error));
   };
-
   render() {
-    const updateExpenses = (id, expense) => {
-      // console.log('success' + id)
-      let arr = this.state.data.splice(0);
-      var updatedData = arr.filter((data, index) => {
-        if (data._id === id) {
-          arr[index].expense = expense;
-        }
-        return arr;
-      });
-      this.setState({ data: updatedData });
-    };
     const handleDownloadPdf = (data) => {
       this.setState({ isDownloading: true });
-      const {
-        orderData,
-        challanNo,
-        date,
-        customer,
-        invoiceNo,
-        challanDate,
-        modeOfPayment,
-        orderNumber,
-        dispatchThrough,
-        destination,
-        termsOfDelivery,
-        interState,
-        grandTotalInWords,
-      } = data;
+      const { orderData, challanNo, date, customer, invoiceNo, challanDate, modeOfPayment, orderNumber, dispatchThrough, destination, termsOfDelivery, interState, grandTotalInWords } = data;
       const arr = orderData;
-
       let arrSize = arr.length;
-
       if (arr.length < 10) {
         for (var i = 0; i < 10 - arrSize; i++) {
           arr.push("");
@@ -186,7 +157,6 @@ export default class Sales extends React.Component {
       arr[19] = grandTotalInWords;
       arr[20] = dateString;
       arr[21] = challanNo;
-
       axios
         .post(url + "/pdf/create-pdf", arr)
         .then(() => axios.get(url + "/pdf/fetch-pdf", { responseType: "blob" }))
@@ -208,52 +178,33 @@ export default class Sales extends React.Component {
 
     return (
       <React.Fragment>
-        <Typography
-          component="h2"
-          variant="h4"
-          color="primary"
-          align="center"
-          gutterBottom
-        >
-          Sales
-        </Typography>
+        <Typography component="h2" variant="h4" color="primary" align="center" gutterBottom>Sales</Typography>
         <br />
-        <DateSelector
-          dateSelector={this.dateSelector}
-          handleReset={this.handleReset}
-        />
+        <DateSelector dateSelector={this.dateSelector} handleReset={this.handleReset}/>
         <br />
         <br />
-
         <Table size="small">
           <TableHead>
             <TableRow>
-              <TableCell>Serial No.</TableCell>
-              <TableCell>Customer Name</TableCell>
-              <TableCell>Product Details</TableCell>
-              <TableCell>Total Rate</TableCell>
-              <TableCell>Total GST</TableCell>
-              <TableCell>Grand Total</TableCell>
-              <TableCell>Date</TableCell>
-              <TableCell>Invoice Number</TableCell>
-              <TableCell>Expense</TableCell>
-              <TableCell>Download Pdf</TableCell>
+              {tableHeading.map((row, index) => (<TableCell key={index} children={row}/>))}
             </TableRow>
           </TableHead>
           <TableBody>
             {
-              // isLoading ?
-              //   <TableSkeleton />
-              //   // <p>Loading...</p>
-              //   :
-
               this.state.data.map((row, index) => (
                 <TableRow key={index}>
+                  <TableCell align="center">
+                    {this.state.isLoading ? (
+                      <Skeleton width={50} animation="wave" />
+                    ) : (
+                      <SaleDetail data={row}/>
+                    )}
+                  </TableCell>
                   <TableCell>
                     {this.state.isLoading ? (
                       <Skeleton width={50} animation="wave" />
                     ) : (
-                      ++index
+                      row.invoiceNo
                     )}
                   </TableCell>
                   <TableCell>
@@ -287,7 +238,7 @@ export default class Sales extends React.Component {
                       )
                     )}
                   </TableCell>
-                  <TableCell>
+                  {/* <TableCell>
                     {this.state.isLoading ? (
                       <Skeleton width={50} animation="wave" />
                     ) : (
@@ -300,7 +251,7 @@ export default class Sales extends React.Component {
                     ) : (
                       row.totalGst
                     )}
-                  </TableCell>
+                  </TableCell> */}
                   <TableCell>
                     {this.state.isLoading ? (
                       <Skeleton width={50} animation="wave" />
@@ -313,36 +264,7 @@ export default class Sales extends React.Component {
                       <Skeleton width={50} animation="wave" />
                     ) : row.date === null ? (
                       ""
-                    ) : (
-                      row.date.split("T")[0].split("-")[2] +
-                      "-" +
-                      row.date.split("T")[0].split("-")[1] +
-                      "-" +
-                      row.date.split("T")[0].split("-")[0]
-                    )}
-                  </TableCell>
-                  <TableCell>
-                    {this.state.isLoading ? (
-                      <Skeleton width={50} animation="wave" />
-                    ) : (
-                      row.invoiceNo
-                    )}
-                  </TableCell>
-                  <TableCell align="center">
-                    {this.state.isLoading ? (
-                      <Skeleton width={50} animation="wave" />
-                    ) : row.expense !== 0 ? (
-                      <CheckCircleIcon />
-                    ) : (
-                      //  <IconButton size='small'><AddIcon onClick={() => handleAddExpense(row._id)}/>
-                      // </IconButton>
-                      <DialogExpenseAdd
-                        id={row._id}
-                        invoiceNo={row.invoiceNo}
-                        updateExpenses={updateExpenses}
-                        totalSale={row.grandTotal}
-                      />
-                    )}
+                    ) : new Date(row.date).toLocaleDateString()}
                   </TableCell>
                   <TableCell align="center">
                     <IconButton size="small">
@@ -352,6 +274,11 @@ export default class Sales extends React.Component {
                         <GetAppIcon onClick={() => handleDownloadPdf(row)} />
                       )}
                     </IconButton>
+                  </TableCell>
+                  <TableCell>
+                    {this.state.isLoading ? (
+                      <Skeleton width={50} animation="wave" />
+                    ) : <PendingButton/>}
                   </TableCell>
                 </TableRow>
               ))
