@@ -58,7 +58,7 @@ export default function PaymentTable({row}) {
       date: date,
       mode: mode,
       details: details
-    }
+    };
     let idArray = [];
     row.billDetails.forEach((data) => idArray.push(data._id));
     arr.push(newTransaction);
@@ -107,7 +107,7 @@ export default function PaymentTable({row}) {
           {row.billDetails.map((data, index) => (
             <TableRow key={index}>
               <BorderLessCell align="left">{data.item}</BorderLessCell>
-              <BorderLessCell align="right">{data.quantity}</BorderLessCell>
+              <BorderLessCell align="right">{data.quantity}{data.uom}</BorderLessCell>
             </TableRow>
             ))}
           </TableBody>
@@ -118,7 +118,7 @@ export default function PaymentTable({row}) {
       <TableCell align="left">{pendingAmount !== 0 ? <PendingButton style={{ color: halfPending ? '#FFF720' :'red' }} /> : <CompleteButton style={{ color: 'green' }} />}</TableCell>
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle>Transaction Details - {row._id.vendor}({row._id.billNo})</DialogTitle>
-        <DialogContent className={classes.dailog}>
+        <DialogContent>
           <TransactionTable data={row._id.transaction}/>
           {
             pendingAmount === 0 ? '' : 
@@ -161,8 +161,5 @@ export default function PaymentTable({row}) {
 const useStyles = makeStyles(() => ({
   button: {
       cursor: 'pointer'
-  },
-  dailog: {
-   // overflowY: 'hidden'
   }
 }));
