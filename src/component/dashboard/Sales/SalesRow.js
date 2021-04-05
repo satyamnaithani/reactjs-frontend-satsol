@@ -6,7 +6,7 @@ import PendingButton from '@material-ui/icons/ErrorOutlined';
 import CompleteButton from '@material-ui/icons/DoneAllOutlined';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
-import SaleDetail from './SaleDetail';
+import SaleDetails from './SaleDetails';
 import Skeleton from "@material-ui/lab/Skeleton";
 
 const SalesRow = ({isLoading, row}) => {
@@ -18,7 +18,7 @@ const SalesRow = ({isLoading, row}) => {
     grandTotal = parseFloat(row.grandTotal);
     pendingAmount = grandTotal - totalTransactionAmount;
   }
-  const tableCell = [<SaleDetail data={row} pendingAmount={pendingAmount}/>, `${row.invoiceNo}`, `${row.date === null ? '' : new Date(row.date).toLocaleDateString()}`, `${row.customerName}`, <ItemDetails orderData= {row.orderData}/>, `₹${row.grandTotal}`, `₹${pendingAmount}`, <TransactionStatus pendingAmount={pendingAmount} grandTotal={grandTotal} />];
+  const tableCell = [<SaleDetails data={row} pendingAmount={pendingAmount}/>, `${row.invoiceNo}`, `${row.date === null ? '' : new Date(row.date).toLocaleDateString()}`, `${row.customerName}`, <ItemDetails orderData= {row.orderData}/>, `₹${row.grandTotal}`, `₹${pendingAmount}`, <TransactionStatus pendingAmount={pendingAmount} grandTotal={grandTotal} />];
   return (
     <TableRow>
         {tableCell.map((data, index) => <TableCell key={index} align="center"> {isLoading ? <Skeleton width={50} animation="wave" /> : data}</TableCell>)}
