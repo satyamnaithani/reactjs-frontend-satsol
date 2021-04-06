@@ -35,6 +35,7 @@ const SaleDetails = ({data, pendingAmount}) => {
     const [mode, setMode] = useState();
     const [details, setDetails] = useState();
     const [pdfLoading, setPdfLoading] = useState(false);
+    const [transactionLoading, setTransactionLoading] = useState(false);
     const handleClickOpen = () => {
         setOpen(true);
     };
@@ -58,6 +59,7 @@ const SaleDetails = ({data, pendingAmount}) => {
         });
     };
     const handleTransactionForm = (e) => {
+        setTransactionLoading(true);
         e.preventDefault();
         if(amount > pendingAmount) {
             alert('Please enter transaction amount less than or equal to pending amount');
@@ -78,19 +80,21 @@ const SaleDetails = ({data, pendingAmount}) => {
             data: { transaction: arr }
           })
           .then(response => {
+            setTransactionLoading(false);
             if(response.data.message === 'success') {
               alert('Transaction updated!');
             }
             handleClose();
           })
-          .catch(error => {console.log(error)
-          alert(error)})
-        console.log(arr);
+          .catch(error => {
+                console.log(error);
+                setTransactionLoading(false);
+                alert(error);
+            })
     }
     return (
         <div>
-            <IconButton size='small'><OpenIcon onClick={handleClickOpen} />
-            </IconButton>
+            <IconButton size='small'><OpenIcon onClick={handleClickOpen} /></IconButton>
             <Dialog open={open} TransitionComponent={Transition} keepMounted onClose={handleClose} >
                 <DialogTitle>{"Invoice Details - " + data.invoiceNo}<span style={{cursor: 'pointer', float: 'right'}}>{pdfLoading ? 'loading...' : <GetAppIcon onClick={() => handleDownloadPdf(data)} />}</span></DialogTitle>
                 <DialogContent>

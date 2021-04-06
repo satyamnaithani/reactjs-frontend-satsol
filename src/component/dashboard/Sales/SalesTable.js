@@ -126,11 +126,7 @@ export default class Sales extends React.Component {
           <TableHead>
             <TableRow>{tableHeading.map((row, index) => (<TableCell align='center' key={index} children={row}/>))}</TableRow>
           </TableHead>
-          <TableBody>
-            {
-              data.map((row, index) => (<SalesRow row={row} key={index} isLoading={isLoading}/>))
-            }
-          </TableBody>
+          <TableBody>{data.map((row, index) => (<SalesRow row={row} key={index} isLoading={isLoading}/>))}</TableBody>
         </Table>
         {paginationVisible ? <TablePagination component="div" count={totalSalesCount} page={page} onChangePage={this.handleChangePage} rowsPerPage={rowsPerPage} onChangeRowsPerPage={this.handleChangeRowsPerPage} style={{ backgroundColor: "#ebfeff" }}/> : ''}
       </>

@@ -32,14 +32,12 @@ export default function TableComponent () {
     React.useEffect(()=> {
         axios({
             method: 'GET',
-        
             url: url + '/items/all_item',
             headers: {'Authorization': 'Bearer ' + JSON.parse(localStorage.getItem('token')).token}
         })
             .then(response => {
-                console.log(response.data.items)
-               setData(response.data.items)
-                setLoading(false)
+              setData(response.data)
+              setLoading(false)
             })
             .catch(error => {
                 console.log(error)
@@ -49,7 +47,6 @@ export default function TableComponent () {
     },[])
 
     const handleEdit = (data) => {
-      console.log(data)
        setFormOpen(true)
        setEditData(data)
     }
@@ -73,12 +70,12 @@ return(
             {
               data === undefined || null?'': data.map((row, index) => (
                 <TableRow key={index}>
-                  <TableCell>{loading?<Skeleton width={50} animation="wave" />:row.name.itemCode}</TableCell>
-                  <TableCell>{loading?<Skeleton width={150} animation="wave" />:row.name.name}</TableCell>
-                  <TableCell>{loading?<Skeleton width={200} animation="wave" />:row.name.catogory}</TableCell>
-                  <TableCell>{loading?<Skeleton width={100} animation="wave" />:row.name.gst}</TableCell>
-                  <TableCell>{loading?<Skeleton width={150} animation="wave" />:row.name.hsn}</TableCell>
-                  <TableCell>{loading?<Skeleton width={100} animation="wave" />:row.name.uom}</TableCell>
+                  <TableCell>{loading?<Skeleton width={50} animation="wave" />:row.itemCode}</TableCell>
+                  <TableCell>{loading?<Skeleton width={150} animation="wave" />:row.name}</TableCell>
+                  <TableCell>{loading?<Skeleton width={200} animation="wave" />:row.catogory}</TableCell>
+                  <TableCell>{loading?<Skeleton width={100} animation="wave" />:row.gst}</TableCell>
+                  <TableCell>{loading?<Skeleton width={150} animation="wave" />:row.hsn}</TableCell>
+                  <TableCell>{loading?<Skeleton width={100} animation="wave" />:row.uom}</TableCell>
                 <TableCell>
                   {loading?
                   <Skeleton width={50} animation="wave" />:
@@ -86,7 +83,6 @@ return(
                   <IconButton disableFocusRipple disableRipple disableTouchRipple style={{ backgroundColor: 'transparent' }} >
                     <EditIcon onClick={()=>handleEdit(row.name)} className={classes.edit}/> <div>&nbsp;&nbsp;&nbsp;</div>
                   </IconButton>
-
                   }
                 </TableCell>
                 </TableRow>

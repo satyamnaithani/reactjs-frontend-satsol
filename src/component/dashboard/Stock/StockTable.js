@@ -613,61 +613,13 @@ export default class Orders extends React.Component {
   }
   handlePdfDownload = () => {
     this.setState({ data: this.state.updatedData });
-    const {
-      orderData,
-      challanNo,
-      date,
-      customer,
-      invoiceNo,
-      challanDate,
-      modeOfPayment,
-      orderNumber,
-      dispatchThrough,
-      destination,
-      termsOfDelivery,
-      interState,
-      grandTotalInWords,
-    } = this.state.createdProduct;
-    const arr = orderData;
     this.setState({ isPdfLoading: true, productAddedDialog: false });
-
-    let arrSize = arr.length;
-
-    if (arr.length < 10) {
-      for (var i = 0; i < 10 - arrSize; i++) {
-        arr.push("");
-      }
-    }
-    var dateFormat = date.split("T")[0].split("-");
-    var dateString = dateFormat[2] + "-" + dateFormat[1] + "-" + dateFormat[0];
-    if (challanDate !== null) {
-      var ChallanDateFormat = challanDate.split("T")[0].split("-");
-      var ChallanDateString =
-        ChallanDateFormat[2] +
-        "-" +
-        ChallanDateFormat[1] +
-        "-" +
-        ChallanDateFormat[0];
-    }
-    arr[10] = customer;
-    arr[11] = invoiceNo;
-    arr[12] = ChallanDateString;
-    arr[13] = modeOfPayment;
-    arr[14] = orderNumber;
-    arr[15] = dispatchThrough;
-    arr[16] = destination;
-    arr[17] = termsOfDelivery;
-    arr[18] = interState;
-    arr[19] = grandTotalInWords;
-    arr[20] = dateString;
-    arr[21] = challanNo;
-
     axios
-      .post(url + "/pdf/create-pdf", arr)
+      .post(url + "/pdf/create-pdf", this.state.createdProduct)
       .then(() => axios.get(url + "/pdf/fetch-pdf", { responseType: "blob" }))
       .then((res) => {
         const pdfBlob = new Blob([res.data], { type: "application/pdf" });
-        saveAs(pdfBlob, invoiceNo + ".pdf");
+        saveAs(pdfBlob, this.state.createdProduct.invoiceNo + ".pdf");
         this.setState({ isPdfLoading: false, productAddedDialog: false });
       })
       .catch((err) => console.log(err));

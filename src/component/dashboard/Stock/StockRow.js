@@ -34,7 +34,6 @@ class StockRow extends Component {
     }
     render() {
         const { item, vendor, lotNo, rate, gst, purchaseRate, uom, initialQuantity, _id } = this.props.data.data;
-        console.log(this.props)
         let {exp} = this.props.data.data;
         this.props.data.data['checkout'] = parseInt(this.state.checkout)
         this.props.data.data['sellingRate'] = parseFloat(this.state.sellingRate)
@@ -44,18 +43,10 @@ class StockRow extends Component {
         }
         return (
             <TableRow selected={this.state.rowSelected}>
-                <Dialog
-                    open={this.state.dialogOpen}
-                    onClose={this.handleDialogClose}
-                    aria-labelledby="alert-dialog-title"
-                    aria-describedby="alert-dialog-description"
-                >
+                <Dialog open={this.state.dialogOpen} onClose={this.handleDialogClose} aria-labelledby="alert-dialog-title" aria-describedby="alert-dialog-description">
                     <DialogTitle id="alert-dialog-title">{"CheckOut Details"}</DialogTitle>
-                    
                     <DialogContent>
-                        <DialogContentText id="alert-dialog-description">
-                           {item}
-                        </DialogContentText>
+                        <DialogContentText id="alert-dialog-description">{item}</DialogContentText>
                         <form onSubmit={this.handleDialog}>
                         <TextField
                             id={_id}

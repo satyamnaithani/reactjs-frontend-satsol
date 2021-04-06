@@ -49,7 +49,7 @@ const TransactionStatus = ({pendingAmount, grandTotal}) => {
     pendingAmount === grandTotal ? halfPending = false : halfPending = true;
     return(
         <>
-        {pendingAmount !== 0 ? <PendingButton style={{ color: halfPending ? '#FFF720' :'red' }} /> : <CompleteButton style={{ color: 'green' }} />}
+            {pendingAmount !== 0 ? <PendingButton style={{ color: halfPending ? '#FFF720' :'red' }} /> : <CompleteButton style={{ color: 'green' }} />}
         </>
     );
 }
