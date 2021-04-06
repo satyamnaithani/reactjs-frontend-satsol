@@ -84,7 +84,6 @@ const SaleDetails = ({data, pendingAmount}) => {
             if(response.data.message === 'success') {
               alert('Transaction updated!');
             }
-            handleClose();
           })
           .catch(error => {
                 console.log(error);
@@ -125,7 +124,7 @@ const SaleDetails = ({data, pendingAmount}) => {
                                 </Grid>
                                 <div style={{display: 'flex', justifyContent: 'space-around', padding: '5px'}}>
                                     <Button onClick={handleClose} color="secondary">Cancel</Button>
-                                    <Button type="submit" color="primary">Submit</Button>
+                                    {transactionLoading ? 'Loading...' : <Button type="submit" color="primary">Submit</Button>}
                                 </div>
                             </form>
                         </DialogContentText>
