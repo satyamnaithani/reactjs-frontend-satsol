@@ -37,7 +37,7 @@ const ItemDetails = ({orderData}) => {
                 {orderData.map((item, index) => (
                     <TableRow key={index}>
                         <BorderLessCell align="left">{item.item}</BorderLessCell>
-                        <BorderLessCell align="right">{item.quantity}</BorderLessCell>
+                        <BorderLessCell align="right">{item.checkout}</BorderLessCell>
                     </TableRow>
                 ))}
             </TableBody>
