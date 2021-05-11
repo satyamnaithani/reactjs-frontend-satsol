@@ -178,6 +178,31 @@ export default function AlertDialogSlide(props) {
             <div className={classes.paper}>
               <form className={classes.form} onSubmit={handleSubmit}>
                 <Grid container spacing={1}>
+                <Grid item xs={12} md={12} lg={12}>
+                    <FormControl fullWidth>
+                      <InputLabel id="vendor">Vendor</InputLabel>
+                      <Select
+                        labelId="vendor"
+                        name="Vendor"
+                        variant="outlined"
+                        label="vendor"
+                        fullWidth
+                        id="vendor"
+                        value={vendor}
+                        onChange={(e) => setVendor(e.target.value)}
+                      >
+                        {isLoadingVendor ? (
+                          <MenuItem>Loading...</MenuItem>
+                        ) : (
+                          vendorNames.map((VendorName, index) => (
+                            <MenuItem key={index} value={VendorName.name.name}>
+                              {VendorName.name.name}
+                            </MenuItem>
+                          ))
+                        )}
+                      </Select>
+                    </FormControl>
+                  </Grid>
                   <Grid item xs={12} md={12} lg={6}>
                     <FormControl fullWidth>
                       <InputLabel id="item">Item</InputLabel>
@@ -206,15 +231,26 @@ export default function AlertDialogSlide(props) {
                   </Grid>
                   <Grid item xs={12} md={12} lg={6}>
                     <TextField
-                      required
-                      id="lot_no"
-                      name="lot_no"
-                      label="Lot no."
+                      id="quantity"
+                      name="quantity"
+                      type="number"
+                      label="quantity"
                       variant="outlined"
                       fullWidth
-                      autoComplete="lot_no"
-                      value={lotNo}
-                      onChange={(e) => setLotNo(e.target.value)}
+                      placeholder={uom}
+                      autoComplete="quantity"
+                      value={quantity}
+                      onChange={(e) => {
+                        setQuantity(e.target.value);
+                        if (
+                          !isNaN(
+                            parseInt(e.target.value) * parseInt(purchaseRate)
+                          )
+                        )
+                          setTotalCost(
+                            parseInt(e.target.value) * parseInt(purchaseRate)
+                          );
+                      }}
                     />
                   </Grid>
                   <Grid item xs={12} md={12} lg={6}>
@@ -231,18 +267,18 @@ export default function AlertDialogSlide(props) {
                   </Grid>
                   <Grid item xs={12} md={12} lg={6}>
                     <TextField
-                      id="exp"
-                      name="Exp"
+                      id="billDate"
+                      name="billDate"
+                      variant="outlined"
                       type="date"
                       InputLabelProps={{
                         shrink: true,
                       }}
-                      label="Exp"
-                      variant="outlined"
+                      label="Bill Date"
                       fullWidth
-                      autoComplete="exp"
-                      value={exp}
-                      onChange={(e) => setExp(e.target.value)}
+                      autoComplete="billDate"
+                      value={billDate}
+                      onChange={(e) => setBillDate(e.target.value)}
                     />
                   </Grid>
                   <Grid item xs={12} md={12} lg={6}>
@@ -287,65 +323,31 @@ export default function AlertDialogSlide(props) {
                   </Grid>
                   <Grid item xs={12} md={12} lg={6}>
                     <TextField
-                      id="purchaseRate"
-                      name="Purchase Rate"
-                      label="Purchase Rate"
+                      required
+                      id="lot_no"
+                      name="lot_no"
+                      label="Lot no."
                       variant="outlined"
                       fullWidth
-                      autoComplete="purchaseRate"
-                      value={purchaseRate}
-                      onChange={(e) => {
-                        setPurchaseRate(e.target.value);
-                      }}
+                      autoComplete="lot_no"
+                      value={lotNo}
+                      onChange={(e) => setLotNo(e.target.value)}
                     />
                   </Grid>
                   <Grid item xs={12} md={12} lg={6}>
-                    <FormControl fullWidth>
-                      <InputLabel id="vendor">Vendor</InputLabel>
-                      <Select
-                        labelId="vendor"
-                        name="Vendor"
-                        variant="outlined"
-                        label="vendor"
-                        fullWidth
-                        id="vendor"
-                        value={vendor}
-                        onChange={(e) => setVendor(e.target.value)}
-                      >
-                        {isLoadingVendor ? (
-                          <MenuItem>Loading...</MenuItem>
-                        ) : (
-                          vendorNames.map((VendorName, index) => (
-                            <MenuItem key={index} value={VendorName.name.name}>
-                              {VendorName.name.name}
-                            </MenuItem>
-                          ))
-                        )}
-                      </Select>
-                    </FormControl>
-                  </Grid>
-                  <Grid item xs={12} md={12} lg={6}>
                     <TextField
-                      id="quantity"
-                      name="quantity"
-                      type="number"
-                      label="quantity"
+                      id="exp"
+                      name="Exp"
+                      type="date"
+                      InputLabelProps={{
+                        shrink: true,
+                      }}
+                      label="Exp"
                       variant="outlined"
                       fullWidth
-                      placeholder={uom}
-                      autoComplete="quantity"
-                      value={quantity}
-                      onChange={(e) => {
-                        setQuantity(e.target.value);
-                        if (
-                          !isNaN(
-                            parseInt(e.target.value) * parseInt(purchaseRate)
-                          )
-                        )
-                          setTotalCost(
-                            parseInt(e.target.value) * parseInt(purchaseRate)
-                          );
-                      }}
+                      autoComplete="exp"
+                      value={exp}
+                      onChange={(e) => setExp(e.target.value)}
                     />
                   </Grid>
                   <Grid item xs={12} md={12} lg={6}>
@@ -365,18 +367,16 @@ export default function AlertDialogSlide(props) {
                   </Grid>
                   <Grid item xs={12} md={12} lg={6}>
                     <TextField
-                      id="billDate"
-                      name="billDate"
+                      id="purchaseRate"
+                      name="Purchase Rate"
+                      label="Purchase Rate"
                       variant="outlined"
-                      type="date"
-                      InputLabelProps={{
-                        shrink: true,
-                      }}
-                      label="Bill Date"
                       fullWidth
-                      autoComplete="billDate"
-                      value={billDate}
-                      onChange={(e) => setBillDate(e.target.value)}
+                      autoComplete="purchaseRate"
+                      value={purchaseRate}
+                      onChange={(e) => {
+                        setPurchaseRate(e.target.value);
+                      }}
                     />
                   </Grid>
                   <Grid item xs={12}>
