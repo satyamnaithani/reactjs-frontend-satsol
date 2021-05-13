@@ -59,7 +59,7 @@ export default function App() {
     ItemMaster / >
     <
     /Route> <
-    Route exact path = "/payments" > {
+    Route exact path = "/purchase" > {
       matches ? < Expenses / > : < ExpensesM / >
     } <
     /Route> <
