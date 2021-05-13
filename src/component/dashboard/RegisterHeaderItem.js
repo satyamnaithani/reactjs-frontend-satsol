@@ -64,7 +64,7 @@ export default function SimpleMenu() {
             setAnchorEl(null);
           }}
         >
-          Stock Entry
+          Bill Entry
         </MenuItem>
         <MenuItem
           onClick={() => {

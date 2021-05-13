@@ -95,11 +95,15 @@ export default function PaymentTable({row}) {
     pendingAmount = billAmount - paidAmount;
   }
   pendingAmount === billAmount ? halfPending = false : halfPending = true;
+  const dateFormatter = (date) => {
+    let dateArray = date.split('/');
+    return dateArray[1] + '/' + dateArray[0] + '/' + dateArray[2];
+  }
   return (
     <TableRow key={row._id}>
       <TableCell align="left"><OpenIcon className={classes.button} onClick={() => {handleClickOpen()}}/></TableCell>
       <TableCell align="left">{row._id.billNo}</TableCell>
-      <TableCell align="left">{new Date(row._id.billDate).toLocaleDateString()}</TableCell>
+      <TableCell align="left">{dateFormatter(new Date(row._id.billDate).toLocaleDateString())}</TableCell>
       <TableCell align="left">{row._id.vendor}</TableCell>
       <TableCell align="left">
         <Table className={classes.table} size="small" >

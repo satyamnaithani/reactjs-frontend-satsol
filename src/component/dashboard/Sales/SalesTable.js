@@ -12,7 +12,7 @@ import DateSelector from "./DateSeletor";
 import SalesRow from './SalesRow';
 const headerAuth = "Bearer " + JSON.parse(localStorage.getItem("token")).token;
 
-const tableHeading = ['View', 'Invoice No.', 'Date', 'Customer Name', 'Item / Checkout Quantity', 'Grand Total', 'Pending Amount', 'Payment Status'];
+const tableHeading = ['Txn', 'Invoice No.', 'Date', 'Customer Name', 'Item / Checkout Quantity', 'Grand Total', 'Pending Amount', 'Payment Status'];
 export default class Sales extends React.Component {
   fetchSale(page, rowsPerPage) {
     axios({

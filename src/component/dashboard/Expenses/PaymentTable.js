@@ -13,7 +13,7 @@ import PaymentRow from './PaymentRow';
 export default function PaymentTable({title}) {
     const classes = useStyles();
     const [purchaseData, setPurchaseData] = useState([]);
-    const tableHead = ['View', 'Bill No', 'Date', 'Vendor', 'Item / Quantity', 'Bill Amount', 'Pending Amount', 'Status'];
+    const tableHead = ['Txn', 'Bill No', 'Date', 'Vendor', 'Item / Quantity', 'Bill Amount', 'Pending Amount', 'Status'];
     React.useEffect(() => {
         axios({
           method: 'GET',

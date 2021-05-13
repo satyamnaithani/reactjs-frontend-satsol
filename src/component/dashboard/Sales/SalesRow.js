@@ -18,7 +18,11 @@ const SalesRow = ({isLoading, row}) => {
     grandTotal = parseFloat(row.grandTotal);
     pendingAmount = grandTotal - totalTransactionAmount;
   }
-  const tableCell = [<SaleDetails data={row} pendingAmount={pendingAmount}/>, `${row.invoiceNo}`, `${row.date === null ? '' : new Date(row.date).toLocaleDateString()}`, `${row.customerName}`, <ItemDetails orderData= {row.orderData}/>, `₹${row.grandTotal}`, `₹${pendingAmount}`, <TransactionStatus pendingAmount={pendingAmount} grandTotal={grandTotal} />];
+  const dateFormatter = (date) => {
+      let dateArray = date.split('/');
+      return dateArray[1] + '/' + dateArray[0] + '/' + dateArray[2];
+  }
+  const tableCell = [<SaleDetails data={row} pendingAmount={pendingAmount}/>, `${row.invoiceNo}`, `${row.date === null ? '' : dateFormatter(new Date(row.date).toLocaleDateString())}`, `${row.customerName}`, <ItemDetails orderData= {row.orderData}/>, `₹${row.grandTotal}`, `₹${pendingAmount}`, <TransactionStatus pendingAmount={pendingAmount} grandTotal={grandTotal} />];
   return (
     <TableRow>
         {tableCell.map((data, index) => <TableCell key={index} align="center"> {isLoading ? <Skeleton width={50} animation="wave" /> : data}</TableCell>)}
