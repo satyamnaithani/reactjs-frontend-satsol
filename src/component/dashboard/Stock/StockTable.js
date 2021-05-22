@@ -41,20 +41,10 @@ export default class Orders extends React.Component {
   componentDidMount() {
     axios({
       method: "GET",
-
       url: url + "/stock",
-      headers: {
-        Authorization:
-          "Bearer " + JSON.parse(localStorage.getItem("token")).token,
-      },
-    })
+      headers: { Authorization: "Bearer " + JSON.parse(localStorage.getItem("token")).token} })
       .then((response) => {
-        console.log(response.data.items)
-        this.setState({
-          data: response.data.items,
-          isLoading: false,
-          open: false,
-        });
+        this.setState({ data: response.data.items, isLoading: false, open: false });
         const data = response.data.items;
         const leftArr = [];
         for (var key in data) {
@@ -83,8 +73,12 @@ export default class Orders extends React.Component {
       date: "",
       challanNo: "",
       challanDate: "",
-      modeOfPayment: "Against Delivery",
       orderNo: "",
+      orderDate: "",
+      ewbNo: "",
+      ewbDate: "",
+      dispatchDocNo: "",
+      dispatchDocDate: "",
       dispatchThrough: "Surface Transport",
       destination: "",
       termsOfDelivery: "Door",
@@ -95,7 +89,6 @@ export default class Orders extends React.Component {
     };
     this.handleFormSubmit = this.handleFormSubmit.bind(this);
   }
-
   handleUnCheckChange = (value) => {
     let arr = this.state.checkedItem;
     for (var i = 0; i < arr.length; i++) {
@@ -113,31 +106,24 @@ export default class Orders extends React.Component {
     this.setState({ checkedItem: arr });
   };
   render() {
-    // console.log(this.state.data)
+    const checkoutTableHeading = [
+      { name: 'Item Code', align: 'center' }, 
+      { name: 'Product Name', align: 'center' },
+      { name: 'Checkout Quantity', align: 'center' },
+      { name: 'Exp', align: 'center' },
+      { name: 'Amount', align: 'center' },
+      { name: 'Gst%', align: 'center' },
+      { name: 'Lot No.', align: 'center' },
+      { name: 'HSN', align: 'center' },
+      { name: 'Total Amount', align: 'right' }
+    ];
     return (
       <React.Fragment>
-        <Typography
-          component="h2"
-          variant="h4"
-          color="primary"
-          align="center"
-          gutterBottom
-        >
-          Available Stock
-        </Typography>
-        <Dialog
-          open={this.state.dialogOpen}
-          onClose={this.handleClose}
-          aria-labelledby="alert-dialog-title"
-          aria-describedby="alert-dialog-description"
-          maxWidth="md"
-        >
+        <Typography component="h2" variant="h4" color="primary" align="center" gutterBottom>Available Stock</Typography>
+        <Dialog open={this.state.dialogOpen} onClose={this.handleClose} aria-labelledby="alert-dialog-title" aria-describedby="alert-dialog-description" maxWidth="lg">
           <div>
-            <DialogTitle id="alert-dialog-title">Invoice Item</DialogTitle>
+            <DialogTitle>Invoice Item</DialogTitle>
             <DialogContent>
-              <DialogContentText id="alert-dialog-description">
-                Details
-              </DialogContentText>
               <Grid container>
                 <Grid xs="6" item>
                   <FormControl>
@@ -224,6 +210,72 @@ export default class Orders extends React.Component {
                 </Grid>
                 <Grid item xs={6}>
                   <TextField
+                    id="order_date"
+                    name="order_date"
+                    label="Order Date"
+                    type="date"
+                    InputLabelProps={{ shrink: true }}
+                    fullWidth
+                    style={{ maxWidth: 240 }}
+                    autoComplete="order_no"
+                    value={this.state.orderDate}
+                    onChange={(e) => this.setState({ orderDate: e.target.value })}
+                  />
+                </Grid>
+                <Grid item xs={6}>
+                  <TextField
+                    id="ewb_no"
+                    name="ewb_no"
+                    label="Ewb No."
+                    fullWidth
+                    style={{ maxWidth: 240 }}
+                    autoComplete="ewb_no"
+                    value={this.state.ewbNo}
+                    onChange={(e) => this.setState({ ewbNo: e.target.value })}
+                  />
+                </Grid>
+                <Grid item xs={6}>
+                  <TextField
+                    id="ewb_date"
+                    name="ewb_date"
+                    label="Ewb Date"
+                    type="date"
+                    InputLabelProps={{ shrink: true }}
+                    fullWidth
+                    style={{ maxWidth: 240 }}
+                    autoComplete="ewb_date"
+                    value={this.state.ewbDate}
+                    onChange={(e) => this.setState({ ewbDate: e.target.value })}
+                  />
+                </Grid>
+                <Grid item xs={6}>
+                  <TextField
+                    id="dispatchDocNo"
+                    name="dispatchDocNo"
+                    label="Dispatch Doc No."
+                    fullWidth
+                    style={{ maxWidth: 240 }}
+                    autoComplete="dispatchDocNo"
+                    value={this.state.dispatchDocNo}
+                    onChange={(e) => this.setState({ dispatchDocNo: e.target.value })}
+                  />
+                </Grid>
+                <Grid item xs={6}>
+                  <TextField
+                    id="dispatchDocDate"
+                    name="dispatchDocDate"
+                    label="Dispatch Doc Date"
+                    type="date"
+                    InputLabelProps={{ shrink: true }}
+                    fullWidth
+                    style={{ maxWidth: 240 }}
+                    autoComplete="dispatchDocDate"
+                    value={this.state.dispatchDocDate}
+                    onChange={(e) => this.setState({ dispatchDocDate: e.target.value })}
+                  />
+                </Grid>
+                <Grid item xs={6}>
+                  <TextField
                     id="destination"
                     name="destination"
                     label="Destination"
@@ -235,37 +287,6 @@ export default class Orders extends React.Component {
                       this.setState({ destination: e.target.value })
                     }
                   />
-                </Grid>
-                <Grid xs="6" item>
-                  <FormControl>
-                    <InputLabel id="termsOfPayent">Mode of Pmnt.</InputLabel>
-                    <Select
-                      labelId="mode_of_payment"
-                      name="mode_of_payment"
-                      label="Mode of Pmnt."
-                      id="mode_of_payment"
-                      value={this.state.modeOfPayment}
-                      placeholder="Mode of Pmnt."
-                      style={{ minWidth: 240 }}
-                      onChange={(e) =>
-                        this.setState({ modeOfPayment: e.target.value })
-                      }
-                    >
-                      <MenuItem value="Against Delivery">
-                        Against Delivery
-                      </MenuItem>
-                      <MenuItem value="Advance Payment">
-                        Advance Payment
-                      </MenuItem>
-                      <MenuItem value="CREDIT-7Days">CREDIT-7Days</MenuItem>
-                      <MenuItem value="CREDIT-15Days">CREDIT-15Days</MenuItem>
-                      <MenuItem value="CREDIT-30Days">CREDIT-30Days</MenuItem>
-                      <MenuItem value="CREDIT-45Days">CREDIT-45Days</MenuItem>
-                      <MenuItem value="CREDIT-60Days">CREDIT-60Days</MenuItem>
-                      <MenuItem value="UPI">UPI</MenuItem>
-                      <MenuItem value="Cash">Cash</MenuItem>
-                    </Select>
-                  </FormControl>
                 </Grid>
                 <Grid xs="6" item>
                   <FormControl>
@@ -284,9 +305,7 @@ export default class Orders extends React.Component {
                         this.setState({ dispatchThrough: e.target.value })
                       }
                     >
-                      <MenuItem value="Surface Transport">
-                        Surface Transport
-                      </MenuItem>
+                      <MenuItem value="Surface Transport">Surface Transport</MenuItem>
                       <MenuItem value="By Hand">By Hand</MenuItem>
                       <MenuItem value="By Air">By Air</MenuItem>
                       <MenuItem value="By Water">By Ship</MenuItem>
@@ -337,68 +356,25 @@ export default class Orders extends React.Component {
                 </Grid>
                 <Grid xs="12" item>
                   <TableContainer component={Paper}>
-                    <Table aria-label="customized table">
+                    <Table>
                       <TableHead style={{ backgroundColor: "black" }}>
-                        <TableRow>
-                          <TableCell style={{ color: "white" }} align="left">
-                            Item Code
-                          </TableCell>
-                          <TableCell style={{ color: "white" }}>
-                            Product Name
-                          </TableCell>
-                          <TableCell style={{ color: "white" }}>
-                            CheckOut Quantity
-                          </TableCell>
-                          <TableCell style={{ color: "white" }}>
-                            Exp
-                          </TableCell>
-                          <TableCell style={{ color: "white" }}>
-                            Amount
-                          </TableCell>
-                          <TableCell style={{ color: "white" }}>
-                            Gst%
-                          </TableCell>
-                          <TableCell style={{ color: "white" }}>
-                            Lot No.
-                          </TableCell>
-                          <TableCell style={{ color: "white" }}>
-                            HSN
-                          </TableCell>
-                          <TableCell style={{ color: "white" }} align="right">
-                            Total Amount
-                          </TableCell>
-                        </TableRow>
+                        <TableRow>{checkoutTableHeading.map((item, index) => (<TableCell style={{ color: "white" }} align={item.align}>{item.name}</TableCell>))}</TableRow>
                       </TableHead>
-                      <TableBody>
-                        {this.state.checkedItem.map((item, index) => (
-                          <CheckedItemTable key={index} item={item} />
-                        ))}
-                      </TableBody>
+                      <TableBody>{this.state.checkedItem.map((item, index) => (<CheckedItemTable key={index} item={item} />))}</TableBody>
                     </Table>
                   </TableContainer>
                 </Grid>
               </Grid>
             </DialogContent>
             <DialogActions>
-              <Button onClick={this.handleClose} color="primary">
-                Cancel
-              </Button>
+              <Button onClick={this.handleClose} color="primary">Cancel</Button>
               <Button onClick={this.handleFormSubmit} color="primary" autoFocus>
-                {this.state.isTransactingOrder ? (
-                  <CircularProgress color="inherit" />
-                ) : (
-                  <p>Confirm</p>
-                )}
+                {this.state.isTransactingOrder ? <CircularProgress color="inherit" /> 
+                : <p>Confirm</p>}
               </Button>
             </DialogActions>
           </div>
         </Dialog>
-        {/* Dialog Closed */}
-        {/* <TextField id="outlined-basic" placeholder="Search" onChange={event => {
-          let arr = [];
-          arr = this.state.data.filter(data => data.data.item.toUpperCase().includes(event.target.value.toUpperCase()))
-          this.setState({data: arr})
-        } } variant="outlined" /> */}
         <Table size="small" style={{ minWidth: "80vw" }}>
           <TableHead>
             <TableRow>
@@ -413,83 +389,25 @@ export default class Orders extends React.Component {
             </TableRow>
           </TableHead>
           <TableBody>
-            {this.state.isLoading ? (
-              <TableSkeleton />
-            ) : (
-              this.state.data.map((row, index) => (
-                <StockRow
-                  handleCheckChange={this.handleCheckChange}
-                  handleUnCheckChange={this.handleUnCheckChange}
-                  key={index}
-                  data={row}
-                />
-              ))
-            )}
+            {
+              this.state.isLoading ? <TableSkeleton /> 
+              : 
+              this.state.data.map((row, index) => <StockRow handleCheckChange={this.handleCheckChange} handleUnCheckChange={this.handleUnCheckChange} key={index} data={row}/>)
+            }
           </TableBody>
         </Table>
-        <Snackbar
-          anchorOrigin={{
-            vertical: "bottom",
-            horizontal: "left",
-          }}
-          open={this.state.isPdfLoading}
-          //autoHideDuration={6000}
-          //onClose={handleClose}
-          message="Pdf Processing..."
-        />
-        <Dialog
-          open={this.state.productAddedDialog}
-          onClose={() => {
-            this.setState({ productAddedDialog: false });
-          }}
-          aria-labelledby="alert-dialog-title"
-          aria-describedby="alert-dialog-description"
-        >
-          <DialogTitle id="alert-dialog-title">{"Stock Released!"}</DialogTitle>
-          <DialogContent>
-            <DialogContentText id="alert-dialog-description">
-              Do you want to download Invoice?
-            </DialogContentText>
-          </DialogContent>
+        <Snackbar anchorOrigin={{ vertical: "bottom", horizontal: "left" }} open={this.state.isPdfLoading} message="Pdf Processing..."/>
+        <Dialog open={this.state.productAddedDialog} onClose={ () => this.setState({ productAddedDialog: false }) }>
+          <DialogTitle>{"Stock Released!"}</DialogTitle>
+          <DialogContent><DialogContentText>Do you want to download Invoice?</DialogContentText></DialogContent>
           <DialogActions>
-            <Button
-              onClick={() => {
-                this.setState({
-                  productAddedDialog: false,
-                  data: this.state.updatedData,
-                });
-              }}
-              color="primary"
-            >
-              No
-            </Button>
-            <Button onClick={this.handlePdfDownload} color="primary" autoFocus>
-              Yes
-            </Button>
+            <Button onClick={() => this.setState({ productAddedDialog: false, data: this.state.updatedData }) } color="primary">No</Button>
+            <Button onClick={this.handlePdfDownload} color="primary" autoFocus>Yes</Button>
           </DialogActions>
         </Dialog>
-        <Tooltip
-          title={
-            this.state.checkedItem.length === 0
-              ? "Select atleast one item to continue"
-              : "Add Further details"
-          }
-        >
+        <Tooltip title={ this.state.checkedItem.length === 0 ? "Select atleast one item to continue" : "Add Further details" }>
           <div>
-            <Fab
-              color="primary"
-              aria-label="add"
-              disabled={this.state.checkedItem.length === 0 ? true : false}
-              onClick={this.createAndDownloadPdf}
-              style={{
-                margin: 0,
-                top: "auto",
-                right: "40%",
-                bottom: 20,
-                left: "auto",
-                position: "fixed",
-              }}
-            >
+            <Fab color="primary" aria-label="add" disabled={this.state.checkedItem.length === 0 ? true : false} onClick={this.createAndDownloadPdf} style={{ margin: 0, top: "auto", right: "40%", bottom: 20, left: "auto", position: "fixed" }}>
               <AddIcon />
             </Fab>
           </div>
@@ -505,8 +423,7 @@ export default class Orders extends React.Component {
   };
 
   handleClose = () => {
-    this.setState({ dialogOpen: false });
-    this.setState({ isTransactingOrder: false });
+    this.setState({ dialogOpen: false, isTransactingOrder: false });
     const scrollY = document.body.style.top;
     document.body.style.position = "";
     document.body.style.top = "";
@@ -515,7 +432,7 @@ export default class Orders extends React.Component {
 
   updateItemData = () => {
     let arr = this.state.data.splice(0);
-    var updatedData = arr.filter((value, index) => {
+    let updatedData = arr.filter((value, index) => {
       if (value.data.checkout === 0 || isNaN(value.data.checkout)) {
         arr[index].data.checkout = 0;
       } else if (value.data.checkout > 0) {
@@ -529,47 +446,28 @@ export default class Orders extends React.Component {
   };
 
   async handleFormSubmit() {
-    const {
-      dispatchThrough,
-      modeOfPayment,
-      destination,
-      termsOfDelivery,
-      customerName,
-      date,
-      checkedItem,
-      orderNo,
-      challanDate,
-      challanNo,
-      interState,
-    } = this.state;
-    if (
-      customerName === "" ||
-      destination === "" ||
-      date === "" ||
-      checkedItem === [] ||
-      dispatchThrough === "" ||
-      modeOfPayment === "" ||
-      termsOfDelivery === ""
-    ) {
+    const { dispatchThrough, modeOfPayment, destination, termsOfDelivery, customerName, date, checkedItem, orderNo, orderDate, ewbNo, ewbDate, dispatchDocNo, dispatchDocDate, challanDate, challanNo, interState } = this.state;
+    if (customerName === "" || destination === "" || date === "" || checkedItem === [] || dispatchThrough === "" || modeOfPayment === "" || termsOfDelivery === "") {
       alert("Please Enter the details first!");
     } else {
       this.setState({ isTransactingOrder: true });
       await axios({
         method: "post",
         url: url + "/sales",
-        config: { headers: { "Content-Type": "application/json" } },
-        headers: {
-          Authorization:
-            "Bearer " + JSON.parse(localStorage.getItem("token")).token,
-        },
+        config: { headers: { "Content-Type": "application/json" }},
+        headers: { Authorization: "Bearer " + JSON.parse(localStorage.getItem("token")).token },
         data: {
           customer: customerName,
           orderData: checkedItem,
           date: date,
           challanNo: challanNo,
           challanDate: challanDate,
-          modeOfPayment: modeOfPayment,
           orderNumber: orderNo,
+          orderDate: orderDate,
+          ewbNo: ewbNo,
+          ewbDate: ewbDate,
+          dispatchDocNo: dispatchDocNo,
+          dispatchDocDate: dispatchDocDate,
           dispatchThrough: dispatchThrough,
           destination: destination,
           termsOfDelivery: termsOfDelivery,
@@ -612,8 +510,7 @@ export default class Orders extends React.Component {
     }
   }
   handlePdfDownload = () => {
-    this.setState({ data: this.state.updatedData });
-    this.setState({ isPdfLoading: true, productAddedDialog: false });
+    this.setState({ data: this.state.updatedData, isPdfLoading: true, productAddedDialog: false });
     axios
       .post(url + "/pdf/create-pdf", this.state.createdProduct)
       .then(() => axios.get(url + "/pdf/fetch-pdf", { responseType: "blob" }))
@@ -625,20 +522,8 @@ export default class Orders extends React.Component {
       .catch((err) => console.log(err));
   };
   fetchCustomerNames = () => {
-    axios({
-      method: "get",
-      url: url + "/customers/all",
-      headers: {
-        Authorization:
-          "Bearer " + JSON.parse(localStorage.getItem("token")).token,
-      },
-    })
-      .then((result) => {
-        this.setState({
-          customer: result.data.items,
-          isLoadingCustomer: false,
-        });
-      })
-      .catch((err) => console.log(err));
+    axios({ method: "get", url: url + "/customers/all", headers: { Authorization: "Bearer " + JSON.parse(localStorage.getItem("token")).token } })
+    .then((result) => this.setState({customer: result.data.items, isLoadingCustomer: false }))
+    .catch((err) => console.log(err));
   };
 }
