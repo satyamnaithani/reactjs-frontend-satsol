@@ -34,15 +34,13 @@ export default function CustomizedTables(props) {
   return (
     <StyledTableRow key={_id}>
       <StyledTableCell align="left">{itemCode}</StyledTableCell>
-      <StyledTableCell component="th" scope="row">
-        {item}
-      </StyledTableCell>
-      <StyledTableCell>{checkout} {' '} {uom}</StyledTableCell>
-      <StyledTableCell>{exp}</StyledTableCell>
-      <StyledTableCell>{sellingRate}</StyledTableCell>
-      <StyledTableCell>{gst}</StyledTableCell>
-      <StyledTableCell>{lotNo}</StyledTableCell>
-      <StyledTableCell>{hsn}</StyledTableCell>
+      <StyledTableCell component="th" scope="row">{item}</StyledTableCell>
+      <StyledTableCell align="center">{checkout} {' '} {uom}</StyledTableCell>
+      <StyledTableCell align="center">{exp}</StyledTableCell>
+      <StyledTableCell align="center">{sellingRate}</StyledTableCell>
+      <StyledTableCell align="center">{gst}</StyledTableCell>
+      <StyledTableCell align="center">{lotNo}</StyledTableCell>
+      <StyledTableCell align="center">{hsn}</StyledTableCell>
       <StyledTableCell align="right">{grandTotal}</StyledTableCell>
     </StyledTableRow>
   );

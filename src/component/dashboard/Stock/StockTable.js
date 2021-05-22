@@ -106,8 +106,9 @@ export default class Orders extends React.Component {
     this.setState({ checkedItem: arr });
   };
   render() {
+    const fieldWidth = 350;
     const checkoutTableHeading = [
-      { name: 'Item Code', align: 'center' }, 
+      { name: 'Item Code', align: 'left' }, 
       { name: 'Product Name', align: 'center' },
       { name: 'Checkout Quantity', align: 'center' },
       { name: 'Exp', align: 'center' },
@@ -117,10 +118,34 @@ export default class Orders extends React.Component {
       { name: 'HSN', align: 'center' },
       { name: 'Total Amount', align: 'right' }
     ];
+    const computeGrandTotal = (checkedItems) => {
+      let totalRate = 0;
+      let totalGst = 0;
+      checkedItems.forEach(({sellingRate, gst, checkout}) => {
+        totalRate += sellingRate * checkout;
+        totalGst += sellingRate * (gst/100) * checkout;
+      });
+      const cellItems = [
+        {name: "TOTAL", align: 'left'},
+        {name: null, align: 'center'},
+        {name: null, align: 'center'},
+        {name: null, align: 'center'},
+        {name: "₹" + totalRate.toFixed(2), align: 'center'},
+        {name: "₹" + totalGst.toFixed(2), align: 'center'},
+        {name: null, align: 'center'},
+        {name: null, align: 'center'},
+        {name: "₹" + (totalRate + totalGst).toFixed(2), align: 'right'},
+      ];
+      return (
+        <TableRow>
+          {cellItems.map((item, index) => <TableCell align={item.align} key={index}><strong>{item.name}</strong></TableCell>)}
+        </TableRow>
+      );
+    }
     return (
       <React.Fragment>
         <Typography component="h2" variant="h4" color="primary" align="center" gutterBottom>Available Stock</Typography>
-        <Dialog open={this.state.dialogOpen} onClose={this.handleClose} aria-labelledby="alert-dialog-title" aria-describedby="alert-dialog-description" maxWidth="lg">
+        <Dialog open={this.state.dialogOpen} onClose={this.handleClose} maxWidth="lg">
           <div>
             <DialogTitle>Invoice Item</DialogTitle>
             <DialogContent>
@@ -128,183 +153,46 @@ export default class Orders extends React.Component {
                 <Grid xs="6" item>
                   <FormControl>
                     <InputLabel id="customer">Customer</InputLabel>
-                    <Select
-                      labelId="customer"
-                      name="customer"
-                      label="Customer"
-                      id="customer"
-                      value={this.state.customerName}
-                      placeholder="Customer"
-                      style={{ minWidth: 120 }}
-                      onChange={(e) =>
-                        this.setState({
-                          customerName: e.target.value,
-                          destination: e.target.value.city,
-                        })
-                      }
-                    >
-                      {this.state.isLoadingCustomer ? (
-                        <MenuItem>Loading...</MenuItem>
-                      ) : (
-                        this.state.customer.map((CustomerName, index) => (
-                          <MenuItem key={index} value={CustomerName.data}>
-                            {CustomerName.data.name}
-                          </MenuItem>
-                        ))
-                      )}
+                    <Select labelId="customer" name="customer" label="Customer" id="customer" value={this.state.customerName} placeholder="Customer" style={{ minWidth: fieldWidth }}onChange={(e) => this.setState({ customerName: e.target.value, destination: e.target.value.city })}>
+                      {this.state.isLoadingCustomer ? <MenuItem>Loading...</MenuItem> : this.state.customer.map((CustomerName, index) => <MenuItem key={index} value={CustomerName.data}>{CustomerName.data.name}</MenuItem>)}
                     </Select>
                   </FormControl>
                 </Grid>
                 <Grid item xs="6">
-                  <TextField
-                    id="date"
-                    label="Date"
-                    type="date"
-                    InputLabelProps={{
-                      shrink: true,
-                    }}
-                    value={this.state.date}
-                    onChange={(e) => this.setState({ date: e.target.value })}
-                  />
+                  <TextField id="date" label="Invoice Date" type="date" InputLabelProps={{ shrink: true }} fullWidth style={{ maxWidth: fieldWidth }} value={this.state.date} onChange={(e) => this.setState({ date: e.target.value })}/>
                 </Grid>
                 <Grid item xs={6}>
-                  <TextField
-                    id="challan_no"
-                    name="challan_no"
-                    label="Challan no."
-                    fullWidth
-                    autoComplete="challan_no"
-                    style={{ maxWidth: 240 }}
-                    value={this.state.challanNo}
-                    onChange={(e) =>
-                      this.setState({ challanNo: e.target.value })
-                    }
-                  />
+                  <TextField id="challan_no" name="challan_no" label="Challan no." fullWidth autoComplete="challan_no" style={{ maxWidth: fieldWidth }} value={this.state.challanNo}onChange={(e) => this.setState({ challanNo: e.target.value })}/>
                 </Grid>
                 <Grid item xs="6">
-                  <TextField
-                    id="challan_date"
-                    label="Challan Date"
-                    type="date"
-                    InputLabelProps={{
-                      shrink: true,
-                    }}
-                    style={{ maxWidth: 240 }}
-                    value={this.state.challanDate}
-                    onChange={(e) =>
-                      this.setState({ challanDate: e.target.value })
-                    }
+                  <TextField id="challan_date" label="Challan Date" type="date" InputLabelProps={{shrink: true}} fullWidth style={{ maxWidth: fieldWidth }} value={this.state.challanDate} onChange={(e) => this.setState({ challanDate: e.target.value })}/>
+                </Grid>
+                <Grid item xs={6}>
+                  <TextField id="order_no" name="order_no" label="Order no." fullWidth style={{ maxWidth: fieldWidth }} autoComplete="order_no" value={this.state.orderNo} onChange={(e) => this.setState({ orderNo: e.target.value })}/>
+                </Grid>
+                <Grid item xs={6}>
+                  <TextField id="order_date" name="order_date" label="Order Date" type="date" InputLabelProps={{ shrink: true }} fullWidth style={{ maxWidth: fieldWidth }} autoComplete="order_no" value={this.state.orderDate} onChange={(e) => this.setState({ orderDate: e.target.value })}/>
+                </Grid>
+                <Grid item xs={6}>
+                  <TextField id="ewb_no" name="ewb_no" label="Ewb No." fullWidth style={{ maxWidth: fieldWidth }} autoComplete="ewb_no" value={this.state.ewbNo} onChange={(e) => this.setState({ ewbNo: e.target.value })}/>
+                </Grid>
+                <Grid item xs={6}>
+                  <TextField id="ewb_date" name="ewb_date" label="Ewb Date" type="date" InputLabelProps={{ shrink: true }} fullWidth style={{ maxWidth: fieldWidth }} autoComplete="ewb_date" value={this.state.ewbDate} onChange={(e) => this.setState({ ewbDate: e.target.value })}/>
+                </Grid>
+                <Grid item xs={6}>
+                  <TextField id="dispatchDocNo" name="dispatchDocNo" label="Dispatch Doc No." fullWidth style={{ maxWidth: fieldWidth }} autoComplete="dispatchDocNo" value={this.state.dispatchDocNo} onChange={(e) => this.setState({ dispatchDocNo: e.target.value })}/>
+                </Grid>
+                <Grid item xs={6}>
+                  <TextField id="dispatchDocDate" name="dispatchDocDate" label="Dispatch Doc Date" type="date" InputLabelProps={{ shrink: true }} fullWidth style={{ maxWidth: fieldWidth }} autoComplete="dispatchDocDate" value={this.state.dispatchDocDate} onChange={(e) => this.setState({ dispatchDocDate: e.target.value })}
                   />
                 </Grid>
                 <Grid item xs={6}>
-                  <TextField
-                    id="order_no"
-                    name="order_no"
-                    label="Order no."
-                    fullWidth
-                    style={{ maxWidth: 240 }}
-                    autoComplete="order_no"
-                    value={this.state.orderNo}
-                    onChange={(e) => this.setState({ orderNo: e.target.value })}
-                  />
-                </Grid>
-                <Grid item xs={6}>
-                  <TextField
-                    id="order_date"
-                    name="order_date"
-                    label="Order Date"
-                    type="date"
-                    InputLabelProps={{ shrink: true }}
-                    fullWidth
-                    style={{ maxWidth: 240 }}
-                    autoComplete="order_no"
-                    value={this.state.orderDate}
-                    onChange={(e) => this.setState({ orderDate: e.target.value })}
-                  />
-                </Grid>
-                <Grid item xs={6}>
-                  <TextField
-                    id="ewb_no"
-                    name="ewb_no"
-                    label="Ewb No."
-                    fullWidth
-                    style={{ maxWidth: 240 }}
-                    autoComplete="ewb_no"
-                    value={this.state.ewbNo}
-                    onChange={(e) => this.setState({ ewbNo: e.target.value })}
-                  />
-                </Grid>
-                <Grid item xs={6}>
-                  <TextField
-                    id="ewb_date"
-                    name="ewb_date"
-                    label="Ewb Date"
-                    type="date"
-                    InputLabelProps={{ shrink: true }}
-                    fullWidth
-                    style={{ maxWidth: 240 }}
-                    autoComplete="ewb_date"
-                    value={this.state.ewbDate}
-                    onChange={(e) => this.setState({ ewbDate: e.target.value })}
-                  />
-                </Grid>
-                <Grid item xs={6}>
-                  <TextField
-                    id="dispatchDocNo"
-                    name="dispatchDocNo"
-                    label="Dispatch Doc No."
-                    fullWidth
-                    style={{ maxWidth: 240 }}
-                    autoComplete="dispatchDocNo"
-                    value={this.state.dispatchDocNo}
-                    onChange={(e) => this.setState({ dispatchDocNo: e.target.value })}
-                  />
-                </Grid>
-                <Grid item xs={6}>
-                  <TextField
-                    id="dispatchDocDate"
-                    name="dispatchDocDate"
-                    label="Dispatch Doc Date"
-                    type="date"
-                    InputLabelProps={{ shrink: true }}
-                    fullWidth
-                    style={{ maxWidth: 240 }}
-                    autoComplete="dispatchDocDate"
-                    value={this.state.dispatchDocDate}
-                    onChange={(e) => this.setState({ dispatchDocDate: e.target.value })}
-                  />
-                </Grid>
-                <Grid item xs={6}>
-                  <TextField
-                    id="destination"
-                    name="destination"
-                    label="Destination"
-                    fullWidth
-                    style={{ maxWidth: 240 }}
-                    autoComplete="destination"
-                    value={this.state.destination}
-                    onChange={(e) =>
-                      this.setState({ destination: e.target.value })
-                    }
-                  />
+                  <TextField id="destination" name="destination" label="Destination" fullWidth style={{ maxWidth: fieldWidth }} autoComplete="destination" value={this.state.destination} onChange={(e) => this.setState({ destination: e.target.value })}/>
                 </Grid>
                 <Grid xs="6" item>
                   <FormControl>
-                    <InputLabel id="dispatchThrough">
-                      Dispatch Through
-                    </InputLabel>
-                    <Select
-                      labelId="dispatch_through"
-                      name="dispatch_through"
-                      label="Dispatch Through"
-                      id="dispatch_through"
-                      value={this.state.dispatchThrough}
-                      placeholder="Dispatch Through"
-                      style={{ minWidth: 240 }}
-                      onChange={(e) =>
-                        this.setState({ dispatchThrough: e.target.value })
-                      }
-                    >
+                    <InputLabel id="dispatchThrough">Dispatch Through</InputLabel>
+                    <Select labelId="dispatch_through" name="dispatch_through" label="Dispatch Through" id="dispatch_through" value={this.state.dispatchThrough} placeholder="Dispatch Through" style={{ minWidth: fieldWidth }} onChange={(e) => this.setState({ dispatchThrough: e.target.value })}>
                       <MenuItem value="Surface Transport">Surface Transport</MenuItem>
                       <MenuItem value="By Hand">By Hand</MenuItem>
                       <MenuItem value="By Air">By Air</MenuItem>
@@ -314,45 +202,16 @@ export default class Orders extends React.Component {
                 </Grid>
                 <Grid xs="6" item>
                   <FormControl>
-                    <InputLabel id="Terms of Delivery">
-                      Terms of Delivery
-                    </InputLabel>
-                    <Select
-                      labelId="terms_of_delivery"
-                      name="terms_of_delivery"
-                      label="Terms of dlvry."
-                      id="terms_of_delivery"
-                      value={this.state.termsOfDelivery}
-                      placeholder="Terms of dlvry."
-                      style={{ minWidth: 240 }}
-                      onChange={(e) =>
-                        this.setState({ termsOfDelivery: e.target.value })
-                      }
-                    >
+                    <InputLabel id="Terms of Delivery">Terms of Delivery</InputLabel>
+                    <Select labelId="terms_of_delivery" name="terms_of_delivery" label="Terms of dlvry." id="terms_of_delivery" value={this.state.termsOfDelivery} placeholder="Terms of dlvry." style={{ minWidth: fieldWidth }} onChange={(e) => this.setState({ termsOfDelivery: e.target.value })}>
                       <MenuItem value="Door">Door</MenuItem>
-                      <MenuItem value="Railway Station">
-                        Railway Station
-                      </MenuItem>
-                      <MenuItem value="Courrier Center">
-                        Courrier Center
-                      </MenuItem>
+                      <MenuItem value="Railway Station">Railway Station</MenuItem>
+                      <MenuItem value="Courrier Center">Courrier Center</MenuItem>
                     </Select>
                   </FormControl>
                 </Grid>
                 <Grid xs="6" item>
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        checked={this.state.interState}
-                        onChange={(e) =>
-                          this.setState({ interState: e.target.checked })
-                        }
-                        name="interState"
-                        color="primary"
-                      />
-                    }
-                    label="Inter State"
-                  />
+                  <FormControlLabel control={<Checkbox checked={this.state.interState} onChange={(e) => this.setState({ interState: e.target.checked })} name="interState" color="primary"/>} label="Inter State"/>
                 </Grid>
                 <Grid xs="12" item>
                   <TableContainer component={Paper}>
@@ -361,6 +220,7 @@ export default class Orders extends React.Component {
                         <TableRow>{checkoutTableHeading.map((item, index) => (<TableCell style={{ color: "white" }} align={item.align}>{item.name}</TableCell>))}</TableRow>
                       </TableHead>
                       <TableBody>{this.state.checkedItem.map((item, index) => (<CheckedItemTable key={index} item={item} />))}</TableBody>
+                      {computeGrandTotal(this.state.checkedItem)}
                     </Table>
                   </TableContainer>
                 </Grid>
