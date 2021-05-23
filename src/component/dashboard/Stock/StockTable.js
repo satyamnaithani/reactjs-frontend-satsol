@@ -83,6 +83,7 @@ export default class Orders extends React.Component {
       destination: "",
       termsOfDelivery: "Door",
       interState: false,
+      remark: "",
       productAddedDialog: false,
       createdProduct: {},
       updatedData: [],
@@ -213,6 +214,9 @@ export default class Orders extends React.Component {
                 <Grid xs="6" item>
                   <FormControlLabel control={<Checkbox checked={this.state.interState} onChange={(e) => this.setState({ interState: e.target.checked })} name="interState" color="primary"/>} label="Inter State"/>
                 </Grid>
+                <Grid item xs={12}>
+                  <TextField id="remark" name="remark" label="Remark" fullWidth value={this.state.remark} onChange={(e) => this.setState({ remark: e.target.value })}/>
+                </Grid>
                 <Grid xs="12" item>
                   <TableContainer component={Paper}>
                     <Table>
@@ -306,7 +310,7 @@ export default class Orders extends React.Component {
   };
 
   async handleFormSubmit() {
-    const { dispatchThrough, modeOfPayment, destination, termsOfDelivery, customerName, date, checkedItem, orderNo, orderDate, ewbNo, ewbDate, dispatchDocNo, dispatchDocDate, challanDate, challanNo, interState } = this.state;
+    const { dispatchThrough, modeOfPayment, destination, termsOfDelivery, customerName, date, checkedItem, orderNo, orderDate, ewbNo, ewbDate, dispatchDocNo, dispatchDocDate, challanDate, challanNo, interState, remark } = this.state;
     if (customerName === "" || destination === "" || date === "" || checkedItem === [] || dispatchThrough === "" || modeOfPayment === "" || termsOfDelivery === "") {
       alert("Please Enter the details first!");
     } else {
@@ -332,6 +336,7 @@ export default class Orders extends React.Component {
           destination: destination,
           termsOfDelivery: termsOfDelivery,
           interState: interState,
+          remark: remark,
           addedBy: JSON.parse(localStorage.getItem("token")).name,
         },
       })
