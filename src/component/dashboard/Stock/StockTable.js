@@ -358,6 +358,7 @@ export default class Orders extends React.Component {
               termsOfDelivery: "Door",
               interState: false,
               customerName: "",
+              remark: ""
             });
             const scrollY = document.body.style.top;
             document.body.style.position = "";
