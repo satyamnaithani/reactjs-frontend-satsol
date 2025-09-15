@@ -153,6 +153,9 @@ export default function AlertDialogSlide(props) {
                         <MenuItem value={"Office Consumables"}>
                           Office Consumables
                         </MenuItem>
+                          <MenuItem value={"Laboratory Goods"}>
+                          Laboratory Goods
+                        </MenuItem>
                       </Select>
                     </FormControl>
                   </Grid>
