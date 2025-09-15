@@ -53,4 +53,7 @@
     "style-loader": "^1.1.4"
   },
   "proxy": "http://localhost:3008"
+  "engines": {
+    "node": "18.x"
+  }
 }
